@@ -1,0 +1,23 @@
+# Changelog
+
+All notable changes to this project are documented here. The format follows
+[Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
+[Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+## [0.1.0] - 2026-11-08
+
+### Added
+
+- `<ane-thinking-buddy>` (AI Thinking Buddy): an SVG robot with `idle`, `thinking`,
+  `waiting`, `success` and `error` states, state badges, confetti, pointer tracking,
+  localisable ARIA labels, optional live announcements and a reduced-motion variant.
+- Core runtime: shared `requestAnimationFrame` ticker with per-frame budget stats,
+  `EffectElement` base class (off-screen pausing, `speed`, `motion`, `size`), SSR-safe imports.
+- Showcase site with gallery and interactive playground (live code snippets for HTML,
+  React, Vue and the JS API), deployed to GitHub Pages together with CDN-ready ES modules.
+- Deterministic capture pipeline (`npm run capture`): virtual-time recording to GIF, MP4,
+  poster and thumbnail.
+- Quality gate: unit tests (Vitest) and Playwright e2e checks for runtime errors,
+  responsive layout, axe-core WCAG 2.2 AA, frame budget, reduced motion and off-screen pausing.
