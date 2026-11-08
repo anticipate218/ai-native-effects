@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Native Effects · make the invisible work of AI visible</title>
+    <meta name="description" content="Animated, accessible Web Components that turn AI system states (thinking, planning, tool calls, loading) into readable, delightful UI." />
+    <meta property="og:title" content="AI Native Effects" />
+    <meta property="og:description" content="Animated, accessible Web Components that turn AI system states into readable, delightful UI." />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/thinking-buddy.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="./">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="#effects">Effects</a>
+          <a class="hide-sm" href="#roadmap">Roadmap</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/README.zh-CN.md" lang="zh-CN">中文</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="wrap">
+          <div>
+            <span class="eyebrow"><b>v0.1</b> Web Components · TypeScript · MIT</span>
+            <h1>Make the invisible work of <span class="grad">AI&nbsp;visible.</span></h1>
+            <p class="lead">
+              Animated, accessible UI effects for AI products. Thinking, waiting on tools, finishing, failing: every
+              state your agent goes through gets a clear, delightful visual, not another spinner.
+            </p>
+            <div class="cta">
+              <a class="btn primary" href="#effects">Browse effects</a>
+              <a class="btn" href="https://github.com/anticipate218/ai-native-effects">Star on GitHub</a>
+            </div>
+            <div class="install">
+              <span class="prompt" aria-hidden="true">$</span>
+              <code tabindex="0">npm i github:anticipate218/ai-native-effects</code>
+              <button type="button" class="btn small" data-copy="npm i github:anticipate218/ai-native-effects" aria-label="Copy install command">Copy</button>
+            </div>
+          </div>
+          <div class="hero-stage">
+            <ane-thinking-buddy id="hero-buddy" interactive seed="3"></ane-thinking-buddy>
+            <div class="status-pill" aria-hidden="true"><i></i><span id="hero-status">Ready</span></div>
+            <div class="viewport-tools">
+              <button type="button" class="btn small" id="hero-toggle" aria-pressed="false">Pause animations</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="effects">
+        <div class="wrap">
+          <h2>Effects</h2>
+          <p class="section-lead">Each effect is a dependency-free Web Component. Use it from React, Vue, Svelte, Angular or plain HTML.</p>
+          <div class="grid" id="effect-grid"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2>Built for real products</h2>
+          <p class="section-lead">Every effect ships with the same guarantees.</p>
+          <div class="features">
+            <div class="feature"><h3>Framework-agnostic</h3><p>Standard Custom Elements with attributes, properties and DOM events. Safe to import during SSR.</p></div>
+            <div class="feature"><h3>Accessible</h3><p>Meaningful ARIA labels, optional live announcements, and a calm variant for <code>prefers-reduced-motion</code>.</p></div>
+            <div class="feature"><h3>Light on the main thread</h3><p>Zero dependencies, one shared animation loop, and effects pause automatically when off-screen.</p></div>
+            <div class="feature"><h3>Tunable</h3><p>Colors, speed and size via attributes or CSS custom properties. Theme it to match your product.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="roadmap">
+        <div class="wrap">
+          <h2>On the workbench</h2>
+          <p class="section-lead">
+            New effects land regularly. Suggest or vote for ideas in
+            <a href="https://github.com/anticipate218/ai-native-effects/issues">GitHub issues</a>.
+          </p>
+          <ul class="roadmap">
+            <li><b>Agent Flow Visualizer</b>Live plan → tool call → result graph for agent runs.</li>
+            <li><b>Orbit Data Loader</b>Satellites orbiting a globe while data streams in.</li>
+            <li><b>Image Reveal FX</b>Diffusion-style before/after reveal for image models.</li>
+            <li><b>Token Stream Text</b>Token-by-token text reveal with a soft cursor glow.</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects">Source on GitHub</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./shared/home.ts"></script>
+  </body>
+</html>

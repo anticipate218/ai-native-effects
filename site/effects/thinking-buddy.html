@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Thinking Buddy · AI Native Effects</title>
+    <meta name="description" content="A tiny robot Web Component that shows what your AI agent is doing: idle, thinking, waiting, success and error states." />
+    <meta property="og:title" content="AI Thinking Buddy · AI Native Effects" />
+    <meta property="og:description" content="A tiny robot that makes agent status readable at a glance." />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/thinking-buddy.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/thinking-buddy.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / AI Native</div>
+        <h1>AI Thinking Buddy</h1>
+        <p class="lead">
+          A tiny robot that makes agent status readable at a glance. Each state gets its own body language and badge, so
+          users can tell <em>thinking</em> from <em>waiting on a tool</em> from <em>done</em> without reading a word.
+        </p>
+      </div>
+
+      <div class="pg">
+          <div class="panel viewport" id="viewport" data-bg="dark">
+            <ane-thinking-buddy id="buddy" announce></ane-thinking-buddy>
+            <div class="status-pill" aria-hidden="true"><i></i><span id="status">thinking</span></div>
+            <div class="viewport-tools" role="group" aria-label="Preview background">
+              <button type="button" class="btn small" data-bg="dark" aria-pressed="true">Dark</button>
+              <button type="button" class="btn small" data-bg="light" aria-pressed="false">Light</button>
+              <button type="button" class="btn small" data-bg="checker" aria-pressed="false">Grid</button>
+            </div>
+          </div>
+
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="simulate">Simulate agent run</button>
+              <button type="button" class="btn small" id="replay">Replay entry</button>
+              <button type="button" class="btn small" id="boop">Boop</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-statechange</code>…</p>
+        </aside>
+
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>state</code></td><td><code>idle</code> <code>thinking</code> <code>waiting</code> <code>success</code> <code>error</code></td><td><code>idle</code></td><td>What the agent is doing. Each change plays a short entry reaction.</td></tr>
+              <tr><td><code>color</code></td><td>any CSS color</td><td><code>#7c5cff</code></td><td>Body color; highlights and shading are derived from it.</td></tr>
+              <tr><td><code>accent</code></td><td>any CSS color</td><td><code>#5ef2ff</code></td><td>Eyes, mouth and idle/thinking glow.</td></tr>
+              <tr><td><code>size</code></td><td>CSS length</td><td><code>160px</code></td><td>Width and height. Plain CSS <code>width</code> works too.</td></tr>
+              <tr><td><code>speed</code></td><td><code>0</code>–<code>5</code></td><td><code>1</code></td><td>Animation time scale. <code>0</code> freezes the buddy.</td></tr>
+              <tr><td><code>motion</code></td><td><code>auto</code> <code>reduce</code> <code>full</code></td><td><code>auto</code></td><td><code>auto</code> follows <code>prefers-reduced-motion</code>.</td></tr>
+              <tr><td><code>interactive</code></td><td>boolean</td><td>off</td><td>Eyes follow the pointer; tapping gives a happy bounce.</td></tr>
+              <tr><td><code>announce</code></td><td>boolean</td><td>off</td><td>Announces state changes through a polite live region.</td></tr>
+              <tr><td><code>label</code></td><td>string</td><td>per state</td><td>Overrides the accessible label.</td></tr>
+              <tr><td><code>seed</code></td><td>integer</td><td><code>7</code></td><td>Seed for blinks, glances and confetti (reproducible recordings).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Properties, methods and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Properties, methods and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>state</code></td><td>Get or set the state (reflects to the attribute).</td></tr>
+              <tr><td><code>labels</code></td><td>Per-state accessible labels for localisation, e.g. <code>{ thinking: '正在思考' }</code>.</td></tr>
+              <tr><td><code>replay()</code></td><td>Replays the current state's entry animation (jump and confetti, head shake…).</td></tr>
+              <tr><td><code>boop()</code></td><td>Plays the happy bounce.</td></tr>
+              <tr><td><code>ane-statechange</code></td><td>Event fired on every state change. <code>event.detail = { state, previous }</code>; bubbles and crosses shadow roots.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>CSS custom properties</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="CSS custom properties table">
+          <table>
+            <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>--ane-size</code></td><td>Width and height (default <code>160px</code>).</td></tr>
+              <tr><td><code>--ane-buddy-color</code>, <code>--ane-buddy-accent</code></td><td>Theme colors; the attributes take precedence.</td></tr>
+              <tr><td><code>--ane-success</code>, <code>--ane-warning</code>, <code>--ane-danger</code></td><td>Status colors shared by all effects.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/thinking-buddy.gif">GIF</a>
+          <a class="btn small" href="../media/thinking-buddy.mp4">MP4</a>
+          <a class="btn small" href="../media/thinking-buddy.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/thinking-buddy.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/thinking-buddy">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./thinking-buddy.ts"></script>
+  </body>
+</html>
