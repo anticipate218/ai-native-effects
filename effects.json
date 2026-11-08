@@ -1,0 +1,23 @@
+{
+  "$comment": "Single source of truth for the gallery, README tables, e2e tests, capture and library entries. Keep entries in display order.",
+  "effects": [
+    {
+      "id": "thinking-buddy",
+      "tag": "ane-thinking-buddy",
+      "title": "AI Thinking Buddy",
+      "titleZh": "AI 思考小伙伴",
+      "series": "AI Native",
+      "summary": "A tiny robot that makes agent status readable at a glance: idle, thinking, waiting, success and error, each with its own body language.",
+      "summaryZh": "一个会思考、等待、成功和失败的小机器人，用肢体语言把智能体的执行状态变得一眼可读。",
+      "tech": [
+        "SVG",
+        "Web Component",
+        "Pointer tracking"
+      ],
+      "added": "2026-11-08",
+      "since": "0.1.0",
+      "status": "stable",
+      "preview": "<ane-thinking-buddy size=\"168px\" state=\"thinking\" seed=\"5\"></ane-thinking-buddy>"
+    }
+  ]
+}
