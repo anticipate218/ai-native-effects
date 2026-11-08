@@ -1,0 +1,14 @@
+node_modules/
+dist/
+dist-site/
+.capture/
+test-results/
+playwright-report/
+blob-report/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/extensions.json
+.idea/

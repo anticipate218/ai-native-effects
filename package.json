@@ -1,0 +1,78 @@
+{
+  "name": "ai-native-effects",
+  "version": "0.1.0",
+  "description": "Animated, accessible Web Components that turn the invisible work of AI (thinking, planning, tool calls, loading) into readable, delightful UI states.",
+  "type": "module",
+  "license": "MIT",
+  "author": "anticipate218",
+  "homepage": "https://anticipate218.github.io/ai-native-effects/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anticipate218/ai-native-effects.git"
+  },
+  "bugs": {
+    "url": "https://github.com/anticipate218/ai-native-effects/issues"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "llm",
+    "web-components",
+    "custom-elements",
+    "animation",
+    "motion",
+    "ui-effects",
+    "loader",
+    "typescript"
+  ],
+  "files": [
+    "dist",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json",
+    "./*": {
+      "types": "./dist/types/effects/*/index.d.ts",
+      "default": "./dist/effects/*.js"
+    }
+  },
+  "sideEffects": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run build:lib && npm run build:site && node scripts/copy-cdn.mjs",
+    "build:lib": "vite build -c vite.lib.config.ts && tsc -p tsconfig.build.json",
+    "build:site": "vite build",
+    "preview": "vite preview --port 4173 --strictPort",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "check": "npm run typecheck && npm test && node scripts/sync-readme.mjs --check && npm run build && npm run test:e2e",
+    "capture": "node scripts/capture.mjs",
+    "new": "node scripts/new-effect.mjs",
+    "sync": "node scripts/sync-readme.mjs",
+    "prepare": "node scripts/prepare.mjs"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^24.19.2",
+    "happy-dom": "^21.0.4",
+    "playwright": "^1.65.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.6",
+    "vitest": "^5.1.0"
+  }
+}
