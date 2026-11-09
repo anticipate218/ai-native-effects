@@ -25,6 +25,8 @@ export interface PlaygroundOptions {
 
 export interface Playground {
   set(attr: string, value: string | boolean | number): void;
+  /** Removes the attribute (e.g. back to a component default such as "indeterminate"). */
+  unset(attr: string): void;
 }
 
 let uid = 0;
@@ -126,6 +128,12 @@ export function mountPlayground(options: PlaygroundOptions): Playground {
     set(attr, raw) {
       const spec = controls.find((c) => c.attr === attr);
       if (spec) apply(spec, raw);
+    },
+    unset(attr) {
+      current.set(attr, null);
+      element.removeAttribute(attr);
+      options.onChange?.(attr, null);
+      renderCode();
     },
   };
 }
