@@ -129,3 +129,30 @@ test('thinking buddy playground drives the element and the snippet', async ({ pa
   const label = await buddy.evaluate((el) => el.shadowRoot!.querySelector('svg')!.getAttribute('aria-label'));
   expect(label).toBe('AI assistant finished successfully');
 });
+
+test('orbit loader playground drives progress, modes and completion', async ({ page }) => {
+  await page.goto('effects/orbit-loader.html');
+  const loader = page.locator('#effect');
+  const bar = loader.locator('[role="progressbar"]');
+  await expect(bar).toHaveAttribute('aria-valuenow', '42');
+
+  await page.getByLabel('Progress').evaluate((input: HTMLInputElement) => {
+    input.value = '0.7';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(bar).toHaveAttribute('aria-valuetext', '70%');
+  await expect(page.locator('#code-snippet')).toContainText('progress="0.7"');
+
+  await page.getByRole('button', { name: 'Indeterminate' }).click();
+  await expect(loader).not.toHaveAttribute('progress');
+  await expect(bar).not.toHaveAttribute('aria-valuenow');
+  await expect(page.locator('#code-snippet')).not.toContainText('progress=');
+
+  await loader.evaluate((el) => el.setAttribute('progress', '1'));
+  await expect(page.locator('#event-log')).toContainText('ane-complete', { timeout: 5000 });
+  await expect(bar).toHaveAttribute('aria-valuetext', 'Complete');
+
+  await page.getByRole('button', { name: 'Fail' }).click();
+  await expect(loader).toHaveAttribute('error', '');
+  await expect(bar).toHaveAttribute('aria-valuetext', 'Failed');
+});
