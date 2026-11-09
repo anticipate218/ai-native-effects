@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-09
+
+### Added
+
+- `<ane-orbit-loading-screen>` (Orbit Loading Screen): a full loading screen. A WebGL2 planet
+  (baked procedural terrain, clouds, night lights and atmosphere) is revealed tile by tile as
+  progress grows: blurred preview → full detail, with satellite swaths, an indeterminate scan,
+  a completion flash and a failed state. A DOM panel shows the eyebrow, heading, percentage,
+  steps (`steps` / `step`), detail and status lines, plus an `actions` slot. Supports
+  `fullscreen`, adaptive `quality`, container-driven layout, a 2D fallback without WebGL,
+  progressbar semantics and a reduced-motion variant.
+- Showcase: full-bleed playground viewport and a full-screen preview.
+
 ## [0.2.0] - 2026-11-09
 
 ### Added

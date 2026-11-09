@@ -38,6 +38,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">在线演示</a> · <a href="docs/zh-CN/effects/orbit-loader.md">文档</a> · <a href="src/effects/orbit-loader">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html"><img src="site/public/media/orbit-loading-screen.gif" alt="轨道加载界面" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">轨道加载界面</a></b> · <code>&lt;ane-orbit-loading-screen&gt;</code> · <sub>AI Native</sub>
+      <br><sub>面向数据密集型 AI 与遥感应用的完整加载界面：WebGL 星球随数据到达逐块变清晰，旁边的排版面板展示进度、步骤与实时信息。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">在线演示</a> · <a href="docs/zh-CN/effects/orbit-loading-screen.md">文档</a> · <a href="src/effects/orbit-loading-screen">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
@@ -97,6 +106,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **AI 思考小伙伴**：空闲 / 思考 / 等待 / 成功 / 失败
 - [ ] **Agent Flow Visualizer**：实时呈现规划与工具调用流程
 - [x] **轨道数据加载器**：卫星向程序化星球下传数据，进度环随之填满
+- [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
 - [ ] **Token Stream Text**：逐 token 出现的流式文本效果
 

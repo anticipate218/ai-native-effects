@@ -1,6 +1,6 @@
 {
   "name": "ai-native-effects",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Animated, accessible Web Components that turn the invisible work of AI (thinking, planning, tool calls, loading) into readable, delightful UI states.",
   "type": "module",
   "license": "MIT",
