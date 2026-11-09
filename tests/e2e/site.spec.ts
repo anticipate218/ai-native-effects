@@ -156,3 +156,38 @@ test('orbit loader playground drives progress, modes and completion', async ({ p
   await expect(loader).toHaveAttribute('error', '');
   await expect(bar).toHaveAttribute('aria-valuetext', 'Failed');
 });
+
+test('orbit loading screen playground drives progress, steps and full screen', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/orbit-loading-screen.html');
+  const screen = page.locator('#effect');
+  const meter = screen.locator('[role="progressbar"]');
+  await expect(meter).toHaveAttribute('aria-valuenow', '62');
+  await expect(meter).toHaveAttribute('aria-labelledby', 'heading');
+
+  await page.getByLabel('Active step').evaluate((input: HTMLInputElement) => {
+    input.value = '3';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(screen).toHaveAttribute('step', '3');
+  await expect(screen.locator('.steps li').nth(3)).toHaveAttribute('data-status', 'active');
+  await expect(page.locator('#code-snippet')).toContainText('step="3"');
+
+  await page.getByRole('button', { name: 'Indeterminate' }).click();
+  await expect(meter).not.toHaveAttribute('aria-valuenow');
+
+  await page.getByRole('button', { name: 'Full screen', exact: true }).click();
+  await expect(screen).toHaveAttribute('fullscreen', '');
+  const viewport = page.viewportSize()!;
+  const box = (await screen.boundingBox())!;
+  expect(Math.round(box.width)).toBe(viewport.width);
+  expect(Math.round(box.height)).toBe(viewport.height);
+  await expect(page.getByRole('button', { name: 'Exit full screen' })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(screen).not.toHaveAttribute('fullscreen');
+
+  await screen.evaluate((el) => el.setAttribute('progress', '1'));
+  await expect(page.locator('#event-log')).toContainText('ane-complete', { timeout: 5000 });
+  await expect(meter).toHaveAttribute('aria-valuetext', 'Complete');
+  expect(errors).toEqual([]);
+});
