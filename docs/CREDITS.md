@@ -16,6 +16,7 @@
 | Effect | Inspiration / third-party material | License | Notes |
 | --- | --- | --- | --- |
 | AI Thinking Buddy | none (original character and animation) | n/a | Built from scratch for this project. |
+| Orbit Data Loader | The general "dotted globe" look common in network and data illustrations | n/a | Idea only; no code, images or map data reused. Continents are generated procedurally from a seed (spherical caps on a Fibonacci sphere); orbits, downlinks and the progress ring are original. |
 
 ## Tooling
 

@@ -31,7 +31,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>一个会思考、等待、成功和失败的小机器人，用肢体语言把智能体的执行状态变得一眼可读。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/thinking-buddy.html">在线演示</a> · <a href="docs/zh-CN/effects/thinking-buddy.md">文档</a> · <a href="src/effects/thinking-buddy">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html"><img src="site/public/media/orbit-loader.gif" alt="轨道数据加载器" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">轨道数据加载器</a></b> · <code>&lt;ane-orbit-loader&gt;</code> · <sub>AI Native</sub>
+      <br><sub>面向长耗时数据任务的进度加载器：卫星向程序化星球下传数据包，进度环随之填满，支持不确定进度、完成与失败状态。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">在线演示</a> · <a href="docs/zh-CN/effects/orbit-loader.md">文档</a> · <a href="src/effects/orbit-loader">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -91,7 +96,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 
 - [x] **AI 思考小伙伴**：空闲 / 思考 / 等待 / 成功 / 失败
 - [ ] **Agent Flow Visualizer**：实时呈现规划与工具调用流程
-- [ ] **Orbit Data Loader**：卫星环绕地球的数据加载动效
+- [x] **轨道数据加载器**：卫星向程序化星球下传数据，进度环随之填满
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
 - [ ] **Token Stream Text**：逐 token 出现的流式文本效果
 

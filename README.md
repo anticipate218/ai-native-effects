@@ -35,12 +35,17 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A tiny robot that makes agent status readable at a glance: idle, thinking, waiting, success and error, each with its own body language.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/thinking-buddy.html">Playground</a> · <a href="docs/effects/thinking-buddy.md">Docs</a> · <a href="src/effects/thinking-buddy">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html"><img src="site/public/media/orbit-loader.gif" alt="Orbit Data Loader" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">Orbit Data Loader</a></b> · <code>&lt;ane-orbit-loader&gt;</code> · <sub>AI Native</sub>
+      <br><sub>A progress loader for long data jobs: satellites downlink packets to a procedural planet while the ring fills, with indeterminate, complete and failed states.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">Playground</a> · <a href="docs/effects/orbit-loader.md">Docs</a> · <a href="src/effects/orbit-loader">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
 
-More effects are on the way: an agent flow visualizer, an orbit data loader, a diffusion-style image reveal and token-stream text. See the [roadmap](#roadmap).
+More effects are on the way: an agent flow visualizer, a diffusion-style image reveal and token-stream text. See the [roadmap](#roadmap).
 
 ## Quick start
 
@@ -151,7 +156,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 
 - [x] **AI Thinking Buddy**: robot with idle / thinking / waiting / success / error states
 - [ ] **Agent Flow Visualizer**: live plan → tool call → result graph
-- [ ] **Orbit Data Loader**: satellites orbiting a globe while data streams in
+- [x] **Orbit Data Loader**: satellites downlink data to a procedural planet while a progress ring fills
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
 - [ ] **Token Stream Text**: token-by-token text reveal with a soft cursor glow
 - [ ] React and Vue typed wrappers
