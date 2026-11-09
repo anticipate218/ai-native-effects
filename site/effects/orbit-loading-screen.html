@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orbit Loading Screen · AI Native Effects</title>
+    <meta name="description" content="A WebGL loading screen for data-heavy AI and geo apps: a planet is downloaded tile by tile while a typographic panel shows progress, steps and live details." />
+    <meta property="og:title" content="Orbit Loading Screen · AI Native Effects" />
+    <meta property="og:description" content="A planet that sharpens tile by tile as your data downloads." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/orbit-loading-screen.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/orbit-loading-screen.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / AI Native</div>
+        <h1>Orbit Loading Screen</h1>
+        <p class="lead">
+          A full loading screen for the long waits in AI and geo products. A WebGL planet is "downloaded" tile by tile:
+          unloaded regions show a blurred preview, finished tiles snap into full detail while satellites sweep their swaths,
+          and a typographic panel shows the percentage, steps and live details.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed" id="viewport">
+          <ane-orbit-loading-screen
+            id="effect"
+            eyebrow="Sentinel-2 · Level-2A"
+            heading="Downloading imagery"
+            steps="Authenticate|Query catalog|Download tiles|Build mosaic"
+            detail="1.20 GB of 1.94 GB · 41 MB/s · 0:11 left"
+            status="tile T31UFU · cloud 3% · 88/142"
+          ></ane-orbit-loading-screen>
+          <div class="viewport-tools">
+            <button type="button" class="btn small" id="fullscreen">Full screen</button>
+          </div>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="simulate">Simulate download</button>
+              <button type="button" class="btn small" id="indeterminate">Indeterminate</button>
+              <button type="button" class="btn small" id="fail">Fail</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-complete</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>progress</code></td><td><code>0</code>–<code>1</code> or <code>0%</code>–<code>100%</code></td><td>none</td><td>Progress. Omit it while the total is unknown (indeterminate scan). Reaching <code>1</code> plays the completion flash.</td></tr>
+              <tr><td><code>heading</code></td><td>string</td><td><code>Preparing your workspace</code></td><td>Main line. Changes fade in.</td></tr>
+              <tr><td><code>eyebrow</code></td><td>string</td><td><code>Loading</code></td><td>Small caps line above the heading, with a status beacon.</td></tr>
+              <tr><td><code>steps</code></td><td><code>A|B|C</code></td><td>none</td><td>Pipe-separated step labels.</td></tr>
+              <tr><td><code>step</code></td><td>integer</td><td><code>0</code></td><td>Active step (0-based). Earlier steps show as done.</td></tr>
+              <tr><td><code>detail</code></td><td>string</td><td>none</td><td>Secondary line, e.g. sizes, speed and time left.</td></tr>
+              <tr><td><code>status</code></td><td>string</td><td>none</td><td>Monospace log line (hidden on short screens).</td></tr>
+              <tr><td><code>error</code></td><td>boolean</td><td>off</td><td>Failed state: danger tone, the active step shows a cross, swaths stop.</td></tr>
+              <tr><td><code>satellites</code></td><td><code>0</code>–<code>4</code></td><td><code>2</code></td><td>Satellites sweeping the planet.</td></tr>
+              <tr><td><code>accent</code></td><td>any CSS color</td><td><code>#5ef2ff</code></td><td>Data color: fresh tiles, swaths, bar and step marks.</td></tr>
+              <tr><td><code>color</code></td><td>any CSS color</td><td><code>#6aa6ff</code></td><td>Atmosphere and preview tint.</td></tr>
+              <tr><td><code>fullscreen</code></td><td>boolean</td><td>off</td><td>Covers the viewport (<code>position: fixed</code>).</td></tr>
+              <tr><td><code>size</code></td><td>CSS length</td><td><code>480px</code></td><td>Height. The width follows the container; the layout stacks below 640px.</td></tr>
+              <tr><td><code>quality</code></td><td><code>auto</code> <code>high</code> <code>low</code></td><td><code>auto</code></td><td>WebGL resolution. <code>auto</code> lowers it on slow devices.</td></tr>
+              <tr><td><code>speed</code></td><td><code>0</code>–<code>5</code></td><td><code>1</code></td><td>Animation time scale.</td></tr>
+              <tr><td><code>motion</code></td><td><code>auto</code> <code>reduce</code> <code>full</code></td><td><code>auto</code></td><td><code>auto</code> follows <code>prefers-reduced-motion</code>.</td></tr>
+              <tr><td><code>label</code></td><td>string</td><td>heading</td><td>Accessible name of the progress bar.</td></tr>
+              <tr><td><code>seed</code></td><td>integer</td><td><code>7</code></td><td>Seed for the planet, orbits and stars.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Properties, slots and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Properties, slots and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>progress</code></td><td><code>number | null</code>; <code>null</code> = indeterminate.</td></tr>
+              <tr><td><code>steps</code>, <code>step</code>, <code>error</code>, <code>satellites</code></td><td>Reflect to their attributes (<code>steps</code> is a string array).</td></tr>
+              <tr><td><code>webgl</code></td><td>Read-only: <code>false</code> when the 2D fallback is in use.</td></tr>
+              <tr><td><code>slot="actions"</code></td><td>Buttons under the panel, e.g. Cancel or Run in background.</td></tr>
+              <tr><td><code>ane-complete</code></td><td>Fired once each time progress reaches 100%. Bubbles and crosses shadow roots.</td></tr>
+              <tr><td><code>::part(screen)</code>, <code>::part(panel)</code></td><td>Styling hooks.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>CSS custom properties</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="CSS custom properties table">
+          <table>
+            <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>--ane-size</code></td><td>Height (default <code>480px</code>).</td></tr>
+              <tr><td><code>--ane-screen-bg</code>, <code>--ane-screen-text</code></td><td>Background and text colors.</td></tr>
+              <tr><td><code>--ane-screen-z</code></td><td>z-index in full-screen mode.</td></tr>
+              <tr><td><code>--ane-success</code>, <code>--ane-danger</code></td><td>Complete and failed tones shared by all effects.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/orbit-loading-screen.gif">GIF</a>
+          <a class="btn small" href="../media/orbit-loading-screen.mp4">MP4</a>
+          <a class="btn small" href="../media/orbit-loading-screen.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/orbit-loading-screen.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/orbit-loading-screen">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./orbit-loading-screen.ts"></script>
+  </body>
+</html>

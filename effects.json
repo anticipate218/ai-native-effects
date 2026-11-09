@@ -36,6 +36,24 @@
       "since": "0.1.0",
       "status": "stable",
       "preview": "<ane-orbit-loader size=\"180px\" progress=\"0.64\" seed=\"11\"></ane-orbit-loader>"
+    },
+    {
+      "id": "orbit-loading-screen",
+      "tag": "ane-orbit-loading-screen",
+      "title": "Orbit Loading Screen",
+      "titleZh": "轨道加载界面",
+      "series": "AI Native",
+      "summary": "A full loading screen for data-heavy AI and geo apps: a WebGL planet sharpens tile by tile as data arrives, next to a typographic panel with progress, steps and live details.",
+      "summaryZh": "面向数据密集型 AI 与遥感应用的完整加载界面：WebGL 星球随数据到达逐块变清晰，旁边的排版面板展示进度、步骤与实时信息。",
+      "tech": [
+        "WebGL2",
+        "Canvas 2D",
+        "Web Component"
+      ],
+      "added": "2026-11-09",
+      "since": "0.2.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/orbit-loading-screen-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
