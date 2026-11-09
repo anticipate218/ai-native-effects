@@ -8,6 +8,10 @@ const channel = !process.env.CI && process.platform === 'win32' ? { channel: 'ms
 export default defineConfig({
   testDir: 'tests/e2e',
   fullyParallel: true,
+  // Frame-budget and off-screen checks measure requestAnimationFrame and IntersectionObserver
+  // timing. Too many parallel browsers starve the compositor and make them flaky, so cap
+  // local workers (CI runners are small and use the default).
+  workers: process.env.CI ? undefined : 4,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: process.env.CI ? [['github'], ['list']] : 'list',

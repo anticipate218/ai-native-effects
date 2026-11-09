@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-11-09
+
+### Added
+
+- `<ane-orbit-loader>` (Orbit Data Loader): a Canvas 2D progress loader with a procedural
+  dotted planet, 1–6 satellites downlinking data packets and a progress ring. Determinate
+  (`progress`, fractions or percentages) and indeterminate modes with a cross-fade, a
+  completion pulse with the `ane-complete` event, an `error` state, an optional percentage,
+  `role="progressbar"` semantics and a reduced-motion variant.
+- Playground API: `unset(attr)` removes an attribute and keeps the code snippet in sync.
+
+### Fixed
+
+- Showcase: the preview background buttons were unreadable on the light background and
+  did not show which background was selected.
+
 ## [0.1.0] - 2026-11-08
 
 ### Added

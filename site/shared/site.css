@@ -113,6 +113,10 @@ h2 { font-size: clamp(26px, 3.6vw, 36px); letter-spacing: -0.02em; line-height: 
 .viewport[data-bg='light'] .status-pill { color: #1b1e33; background: rgba(0, 0, 0, 0.05); border-color: rgba(0, 0, 0, 0.1); }
 .viewport[data-bg='checker'] { background: repeating-conic-gradient(#1a1d36 0% 25%, #12142a 0% 50%) 50% / 24px 24px; }
 .viewport-tools { position: absolute; top: 12px; right: 12px; display: flex; gap: 6px; }
+.viewport-tools .btn[aria-pressed='true'] { background: rgba(124, 92, 255, 0.32); border-color: rgba(124, 92, 255, 0.75); }
+.viewport[data-bg='light'] .viewport-tools .btn { background: rgba(255, 255, 255, 0.9); border-color: rgba(27, 30, 51, 0.16); color: #1b1e33; }
+.viewport[data-bg='light'] .viewport-tools .btn:hover { background: #fff; color: #1b1e33; }
+.viewport[data-bg='light'] .viewport-tools .btn[aria-pressed='true'] { background: #ebe6ff; border-color: #6a4bff; }
 .controls { padding: 18px; display: grid; gap: 18px; }
 .control { display: grid; gap: 8px; }
 .control > label, .control > .label { font-size: 13px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; display: flex; justify-content: space-between; gap: 8px; }
