@@ -36,25 +36,20 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/thinking-buddy.html">Playground</a> · <a href="docs/effects/thinking-buddy.md">Docs</a> · <a href="src/effects/thinking-buddy">Source</a></sub>
     </td>
     <td width="50%" valign="top">
-      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html"><img src="site/public/media/orbit-loader.gif" alt="Orbit Data Loader" width="100%"></a>
-      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">Orbit Data Loader</a></b> · <code>&lt;ane-orbit-loader&gt;</code> · <sub>AI Native</sub>
-      <br><sub>A progress loader for long data jobs: satellites downlink packets to a procedural planet while the ring fills, with indeterminate, complete and failed states.</sub>
-      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loader.html">Playground</a> · <a href="docs/effects/orbit-loader.md">Docs</a> · <a href="src/effects/orbit-loader">Source</a></sub>
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
       <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html"><img src="site/public/media/orbit-loading-screen.gif" alt="Orbit Loading Screen" width="100%"></a>
       <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">Orbit Loading Screen</a></b> · <code>&lt;ane-orbit-loading-screen&gt;</code> · <sub>AI Native</sub>
       <br><sub>A full loading screen for data-heavy AI and geo apps: a WebGL planet sharpens tile by tile as data arrives, next to a typographic panel with progress, steps and live details.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">Playground</a> · <a href="docs/effects/orbit-loading-screen.md">Docs</a> · <a href="src/effects/orbit-loading-screen">Source</a></sub>
     </td>
+  </tr>
+  <tr>
     <td width="50%" valign="top">
       <a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html"><img src="site/public/media/token-stream.gif" alt="Token Stream Text" width="100%"></a>
       <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">Token Stream Text</a></b> · <code>&lt;ane-token-stream&gt;</code> · <sub>AI Native</sub>
       <br><sub>Streamed LLM text that writes itself smoothly: bursty chunks are paced adaptively and each word rises out of a blur and dries from the accent color behind a glowing caret.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">Playground</a> · <a href="docs/effects/token-stream.md">Docs</a> · <a href="src/effects/token-stream">Source</a></sub>
     </td>
+    <td width="50%"></td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -170,7 +165,6 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 
 - [x] **AI Thinking Buddy**: robot with idle / thinking / waiting / success / error states
 - [ ] **Agent Flow Visualizer**: live plan → tool call → result graph
-- [x] **Orbit Data Loader**: satellites downlink data to a procedural planet while a progress ring fills
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
