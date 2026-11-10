@@ -191,3 +191,27 @@ test('orbit loading screen playground drives progress, steps and full screen', a
   await expect(meter).toHaveAttribute('aria-valuetext', 'Complete');
   expect(errors).toEqual([]);
 });
+
+test('token stream playground streams, skips and resets', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/token-stream.html');
+  const stream = page.locator('#effect');
+  const body = stream.locator('.body');
+  await expect(body).toHaveAttribute('aria-busy', 'true');
+  await expect(body).toContainText('Flood extent grew by 38%', { timeout: 5000 });
+
+  await page.getByRole('button', { name: 'Skip' }).click();
+  await expect(body).toContainText('export the change map as a GeoTIFF.');
+  await expect(body).toHaveAttribute('aria-busy', 'false');
+  await expect(page.locator('#event-log')).toContainText('ane-stream-end');
+
+  await page.getByRole('button', { name: 'char', exact: true }).click();
+  await expect(stream).toHaveAttribute('granularity', 'char');
+  await page.getByRole('button', { name: '中文回答' }).click();
+  await expect(body).toContainText('洪水范围扩大了', { timeout: 8000 });
+  await expect(page.locator('#code-snippet')).toContainText('granularity="char"');
+
+  await page.getByRole('button', { name: 'Reset' }).click();
+  await expect(body).toHaveText('');
+  expect(errors).toEqual([]);
+});
