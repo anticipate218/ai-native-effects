@@ -1072,6 +1072,9 @@ declare global {
   interface HTMLElementTagNameMap {
     'ane-orbit-loading-screen': OrbitLoadingScreenElement;
   }
+  interface HTMLElementEventMap {
+    'ane-complete': CustomEvent<ScreenCompleteDetail>;
+  }
 }
 
 /** Registers `<ane-orbit-loading-screen>` (or a custom tag name). Safe to call more than once. */

@@ -20,24 +20,6 @@
       "preview": "<ane-thinking-buddy size=\"168px\" state=\"thinking\" seed=\"5\"></ane-thinking-buddy>"
     },
     {
-      "id": "orbit-loader",
-      "tag": "ane-orbit-loader",
-      "title": "Orbit Data Loader",
-      "titleZh": "轨道数据加载器",
-      "series": "AI Native",
-      "summary": "A progress loader for long data jobs: satellites downlink packets to a procedural planet while the ring fills, with indeterminate, complete and failed states.",
-      "summaryZh": "面向长耗时数据任务的进度加载器：卫星向程序化星球下传数据包，进度环随之填满，支持不确定进度、完成与失败状态。",
-      "tech": [
-        "Canvas 2D",
-        "Web Component",
-        "Procedural 3D"
-      ],
-      "added": "2026-11-09",
-      "since": "0.1.0",
-      "status": "stable",
-      "preview": "<ane-orbit-loader size=\"180px\" progress=\"0.64\" seed=\"11\"></ane-orbit-loader>"
-    },
-    {
       "id": "orbit-loading-screen",
       "tag": "ane-orbit-loading-screen",
       "title": "Orbit Loading Screen",
