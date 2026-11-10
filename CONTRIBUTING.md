@@ -17,7 +17,7 @@ On Windows the scripts use the installed Microsoft Edge; elsewhere run
 ## Adding an effect
 
 ```bash
-npm run new -- orbit-loader --title "Orbit Data Loader"
+npm run new -- scan-reveal --title "Satellite Scan Reveal"
 ```
 
 This scaffolds the component, tests, playground page, capture scene, docs (EN + 中文)
@@ -57,7 +57,7 @@ deploys the showcase only when it passes.
 
 ## Commits
 
-Use [Conventional Commits](https://www.conventionalcommits.org/): `feat(orbit-loader): …`,
+Use [Conventional Commits](https://www.conventionalcommits.org/): `feat(scan-reveal): …`,
 `fix(thinking-buddy): …`, `perf: …`, `docs: …`, `test: …`, `refactor: …`, `chore: …`.
 Small, focused commits are preferred; tests, refactors, performance work and docs are all
 valuable contributions on their own.

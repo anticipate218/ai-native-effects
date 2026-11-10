@@ -2,7 +2,7 @@
 /**
  * Scaffolds a new effect with everything the definition of done asks for.
  *
- *   npm run new -- orbit-loader --title "Orbit Data Loader" [--title-zh "轨道数据加载器"] [--series "AI Native"]
+ *   npm run new -- scan-reveal --title "Satellite Scan Reveal" [--title-zh "卫星扫描揭示"] [--series "AI Native"]
  *
  * Creates (never overwrites):
  *   src/effects/<id>/{<id>.ts,index.ts,<id>.test.ts}   canvas component skeleton + tests

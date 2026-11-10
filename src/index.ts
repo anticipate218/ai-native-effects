@@ -9,6 +9,5 @@ export type { TickerStats } from './core/ticker';
 export type { MotionPreference } from './core/motion';
 
 export * from './effects/thinking-buddy';
-export * from './effects/orbit-loader';
 export * from './effects/orbit-loading-screen';
 export * from './effects/token-stream';
