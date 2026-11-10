@@ -45,7 +45,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>面向数据密集型 AI 与遥感应用的完整加载界面：WebGL 星球随数据到达逐块变清晰，旁边的排版面板展示进度、步骤与实时信息。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">在线演示</a> · <a href="docs/zh-CN/effects/orbit-loading-screen.md">文档</a> · <a href="src/effects/orbit-loading-screen">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html"><img src="site/public/media/token-stream.gif" alt="流式文本" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">流式文本</a></b> · <code>&lt;ane-token-stream&gt;</code> · <sub>AI Native</sub>
+      <br><sub>让流式 LLM 回答平滑地「落墨」：突发的分块被自适应节奏释放，每个词从模糊中浮起、由强调色褪为正文色，前方有发光的光标。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">在线演示</a> · <a href="docs/zh-CN/effects/token-stream.md">文档</a> · <a href="src/effects/token-stream">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -108,7 +113,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **轨道数据加载器**：卫星向程序化星球下传数据，进度环随之填满
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
-- [ ] **Token Stream Text**：逐 token 出现的流式文本效果
+- [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标
 
 欢迎在 [Issues](https://github.com/anticipate218/ai-native-effects/issues) 提出想法或投票。
 

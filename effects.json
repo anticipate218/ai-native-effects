@@ -54,6 +54,24 @@
       "since": "0.2.0",
       "status": "stable",
       "preview": "<img src=\"./media/orbit-loading-screen-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "token-stream",
+      "tag": "ane-token-stream",
+      "title": "Token Stream Text",
+      "titleZh": "流式文本",
+      "series": "AI Native",
+      "summary": "Streamed LLM text that writes itself smoothly: bursty chunks are paced adaptively and each word rises out of a blur and dries from the accent color behind a glowing caret.",
+      "summaryZh": "让流式 LLM 回答平滑地「落墨」：突发的分块被自适应节奏释放，每个词从模糊中浮起、由强调色褪为正文色，前方有发光的光标。",
+      "tech": [
+        "DOM",
+        "Intl.Segmenter",
+        "Web Component"
+      ],
+      "added": "2026-11-10",
+      "since": "0.3.0",
+      "status": "stable",
+      "preview": "<ane-token-stream style=\"width:80%;font-size:15px;line-height:1.55;color:#e4e8f7\" rate=\"36\" caret=\"persist\">Flood extent grew by **38%** between the two passes, mostly along the lower Rhine.</ane-token-stream>"
     }
   ]
 }

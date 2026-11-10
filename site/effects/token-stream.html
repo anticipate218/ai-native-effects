@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Token Stream Text · AI Native Effects</title>
+    <meta name="description" content="A Web Component for streamed LLM answers: bursty chunks are paced smoothly and each word rises out of a blur and dries from the accent color behind a glowing caret." />
+    <meta property="og:title" content="Token Stream Text · AI Native Effects" />
+    <meta property="og:description" content="Streamed LLM text that writes itself smoothly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/token-stream.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/token-stream.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / AI Native</div>
+        <h1>Token Stream Text</h1>
+        <p class="lead">
+          Streamed answers arrive in uneven bursts, so raw output stutters and jumps. This component buffers the chunks,
+          releases words at an adaptive pace and lets each one rise out of a blur and dry from the accent color behind a
+          glowing caret. Real, selectable text; English and CJK alike.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport" id="viewport" data-bg="dark" style="place-items: start center; align-content: start; padding: 64px 22px 28px">
+          <ane-token-stream id="effect" style="width: min(560px, 100%)" announce></ane-token-stream>
+          <div class="viewport-tools" role="group" aria-label="Preview background">
+            <button type="button" class="btn small" data-bg="dark" aria-pressed="true">Dark</button>
+            <button type="button" class="btn small" data-bg="light" aria-pressed="false">Light</button>
+            <button type="button" class="btn small" data-bg="checker" aria-pressed="false">Grid</button>
+          </div>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="play-en">Stream answer</button>
+              <button type="button" class="btn small" id="play-zh" lang="zh-CN">中文回答</button>
+              <button type="button" class="btn small" id="skip">Skip</button>
+              <button type="button" class="btn small" id="reset">Reset</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-stream-end</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>rate</code></td><td>characters / second</td><td><code>60</code></td><td>Base reveal pace. It rises automatically when chunks pile up, so the text never lags far behind the source.</td></tr>
+              <tr><td><code>granularity</code></td><td><code>word</code> <code>char</code></td><td><code>word</code></td><td>Reveal unit. Words come from <code>Intl.Segmenter</code>, so Chinese and Japanese are split into words too.</td></tr>
+              <tr><td><code>caret</code></td><td><code>auto</code> <code>persist</code> <code>none</code></td><td><code>auto</code></td><td><code>auto</code> breathes while waiting and fades out when done.</td></tr>
+              <tr><td><code>color</code></td><td>any CSS color</td><td><code>currentColor</code></td><td>Text color.</td></tr>
+              <tr><td><code>accent</code></td><td>any CSS color</td><td><code>#7c5cff</code></td><td>Ink, caret, glow and code tint.</td></tr>
+              <tr><td><code>size</code></td><td>CSS length</td><td>inherited</td><td>Font size.</td></tr>
+              <tr><td><code>speed</code></td><td><code>0</code>–<code>5</code></td><td><code>1</code></td><td>Time scale for the pace and the ink.</td></tr>
+              <tr><td><code>motion</code></td><td><code>auto</code> <code>reduce</code> <code>full</code></td><td><code>auto</code></td><td>Reduced motion keeps the pacing but drops blur, rise, glow and blinking.</td></tr>
+              <tr><td><code>announce</code></td><td>boolean</td><td>off</td><td>Announces "Response complete" through a polite live region.</td></tr>
+              <tr><td><code>label</code></td><td>string</td><td><code>Assistant response</code></td><td>Accessible name of the text region.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Methods, properties and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Methods, properties and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>write(text)</code></td><td>Adds a chunk. Half-arrived words and unclosed <code>`code`</code> wait for the next chunk.</td></tr>
+              <tr><td><code>done()</code></td><td>Marks the end of the source; the rest is revealed, then <code>ane-stream-end</code> fires.</td></tr>
+              <tr><td><code>stream(source)</code></td><td>Consumes an async iterable or a <code>ReadableStream</code> of strings or bytes, then calls <code>done()</code>. Resolves when fully revealed.</td></tr>
+              <tr><td><code>skip()</code>, <code>reset()</code></td><td>Reveal everything now / clear for a new answer.</td></tr>
+              <tr><td><code>text</code>, <code>streaming</code>, <code>finished</code></td><td>Received text, whether the stream is still open, and a promise for the end.</td></tr>
+              <tr><td><code>ane-stream-end</code></td><td>Fired once per stream. <code>event.detail = { text }</code>; bubbles and crosses shadow roots.</td></tr>
+              <tr><td>Formatting</td><td>Line breaks, blank-line paragraphs, <code>`inline code`</code> and <code>**bold**</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>CSS custom properties</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="CSS custom properties table">
+          <table>
+            <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>--ane-size</code></td><td>Font size.</td></tr>
+              <tr><td><code>--ane-stream-color</code>, <code>--ane-stream-accent</code></td><td>Text and accent colors; the attributes take precedence.</td></tr>
+              <tr><td><code>::part(body)</code></td><td>The text container.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/token-stream.gif">GIF</a>
+          <a class="btn small" href="../media/token-stream.mp4">MP4</a>
+          <a class="btn small" href="../media/token-stream.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/token-stream.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/token-stream">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./token-stream.ts"></script>
+  </body>
+</html>

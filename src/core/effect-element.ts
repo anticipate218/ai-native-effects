@@ -64,7 +64,9 @@ export abstract class EffectElement extends SafeHTMLElement {
       this.#observer = new IntersectionObserver((entries) => {
         const latest = entries[entries.length - 1];
         if (!latest) return;
+        const changed = this.#onScreen !== latest.isIntersecting;
         this.#onScreen = latest.isIntersecting;
+        if (changed && this.#built) this.visibilityChanged(this.#onScreen);
         this.#syncTicking();
       });
       this.#observer.observe(this);
@@ -105,6 +107,17 @@ export abstract class EffectElement extends SafeHTMLElement {
 
   /** Called when the resolved reduced-motion mode changes. */
   protected motionChanged(_reduced: boolean): void {}
+
+  /**
+   * Called when the element scrolls into or out of view (the animation loop is paused
+   * while it is out of view). Effects whose state must keep progressing can catch up here.
+   */
+  protected visibilityChanged(_visible: boolean): void {}
+
+  /** `false` while the element is scrolled out of view. */
+  protected get onScreen(): boolean {
+    return this.#onScreen;
+  }
 
   #syncMotion(): void {
     const reduced = resolveReducedMotion(this.getAttribute('motion'));

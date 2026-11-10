@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-10
+
+### Added
+
+- `<ane-token-stream>` (Token Stream Text): streamed LLM text that writes itself smoothly.
+  A safe incremental tokenizer (holds back half-words, unclosed code and ambiguous markers),
+  `Intl.Segmenter` word or grapheme reveal (CJK included), adaptive pacing that drains
+  bursts with a ~0.8 s time constant, blur-to-sharp "ink" with an accent-to-text color dry,
+  a breathing caret with a trailing glow, line breaks, paragraphs, inline code and bold.
+  API: `write()`, `done()`, `stream()` (async iterables and `ReadableStream`s of text or
+  bytes), `skip()`, `reset()`, `finished`, and the `ane-stream-end` event. `aria-busy`
+  while streaming, optional completion announcement and a reduced-motion variant.
+
 ## [0.3.0] - 2026-11-09
 
 ### Added
