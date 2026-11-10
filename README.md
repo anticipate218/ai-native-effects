@@ -49,12 +49,17 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A full loading screen for data-heavy AI and geo apps: a WebGL planet sharpens tile by tile as data arrives, next to a typographic panel with progress, steps and live details.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-loading-screen.html">Playground</a> · <a href="docs/effects/orbit-loading-screen.md">Docs</a> · <a href="src/effects/orbit-loading-screen">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html"><img src="site/public/media/token-stream.gif" alt="Token Stream Text" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">Token Stream Text</a></b> · <code>&lt;ane-token-stream&gt;</code> · <sub>AI Native</sub>
+      <br><sub>Streamed LLM text that writes itself smoothly: bursty chunks are paced adaptively and each word rises out of a blur and dries from the accent color behind a glowing caret.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">Playground</a> · <a href="docs/effects/token-stream.md">Docs</a> · <a href="src/effects/token-stream">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
 
-More effects are on the way: an agent flow visualizer, a diffusion-style image reveal and token-stream text. See the [roadmap](#roadmap).
+More effects are on the way: an agent flow visualizer and a diffusion-style image reveal. See the [roadmap](#roadmap).
 
 ## Quick start
 
@@ -168,7 +173,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 - [x] **Orbit Data Loader**: satellites downlink data to a procedural planet while a progress ring fills
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
-- [ ] **Token Stream Text**: token-by-token text reveal with a soft cursor glow
+- [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
 - [ ] React and Vue typed wrappers
 
 Ideas and votes are welcome in [issues](https://github.com/anticipate218/ai-native-effects/issues).

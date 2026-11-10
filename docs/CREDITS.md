@@ -18,6 +18,7 @@
 | AI Thinking Buddy | none (original character and animation) | n/a | Built from scratch for this project. |
 | Orbit Data Loader | The general "dotted globe" look common in network and data illustrations | n/a | Idea only; no code, images or map data reused. Continents are generated procedurally from a seed (spherical caps on a Fibonacci sphere); orbits, downlinks and the progress ring are original. |
 | Orbit Loading Screen | Integer hash "lowbias32" by Chris Wellons (used for the procedural noise) | Public domain (Unlicense) | Algorithm reimplemented in GLSL in `planet-gl.ts`. Everything else is original: no map data or images. The planet is generated from a seed (domain-warped value-noise fBm on the sphere); the tile-acquisition reveal, swaths, lighting and layout were designed for this project. |
+| Token Stream Text | The general "fade-in streaming text" pattern seen in many chat products | n/a | Idea only. The safe streaming tokenizer, adaptive pacing, ink animation, caret and glow are original. Uses the platform `Intl.Segmenter`. |
 
 ## Tooling
 
