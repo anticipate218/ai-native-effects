@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-10
+
+### Removed
+
+- `<ane-orbit-loader>` (Orbit Data Loader) and its `ai-native-effects/orbit-loader` entry point,
+  CDN module, playground, docs and previews. It is superseded by
+  `<ane-orbit-loading-screen>`, which covers the same use case with a far richer presentation.
+  The old playground URL now redirects to the loading screen. Projects pinned to
+  `#v0.2.0`–`#v0.4.0` keep working.
+
+### Changed
+
+- `<ane-orbit-loading-screen>` now declares the typed `ane-complete` event itself.
+- Showcase: the "On the workbench" list shows what is actually coming next.
+
 ## [0.4.0] - 2026-11-10
 
 ### Added
