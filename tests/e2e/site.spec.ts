@@ -188,3 +188,33 @@ test('token stream playground streams, skips and resets', async ({ page }) => {
   await expect(body).toHaveText('');
   expect(errors).toEqual([]);
 });
+
+test('scan reveal playground autoplays, switches to manual control and replays', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/scan-reveal.html');
+  const scan = page.locator('#effect');
+  await expect(scan).not.toHaveAttribute('progress');
+  await expect(scan.locator('.phase')).toHaveText(/Acquiring|Analyzing|Complete/);
+
+  const set = async (label: string, value: string): Promise<void> => {
+    await page.getByLabel(label).evaluate((input: HTMLInputElement, v) => {
+      input.value = v;
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+    }, value);
+  };
+  await set('Acquisition (drive manually)', '0.5');
+  await expect(scan).toHaveAttribute('progress', '0.5');
+  await expect(scan.locator('.pct')).toHaveText('50%');
+  await set('Ground-track angle (°)', '20');
+  await expect(scan).toHaveAttribute('angle', '20');
+  await expect(page.locator('#code-snippet')).toContainText('angle="20"');
+
+  await set('Acquisition (drive manually)', '1');
+  await expect(page.locator('#event-log')).toContainText('acquisition', { timeout: 5000 });
+
+  await page.getByRole('button', { name: 'Replay autoplay' }).click();
+  await expect(scan).not.toHaveAttribute('progress');
+  await expect(scan.locator('.phase')).toHaveText('Acquiring');
+  expect(await scan.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
+  expect(errors).toEqual([]);
+});
