@@ -45,7 +45,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>让流式 LLM 回答平滑地「落墨」：突发的分块被自适应节奏释放，每个词从模糊中浮起、由强调色褪为正文色，前方有发光的光标。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">在线演示</a> · <a href="docs/zh-CN/effects/token-stream.md">文档</a> · <a href="src/effects/token-stream">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html"><img src="site/public/media/scan-reveal.gif" alt="卫星扫描揭示" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">卫星扫描揭示</a></b> · <code>&lt;ane-scan-reveal&gt;</code> · <sub>Remote sensing × AI</sub>
+      <br><sub>推扫式卫星扫描线揭示影像，随后虚线推理扫描把地物分类掩膜叠加上去；可使用自己的影像与掩膜，也可使用程序化生成的场景。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">在线演示</a> · <a href="docs/zh-CN/effects/scan-reveal.md">文档</a> · <a href="src/effects/scan-reveal">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -108,6 +113,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标
+- [x] **卫星扫描揭示**：推扫式获取扫描 + 叠加地物分类掩膜的推理扫描
 
 欢迎在 [Issues](https://github.com/anticipate218/ai-native-effects/issues) 提出想法或投票。
 

@@ -49,7 +49,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>Streamed LLM text that writes itself smoothly: bursty chunks are paced adaptively and each word rises out of a blur and dries from the accent color behind a glowing caret.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/token-stream.html">Playground</a> · <a href="docs/effects/token-stream.md">Docs</a> · <a href="src/effects/token-stream">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html"><img src="site/public/media/scan-reveal.gif" alt="Satellite Scan Reveal" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">Satellite Scan Reveal</a></b> · <code>&lt;ane-scan-reveal&gt;</code> · <sub>Remote sensing × AI</sub>
+      <br><sub>A push-broom satellite scan reveals the imagery, then a dashed inference sweep lays a land-cover mask over it. Bring your own image and mask, or use the procedural scene.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">Playground</a> · <a href="docs/effects/scan-reveal.md">Docs</a> · <a href="src/effects/scan-reveal">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -168,6 +173,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
+- [x] **Satellite Scan Reveal**: push-broom acquisition sweep plus an inference sweep that overlays a land-cover mask
 - [ ] React and Vue typed wrappers
 
 Ideas and votes are welcome in [issues](https://github.com/anticipate218/ai-native-effects/issues).
