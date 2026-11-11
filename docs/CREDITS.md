@@ -18,6 +18,7 @@
 | AI Thinking Buddy | none (original character and animation) | n/a | Built from scratch for this project. |
 | Orbit Loading Screen | Integer hash "lowbias32" by Chris Wellons (used for the procedural noise) | Public domain (Unlicense) | Algorithm reimplemented in GLSL in `planet-gl.ts`. Everything else is original: no map data or images. The planet is generated from a seed (domain-warped value-noise fBm on the sphere); the tile-acquisition reveal, swaths, lighting and layout were designed for this project. |
 | Token Stream Text | The general "fade-in streaming text" pattern seen in many chat products | n/a | Idea only. The safe streaming tokenizer, adaptive pacing, ink animation, caret and glow are original. Uses the platform `Intl.Segmenter`. |
+| Satellite Scan Reveal | How push-broom sensors (e.g. Sentinel-2 MSI, Landsat OLI) acquire images line by line; band misregistration and detector striping are real artefacts of such sensors | n/a | Concept only; no imagery or code reused. The procedural farmland scene, class mask, scan and inference shaders are original; the integer hash is "lowbias32" by Chris Wellons (public domain). Sensor names in the demo HUD are illustrative labels. |
 
 ## Tooling
 
