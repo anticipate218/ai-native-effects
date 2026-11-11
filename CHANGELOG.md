@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-11
+
+### Added
+
+- `<ane-scan-reveal>` (Satellite Scan Reveal): a WebGL2 push-broom scan that reveals imagery
+  (band-misregistration fringes and detector striping calibrate away behind the sensor line),
+  then a dashed inference sweep that overlays a land-cover mask with crisp outlines. Works with
+  your `src`/`mask` images (2D fallback for non-CORS images) or a seeded procedural farmland
+  scene and mask. Autoplay (`duration`, `loop`, `replay()`) or app-driven `progress` /
+  `analysis`, a HUD (`caption`, `detail`, live status, `classes` legend), `phase`,
+  `ane-scan-complete`, progressbar semantics, redraw-only-on-change and reduced motion.
+
+### Changed
+
+- Showcase: the "On the workbench" list moves on to the next effects.
+
 ## [0.5.0] - 2026-11-10
 
 ### Removed
