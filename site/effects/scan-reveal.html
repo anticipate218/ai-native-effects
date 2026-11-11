@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Satellite Scan Reveal · AI Native Effects</title>
+    <meta name="description" content="A WebGL push-broom scan that reveals satellite imagery, then an inference sweep that lays a land-cover mask over it. Works with your imagery or a procedural scene." />
+    <meta property="og:title" content="Satellite Scan Reveal · AI Native Effects" />
+    <meta property="og:description" content="Acquisition and inference, shown as two satellite sweeps." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/scan-reveal.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/scan-reveal.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / Remote sensing × AI</div>
+        <h1>Satellite Scan Reveal</h1>
+        <p class="lead">
+          Two waits in every remote-sensing product, made legible. A push-broom sensor line reveals the scene (band
+          fringes and detector striping calibrate away behind it), then a dashed inference sweep lays the model's land-cover
+          mask over it. Bring your own image and mask, or let it generate a farmland scene.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed" id="viewport">
+          <ane-scan-reveal
+            id="effect"
+            caption="Sentinel-2B · MSI L2A"
+            detail="T31UFU · 10 m · 2026-06-14"
+            alt="Procedural farmland scene with a river, a town and forest, overlaid with a land-cover mask"
+            style="border-radius: 0"
+          ></ane-scan-reveal>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="replay">Replay autoplay</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-scan-complete</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>src</code></td><td>image URL</td><td>procedural scene</td><td>Imagery to reveal. Cross-origin images need CORS for WebGL; otherwise a 2D fallback shows a plain wipe.</td></tr>
+              <tr><td><code>mask</code></td><td>image URL</td><td>procedural mask</td><td>Class mask (coloured classes on transparent) for the inference sweep.</td></tr>
+              <tr><td><code>alt</code></td><td>string</td><td><code>Satellite image</code></td><td>Description of the image.</td></tr>
+              <tr><td><code>progress</code></td><td><code>0</code>–<code>1</code></td><td>none</td><td>Acquisition progress. When present, your app drives the scan; otherwise it autoplays.</td></tr>
+              <tr><td><code>analysis</code></td><td><code>0</code>–<code>1</code></td><td><code>0</code></td><td>Inference progress (with <code>progress</code>).</td></tr>
+              <tr><td><code>duration</code></td><td>ms</td><td><code>3600</code></td><td>Autoplay length of the acquisition pass (inference takes 85% of it).</td></tr>
+              <tr><td><code>loop</code></td><td>boolean</td><td>off</td><td>Repeat the autoplay sequence.</td></tr>
+              <tr><td><code>hud</code></td><td>boolean</td><td>off</td><td>Corner brackets, <code>caption</code>, <code>detail</code>, live status and legend.</td></tr>
+              <tr><td><code>caption</code>, <code>detail</code></td><td>string</td><td>none</td><td>HUD labels (top left, top right).</td></tr>
+              <tr><td><code>classes</code></td><td><code>Name:#hex|…</code></td><td>Water, Urban, Forest</td><td>Legend; also colours the procedural mask.</td></tr>
+              <tr><td><code>accent</code></td><td>any CSS color</td><td><code>#5ef2ff</code></td><td>Scan line colour.</td></tr>
+              <tr><td><code>angle</code></td><td>degrees</td><td><code>-9</code></td><td>Ground-track tilt of both sweeps.</td></tr>
+              <tr><td><code>ghost</code></td><td><code>0</code>–<code>1</code></td><td><code>0.18</code></td><td>Visibility of the not-yet-acquired preview.</td></tr>
+              <tr><td><code>ratio</code></td><td>e.g. <code>16/9</code></td><td>image ratio</td><td>Aspect ratio.</td></tr>
+              <tr><td><code>seed</code></td><td>integer</td><td><code>7</code></td><td>Procedural scene seed.</td></tr>
+              <tr><td><code>size</code></td><td>CSS length</td><td><code>100%</code></td><td>Width; the height follows the ratio.</td></tr>
+              <tr><td><code>speed</code>, <code>motion</code></td><td></td><td><code>1</code>, <code>auto</code></td><td>Time scale; reduced motion shows the finished result in autoplay and hard edges when driven.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Properties, methods and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Properties, methods and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>progress</code>, <code>analysis</code></td><td>Reflect to the attributes; <code>progress = null</code> returns to autoplay.</td></tr>
+              <tr><td><code>phase</code></td><td><code>standby</code> · <code>acquiring</code> · <code>analyzing</code> · <code>complete</code>.</td></tr>
+              <tr><td><code>replay()</code></td><td>Restarts the autoplay sequence.</td></tr>
+              <tr><td><code>webgl</code></td><td><code>false</code> when the 2D fallback is used.</td></tr>
+              <tr><td><code>ane-scan-complete</code></td><td>Fired when a pass finishes; <code>event.detail.pass</code> is <code>acquisition</code> or <code>analysis</code>.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>CSS custom properties</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="CSS custom properties table">
+          <table>
+            <thead><tr><th scope="col">Property</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>--ane-size</code></td><td>Width (default <code>100%</code>).</td></tr>
+              <tr><td><code>--ane-scan-radius</code></td><td>Corner radius (default <code>14px</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/scan-reveal.gif">GIF</a>
+          <a class="btn small" href="../media/scan-reveal.mp4">MP4</a>
+          <a class="btn small" href="../media/scan-reveal.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/scan-reveal.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/scan-reveal">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./scan-reveal.ts"></script>
+  </body>
+</html>

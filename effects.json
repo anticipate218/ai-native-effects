@@ -54,6 +54,24 @@
       "since": "0.3.0",
       "status": "stable",
       "preview": "<ane-token-stream style=\"width:80%;font-size:15px;line-height:1.55;color:#e4e8f7\" rate=\"36\" caret=\"persist\">Flood extent grew by **38%** between the two passes, mostly along the lower Rhine.</ane-token-stream>"
+    },
+    {
+      "id": "scan-reveal",
+      "tag": "ane-scan-reveal",
+      "title": "Satellite Scan Reveal",
+      "titleZh": "卫星扫描揭示",
+      "series": "Remote sensing × AI",
+      "summary": "A push-broom satellite scan reveals the imagery, then a dashed inference sweep lays a land-cover mask over it. Bring your own image and mask, or use the procedural scene.",
+      "summaryZh": "推扫式卫星扫描线揭示影像，随后虚线推理扫描把地物分类掩膜叠加上去；可使用自己的影像与掩膜，也可使用程序化生成的场景。",
+      "tech": [
+        "WebGL2",
+        "Procedural scene",
+        "Web Component"
+      ],
+      "added": "2026-11-11",
+      "since": "0.5.0",
+      "status": "stable",
+      "preview": "<ane-scan-reveal loop seed=\"11\" duration=\"3000\" style=\"width:100%;height:100%;aspect-ratio:auto;border-radius:0\"></ane-scan-reveal>"
     }
   ]
 }
