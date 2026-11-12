@@ -49,4 +49,8 @@ document.getElementById('replay')!.addEventListener('click', () => {
   playground.unset('progress');
   playground.unset('analysis');
   scan.replay();
+  // The scan pauses while off-screen; bring it into view so the replay is actually seen
+  // (on phones the button sits far below the preview).
+  const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  scan.scrollIntoView({ block: 'nearest', behavior: smooth ? 'smooth' : 'auto' });
 });

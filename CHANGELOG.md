@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Fixed
+
+- Showcase: the Satellite Scan Reveal "Replay autoplay" button now scrolls the preview into view.
+  The scan pauses while off-screen, so on phones a replay used to start unseen (and the e2e
+  test that covered it was flaky).
+
 ## [0.6.0] - 2026-11-11
 
 ### Added
