@@ -214,6 +214,7 @@ test('scan reveal playground autoplays, switches to manual control and replays',
 
   await page.getByRole('button', { name: 'Replay autoplay' }).click();
   await expect(scan).not.toHaveAttribute('progress');
+  await expect(scan).toBeInViewport();
   await expect(scan.locator('.phase')).toHaveText('Acquiring');
   expect(await scan.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
   expect(errors).toEqual([]);
