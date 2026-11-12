@@ -72,6 +72,23 @@
       "since": "0.5.0",
       "status": "stable",
       "preview": "<ane-scan-reveal loop seed=\"11\" duration=\"3000\" style=\"width:100%;height:100%;aspect-ratio:auto;border-radius:0\"></ane-scan-reveal>"
+    },
+    {
+      "id": "agent-flow",
+      "tag": "ane-agent-flow",
+      "title": "Agent Flow Visualizer",
+      "titleZh": "智能体流程可视化",
+      "series": "AI Native",
+      "summary": "TODO: one sentence for the gallery and README.",
+      "summaryZh": "TODO：一句话中文简介。",
+      "tech": [
+        "Canvas",
+        "Web Component"
+      ],
+      "added": "2026-11-12",
+      "since": "0.6.0",
+      "status": "draft",
+      "preview": "<ane-agent-flow size=\"180px\"></ane-agent-flow>"
     }
   ]
 }
