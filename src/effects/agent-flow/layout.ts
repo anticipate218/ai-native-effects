@@ -39,19 +39,16 @@ export interface LayoutOptions {
   nodeGap?: number;
 }
 
-export function layoutFlow(inputs: readonly LayoutInput[], options: LayoutOptions = {}): LayoutResult {
-  const rankGap = options.rankGap ?? 56;
-  const nodeGap = options.nodeGap ?? 24;
-  const byId = new Map(inputs.map((n, i) => [n.id, { ...n, index: i }]));
-
-  // 1. Ranks (inputs arrive in topological order in practice; iterate until stable to be safe).
+/** rank = 1 + the deepest known parent (roots are 0). Iterates until stable, so order does not matter. */
+export function computeRanks(inputs: readonly LayoutInput[]): Map<string, number> {
+  const ids = new Set(inputs.map((n) => n.id));
   const rank = new Map<string, number>();
   for (let pass = 0; pass < inputs.length + 1; pass++) {
     let changed = false;
     for (const node of inputs) {
       let r = 0;
       for (const p of node.parents) {
-        if (p !== node.id && byId.has(p)) r = Math.max(r, (rank.get(p) ?? 0) + 1);
+        if (p !== node.id && ids.has(p)) r = Math.max(r, (rank.get(p) ?? 0) + 1);
       }
       if (rank.get(node.id) !== r) {
         rank.set(node.id, r);
@@ -60,6 +57,59 @@ export function layoutFlow(inputs: readonly LayoutInput[], options: LayoutOption
     }
     if (!changed) break;
   }
+  return rank;
+}
+
+function bounds(nodes: Map<string, LayoutNode>): LayoutResult {
+  let minX = 0;
+  let maxX = 0;
+  let minY = 0;
+  let maxY = 0;
+  let first = true;
+  for (const n of nodes.values()) {
+    const l = n.x - n.width / 2;
+    const r = n.x + n.width / 2;
+    const t = n.y - n.height / 2;
+    const b = n.y + n.height / 2;
+    if (first) {
+      [minX, maxX, minY, maxY] = [l, r, t, b];
+      first = false;
+    } else {
+      minX = Math.min(minX, l);
+      maxX = Math.max(maxX, r);
+      minY = Math.min(minY, t);
+      maxY = Math.max(maxY, b);
+    }
+  }
+  return { nodes, minX, maxX, minY, maxY };
+}
+
+/**
+ * Narrow screens: one step per row in arrival order, indented a little per rank (capped),
+ * with edges drawn on a rail to the left (see `railPath`).
+ */
+export function layoutStack(inputs: readonly LayoutInput[], options: { gap?: number; indent?: number; maxIndent?: number } = {}): LayoutResult {
+  const gap = options.gap ?? 14;
+  const indent = options.indent ?? 14;
+  const maxIndent = options.maxIndent ?? 3;
+  const rank = computeRanks(inputs);
+  const nodes = new Map<string, LayoutNode>();
+  let top = 0;
+  for (const n of inputs) {
+    const r = rank.get(n.id) ?? 0;
+    nodes.set(n.id, { x: Math.min(r, maxIndent) * indent + n.width / 2, y: top + n.height / 2, rank: r, width: n.width, height: n.height });
+    top += n.height + gap;
+  }
+  return bounds(nodes);
+}
+
+export function layoutFlow(inputs: readonly LayoutInput[], options: LayoutOptions = {}): LayoutResult {
+  const rankGap = options.rankGap ?? 56;
+  const nodeGap = options.nodeGap ?? 24;
+  const byId = new Map(inputs.map((n, i) => [n.id, { ...n, index: i }]));
+
+  // 1. Ranks.
+  const rank = computeRanks(inputs);
 
   // 2. Order within ranks by parent barycentre.
   const ranks: string[][] = [];
@@ -104,27 +154,7 @@ export function layoutFlow(inputs: readonly LayoutInput[], options: LayoutOption
     top += height + rankGap;
   });
 
-  let minX = 0;
-  let maxX = 0;
-  let minY = 0;
-  let maxY = 0;
-  let first = true;
-  for (const n of nodes.values()) {
-    const l = n.x - n.width / 2;
-    const r = n.x + n.width / 2;
-    const t = n.y - n.height / 2;
-    const b = n.y + n.height / 2;
-    if (first) {
-      [minX, maxX, minY, maxY] = [l, r, t, b];
-      first = false;
-    } else {
-      minX = Math.min(minX, l);
-      maxX = Math.max(maxX, r);
-      minY = Math.min(minY, t);
-      maxY = Math.max(maxY, b);
-    }
-  }
-  return { nodes, minX, maxX, minY, maxY };
+  return bounds(nodes);
 }
 
 /** Cubic edge from the bottom centre of `a` to the top centre of `b`. */
@@ -136,4 +166,15 @@ export function edgePath(a: LayoutNode, b: LayoutNode): string {
   const dy = Math.max(24, (y2 - y1) * 0.55);
   const r = (v: number): number => Math.round(v * 10) / 10;
   return `M${r(x1)} ${r(y1)} C${r(x1)} ${r(y1 + dy)}, ${r(x2)} ${r(y2 - dy)}, ${r(x2)} ${r(y2)}`;
+}
+
+/** Stack-mode edge: leaves the parent's left side, bows out onto a rail and enters the child's left side. */
+export function railPath(a: LayoutNode, b: LayoutNode, bow = 18): string {
+  const x1 = a.x - a.width / 2;
+  const y1 = a.y + Math.min(10, a.height / 4);
+  const x2 = b.x - b.width / 2;
+  const y2 = b.y - Math.min(10, b.height / 4);
+  const rail = Math.min(x1, x2) - bow;
+  const r = (v: number): number => Math.round(v * 10) / 10;
+  return `M${r(x1)} ${r(y1)} C${r(rail)} ${r(y1)}, ${r(rail)} ${r(y2)}, ${r(x2)} ${r(y2)}`;
 }

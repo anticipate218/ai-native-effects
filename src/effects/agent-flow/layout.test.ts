@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { edgePath, layoutFlow, type LayoutInput } from './layout';
+import { computeRanks, edgePath, layoutFlow, layoutStack, railPath, type LayoutInput } from './layout';
 
 const box = (id: string, parents: string[] = [], width = 200, height = 60): LayoutInput => ({ id, parents, width, height });
 
@@ -62,5 +62,36 @@ describe('edgePath', () => {
     const path = edgePath({ x: 0, y: 30, rank: 0, width: 100, height: 60 }, { x: 50, y: 150, rank: 1, width: 100, height: 60 });
     expect(path.startsWith('M0 60 C')).toBe(true);
     expect(path.endsWith('50 120')).toBe(true);
+  });
+});
+
+describe('layoutStack', () => {
+  it('puts one step per row in arrival order, indented by rank (capped)', () => {
+    const { nodes, maxY } = layoutStack(
+      [box('plan', [], 200, 50), box('a', ['plan'], 200, 60), box('b', ['plan'], 200, 60), box('deep', ['a'], 200, 40), box('deeper', ['deep'], 200, 40), box('deepest', ['deeper'], 200, 40)],
+      { gap: 10, indent: 12, maxIndent: 3 },
+    );
+    expect(nodes.get('plan')!.y).toBe(25);
+    expect(nodes.get('a')!.y).toBe(50 + 10 + 30);
+    expect(nodes.get('b')!.y).toBe(50 + 10 + 60 + 10 + 30);
+    expect(nodes.get('plan')!.x - 100).toBe(0);
+    expect(nodes.get('a')!.x - 100).toBe(12);
+    expect(nodes.get('deepest')!.x - 100).toBe(36); // rank 4, capped at 3 × 12
+    expect(maxY).toBe(50 + 60 + 60 + 40 + 40 + 40 + 5 * 10);
+  });
+});
+
+describe('computeRanks', () => {
+  it('does not depend on input order', () => {
+    const ranks = computeRanks([box('join', ['a', 'b']), box('b', ['root']), box('a', ['root']), box('root')]);
+    expect(ranks.get('join')).toBe(2);
+  });
+});
+
+describe('railPath', () => {
+  it('bows out to the left of both steps', () => {
+    const path = railPath({ x: 110, y: 25, rank: 0, width: 200, height: 50 }, { x: 122, y: 200, rank: 1, width: 200, height: 60 }, 18);
+    expect(path.startsWith('M10 35 C-8 35, -8 ')).toBe(true);
+    expect(path.endsWith('22 190')).toBe(true);
   });
 });
