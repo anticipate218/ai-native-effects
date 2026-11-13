@@ -1,6 +1,6 @@
 import { defineElement, EffectElement } from '../../core/effect-element';
 import { clamp, damp, easeOutCubic } from '../../core/math';
-import { edgePath, layoutFlow, type LayoutNode } from './layout';
+import { edgePath, layoutFlow, layoutStack, railPath, type LayoutNode } from './layout';
 
 export const FLOW_STEP_KINDS = ['plan', 'think', 'search', 'retrieve', 'code', 'tool', 'answer', 'step'] as const;
 export type FlowStepKind = (typeof FLOW_STEP_KINDS)[number];
@@ -17,6 +17,15 @@ export interface FlowStep {
   status?: FlowStepStatus;
   /** Duration in ms to display when done; measured automatically otherwise. */
   duration?: number;
+  /** Longer result text, shown when the step is expanded (tool output, retrieved snippet…). */
+  output?: string;
+}
+
+export type FlowLayout = 'auto' | 'graph' | 'stack';
+
+export interface FlowStepToggleDetail {
+  id: string;
+  expanded: boolean;
 }
 
 export interface FlowStepChangeDetail {
@@ -90,17 +99,46 @@ ol { list-style: none; margin: 0; padding: 0; }
   top: 0;
   width: var(--_w);
   box-sizing: border-box;
-  display: grid;
-  grid-template-columns: 30px minmax(0, 1fr) auto;
-  gap: 10px;
-  align-items: start;
-  padding: 10px 12px 10px 10px;
   border-radius: 13px;
   background: var(--_card);
   border: 1px solid rgba(220, 226, 255, 0.09);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
   will-change: transform, opacity;
 }
+.stack .node { width: var(--_stack-w, var(--_w)); }
+.card {
+  all: unset;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: start;
+  width: 100%;
+  padding: 10px 12px 10px 10px;
+  border-radius: inherit;
+  cursor: pointer;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+}
+.card:focus-visible { outline: 2px solid var(--_accent2); outline-offset: 3px; }
+.node[data-expanded] { z-index: 1; }
+.node[data-expanded] .detail { display: block; -webkit-line-clamp: unset; overflow: visible; }
+.output {
+  display: none;
+  margin: -2px 10px 10px 50px;
+  padding: 8px 10px;
+  border-radius: 9px;
+  background: rgba(0, 0, 0, 0.28);
+  box-shadow: inset 0 0 0 1px rgba(220, 226, 255, 0.06);
+  font: 11px/1.5 ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
+  color: rgba(220, 226, 255, 0.84);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 9.5em;
+  overflow: auto;
+}
+.node[data-expanded] .output:not(:empty) { display: block; }
 .node[data-status="queued"] { border-style: dashed; border-color: rgba(220, 226, 255, 0.16); background: color-mix(in srgb, var(--_card) 70%, transparent); }
 .node[data-status="queued"] .text, .node[data-status="queued"] .icon { opacity: 0.6; }
 .node[data-status="error"] { border-color: color-mix(in srgb, var(--_danger) 60%, transparent); }
@@ -137,7 +175,7 @@ ol { list-style: none; margin: 0; padding: 0; }
   color: var(--k);
 }
 .icon svg, .state svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.title { font-size: 13px; font-weight: 650; line-height: 1.3; letter-spacing: -0.005em; }
+.title { display: block; font-size: 13px; font-weight: 650; line-height: 1.3; letter-spacing: -0.005em; }
 .detail {
   margin-top: 3px;
   font-size: 11.5px;
@@ -167,7 +205,8 @@ const STATE_ICONS: Record<FlowStepStatus, string> = {
 };
 
 interface NodeState {
-  step: Required<Pick<FlowStep, 'id' | 'kind' | 'title' | 'status'>> & { parents: string[]; detail: string; duration?: number };
+  step: Required<Pick<FlowStep, 'id' | 'kind' | 'title' | 'status'>> & { parents: string[]; detail: string; output: string; duration?: number };
+  expanded: boolean;
   el: HTMLLIElement;
   x: number;
   y: number;
@@ -206,11 +245,13 @@ const now = (): number => (typeof performance !== 'undefined' ? performance.now(
  * @attr speed, motion
  * @attr announce - announce status changes through a polite live region
  * @attr label - accessible name of the step list, default `Agent run`
+ * @attr layout - `auto` (stack below 560px) | `graph` | `stack`
  * @fires ane-step-change - when a step's status changes
+ * @fires ane-step-toggle - when a step is expanded or collapsed
  */
 export class AgentFlowElement extends EffectElement {
   static override get observedAttributes(): string[] {
-    return [...super.observedAttributes, 'accent', 'accent-2', 'label', 'announce'];
+    return [...super.observedAttributes, 'accent', 'accent-2', 'label', 'announce', 'layout'];
   }
 
   #world: HTMLElement | null = null;
@@ -221,6 +262,7 @@ export class AgentFlowElement extends EffectElement {
   #nodes = new Map<string, NodeState>();
   #edges = new Map<string, EdgeState>();
   #layoutDirty = false;
+  #stack = false;
   #width = 0;
   #height = 0;
   #cam = { x: 0, y: 0, s: 1, tx: 0, ty: 0, ts: 1, placed: false };
@@ -271,6 +313,11 @@ export class AgentFlowElement extends EffectElement {
   protected override attributeChanged(name: string): void {
     if (name === 'label') this.#syncLabel();
     if (name === 'accent' || name === 'accent-2') this.#syncColors();
+    if (name === 'layout') {
+      this.#layoutDirty = true;
+      this.#cam.placed = false;
+      this.tick(0);
+    }
   }
 
   #syncLabel(): void {
@@ -300,11 +347,12 @@ export class AgentFlowElement extends EffectElement {
       detail: input.detail ?? '',
       status: FLOW_STEP_STATUSES.includes(input.status as FlowStepStatus) ? (input.status as FlowStepStatus) : 'queued',
       duration: input.duration,
+      output: input.output ?? '',
     };
     const el = document.createElement('li');
     el.className = 'node';
-    el.innerHTML = `<i class="ring" aria-hidden="true"></i><span class="icon" aria-hidden="true"><svg viewBox="0 0 16 16">${ICONS[step.kind]}</svg></span><span class="text"><span class="title"></span><span class="detail"></span><span class="sr status-text"></span></span><span class="meta" aria-hidden="true"><span class="state"></span><span class="dur"></span></span>`;
-    el.style.setProperty('--k', KIND_TINT[step.kind]);
+    el.innerHTML = `<i class="ring" aria-hidden="true"></i><button type="button" class="card" aria-expanded="false"><span class="icon" aria-hidden="true"></span><span class="text"><span class="title"></span><span class="detail"></span><span class="sr status-text"></span></span><span class="meta" aria-hidden="true"><span class="state"></span><span class="dur"></span></span></button><div class="output"></div>`;
+    el.querySelector('.card')!.addEventListener('click', () => this.toggleStep(step.id));
     this.#list.append(el);
 
     // New steps rise out of their (first) parent.
@@ -321,6 +369,7 @@ export class AgentFlowElement extends EffectElement {
       born: this.elapsed,
       startedAt: step.status === 'running' ? now() : null,
       placed: !parent,
+      expanded: false,
     };
     this.#nodes.set(step.id, node);
     this.#render(node);
@@ -331,7 +380,7 @@ export class AgentFlowElement extends EffectElement {
     return true;
   }
 
-  /** Updates a step's fields (status, title, detail, parents, duration). */
+  /** Updates a step's fields (status, title, detail, output, kind, parents, duration). */
   updateStep(id: string, patch: Partial<FlowStep>): boolean {
     const node = this.#nodes.get(id);
     if (!node) return false;
@@ -340,6 +389,7 @@ export class AgentFlowElement extends EffectElement {
     if (patch.title != null) s.title = patch.title;
     if (patch.detail != null) s.detail = patch.detail;
     if (patch.duration != null) s.duration = patch.duration;
+    if (patch.output != null) s.output = patch.output;
     if (patch.kind && FLOW_STEP_KINDS.includes(patch.kind)) s.kind = patch.kind;
     if (patch.status && FLOW_STEP_STATUSES.includes(patch.status)) s.status = patch.status;
     if (patch.parents != null) {
@@ -355,6 +405,22 @@ export class AgentFlowElement extends EffectElement {
     this.#render(node);
     this.#layoutDirty = true;
     if (previous !== s.status) this.#announce(node, previous);
+    this.tick(0);
+    return true;
+  }
+
+  /** Expands or collapses a step's details (toggles when `open` is omitted). */
+  toggleStep(id: string, open?: boolean): boolean {
+    const node = this.#nodes.get(id);
+    if (!node) return false;
+    const next = open ?? !node.expanded;
+    if (next === node.expanded) return true;
+    node.expanded = next;
+    this.#render(node);
+    this.#layoutDirty = true;
+    this.dispatchEvent(
+      new CustomEvent<FlowStepToggleDetail>('ane-step-toggle', { detail: { id, expanded: next }, bubbles: true, composed: true }),
+    );
     this.tick(0);
     return true;
   }
@@ -383,7 +449,14 @@ export class AgentFlowElement extends EffectElement {
   #render(node: NodeState): void {
     const { el, step } = node;
     el.dataset.status = step.status;
-    el.dataset.kind = step.kind;
+    if (el.dataset.kind !== step.kind) {
+      el.dataset.kind = step.kind;
+      el.style.setProperty('--k', KIND_TINT[step.kind]);
+      el.querySelector('.icon')!.innerHTML = `<svg viewBox="0 0 16 16">${ICONS[step.kind]}</svg>`;
+    }
+    el.toggleAttribute('data-expanded', node.expanded);
+    el.querySelector('.card')!.setAttribute('aria-expanded', String(node.expanded));
+    el.querySelector('.output')!.textContent = step.output;
     el.querySelector('.title')!.textContent = step.title;
     el.querySelector('.detail')!.textContent = step.detail;
     const dur = step.status === 'done' && step.duration != null ? formatDuration(step.duration) : '';
@@ -439,15 +512,24 @@ export class AgentFlowElement extends EffectElement {
     this.tick(0);
   }
 
+  /** `true` when steps are shown as a single column (narrow containers or `layout="stack"`). */
+  get stacked(): boolean {
+    const mode = (this.getAttribute('layout') || 'auto') as FlowLayout;
+    return mode === 'stack' || (mode === 'auto' && this.#width > 0 && this.#width < 560);
+  }
+
   #relayout(): void {
+    const pad = 28;
+    const rail = 22;
+    this.#stack = this.stacked;
+    this.#world!.classList.toggle('stack', this.#stack);
+    this.#world!.style.setProperty('--_stack-w', `${Math.max(200, Math.round(this.#width - pad * 2 - rail - 3 * 14))}px`);
     for (const node of this.#nodes.values()) {
       node.width = node.el.offsetWidth || 236;
       node.height = node.el.offsetHeight || 56;
     }
-    const result = layoutFlow(
-      [...this.#nodes.values()].map((n) => ({ id: n.step.id, parents: n.step.parents, width: n.width, height: n.height })),
-      { rankGap: 46, nodeGap: 22 },
-    );
+    const inputs = [...this.#nodes.values()].map((n) => ({ id: n.step.id, parents: n.step.parents, width: n.width, height: n.height }));
+    const result = this.#stack ? layoutStack(inputs, { gap: 12, indent: 14, maxIndent: 3 }) : layoutFlow(inputs, { rankGap: 46, nodeGap: 22 });
     for (const [id, placed] of result.nodes) {
       const node = this.#nodes.get(id)!;
       node.tx = placed.x;
@@ -461,8 +543,7 @@ export class AgentFlowElement extends EffectElement {
       }
     }
     // Camera: while work is running, fit the width and follow the newest active step;
-    // once nothing is running, zoom out to show the whole run.
-    const pad = 28;
+    // once nothing is running, zoom out to show the whole run (graph) or the latest step (stack).
     const contentW = result.maxX - result.minX;
     const contentH = result.maxY - result.minY;
     const fitW = (this.#width - pad * 2) / Math.max(contentW, 1);
@@ -472,17 +553,24 @@ export class AgentFlowElement extends EffectElement {
       if (n.step.status === 'running') focus = Math.max(focus, n.ty + n.height / 2);
     }
     const overview = focus === 0;
-    const s = this.#nodes.size ? clamp(Math.min(1, fitW, overview ? fitH : 1), 0.4, 1) : 1;
-    const top = pad - result.minY * s;
-    this.#cam.ts = s;
-    this.#cam.tx = this.#width / 2 - ((result.minX + result.maxX) / 2) * s;
-    this.#cam.ty = overview
-      ? Math.max(top, this.#height / 2 - ((result.minY + result.maxY) / 2) * s)
-      : Math.min(top, this.#height - pad - focus * s);
+    if (this.#stack) {
+      const top = pad - result.minY;
+      this.#cam.ts = 1;
+      this.#cam.tx = pad + rail - result.minX;
+      this.#cam.ty = Math.min(top, this.#height - pad - (overview ? result.maxY : focus));
+    } else {
+      const s = this.#nodes.size ? clamp(Math.min(1, fitW, overview ? fitH : 1), 0.4, 1) : 1;
+      const top = pad - result.minY * s;
+      this.#cam.ts = s;
+      this.#cam.tx = this.#width / 2 - ((result.minX + result.maxX) / 2) * s;
+      this.#cam.ty = overview
+        ? Math.max(top, this.#height / 2 - ((result.minY + result.maxY) / 2) * s)
+        : Math.min(top, this.#height - pad - focus * s);
+    }
     if (!this.#cam.placed) {
       this.#cam.x = this.#cam.tx;
       this.#cam.y = this.#cam.ty;
-      this.#cam.s = s;
+      this.#cam.s = this.#cam.ts;
       this.#cam.placed = true;
     }
   }
@@ -530,7 +618,7 @@ export class AgentFlowElement extends EffectElement {
       const b = this.#nodes.get(edge.to);
       if (!a || !b) continue;
       const box = (n: NodeState): LayoutNode => ({ x: n.x, y: n.y, rank: 0, width: n.width, height: n.height });
-      const d = edgePath(box(a), box(b));
+      const d = this.#stack ? railPath(box(a), box(b)) : edgePath(box(a), box(b));
       edge.base.setAttribute('d', d);
       edge.glow.setAttribute('d', d);
       edge.flow.setAttribute('d', d);
@@ -566,6 +654,7 @@ declare global {
   }
   interface HTMLElementEventMap {
     'ane-step-change': CustomEvent<FlowStepChangeDetail>;
+    'ane-step-toggle': CustomEvent<FlowStepToggleDetail>;
   }
 }
 

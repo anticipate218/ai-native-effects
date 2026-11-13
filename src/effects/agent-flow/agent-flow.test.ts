@@ -105,6 +105,48 @@ describe('<ane-agent-flow>', () => {
     expect(edges(el)).toBe(0);
   });
 
+  it('expands a step with a real button, shows its output and fires ane-step-toggle', () => {
+    const el = mount();
+    const toggles = vi.fn();
+    el.addEventListener('ane-step-toggle', toggles);
+    el.addStep({ id: 'search', kind: 'search', title: 'Search', detail: 'flood reports', output: '4 results' });
+    const li = items(el)[0]!;
+    const button = li.querySelector('button.card')!;
+    expect(button.getAttribute('aria-expanded')).toBe('false');
+    expect(li.querySelector('.output')!.textContent).toBe('4 results');
+    (button as HTMLButtonElement).click();
+    expect(button.getAttribute('aria-expanded')).toBe('true');
+    expect(li.hasAttribute('data-expanded')).toBe(true);
+    expect(toggles.mock.calls[0]![0].detail).toEqual({ id: 'search', expanded: true });
+    expect(el.toggleStep('search', true)).toBe(true);
+    expect(toggles).toHaveBeenCalledTimes(1); // already open: no event
+    el.toggleStep('search');
+    expect(li.hasAttribute('data-expanded')).toBe(false);
+    el.updateStep('search', { output: '5 results' });
+    expect(li.querySelector('.output')!.textContent).toBe('5 results');
+    expect(el.toggleStep('missing')).toBe(false);
+  });
+
+  it('redraws the icon when the kind changes', () => {
+    const el = mount();
+    el.addStep({ id: 'a', kind: 'search', title: 'A' });
+    const li = items(el)[0]!;
+    const before = li.querySelector('.icon')!.innerHTML;
+    el.updateStep('a', { kind: 'code' });
+    expect(li.dataset.kind).toBe('code');
+    expect(li.querySelector('.icon')!.innerHTML).not.toBe(before);
+  });
+
+  it('switches to the stacked layout on request', () => {
+    const el = mount({ layout: 'stack' });
+    el.addStep({ id: 'a', title: 'A' });
+    vi.advanceTimersByTime(50);
+    expect(el.stacked).toBe(true);
+    el.setAttribute('layout', 'graph');
+    vi.advanceTimersByTime(50);
+    expect(el.stacked).toBe(false);
+  });
+
   it('animates without errors and cleans up when removed', () => {
     const errors = vi.spyOn(console, 'error');
     const el = mount();
