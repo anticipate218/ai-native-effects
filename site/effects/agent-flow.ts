@@ -12,9 +12,10 @@ mountPlayground({
   element: flow,
   controlsHost: document.getElementById('controls')!,
   codeHost: document.getElementById('code')!,
-  defaults: { layout: 'auto', accent: '#7c5cff', 'accent-2': '#5ef2ff', size: '460px', speed: '1', motion: 'auto' },
+  defaults: { theme: 'dark', layout: 'auto', accent: '#7c5cff', 'accent-2': '#5ef2ff', size: '460px', speed: '1', motion: 'auto' },
   controls: [
     { type: 'segmented', attr: 'layout', label: 'Layout', options: ['auto', 'graph', 'stack'], value: 'auto' },
+    { type: 'segmented', attr: 'theme', label: 'Theme', options: ['dark', 'light'], value: 'dark' },
     { type: 'color', attr: 'accent', label: 'Accent', value: '#7c5cff' },
     { type: 'color', attr: 'accent-2', label: 'Accent 2', value: '#5ef2ff' },
     { type: 'range', attr: 'size', label: 'Height', min: 320, max: 720, step: 10, value: 500, unit: 'px' },
