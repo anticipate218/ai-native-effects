@@ -12,3 +12,4 @@ export * from './effects/thinking-buddy';
 export * from './effects/orbit-loading-screen';
 export * from './effects/token-stream';
 export * from './effects/scan-reveal';
+export * from './effects/agent-flow';

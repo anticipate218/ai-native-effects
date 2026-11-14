@@ -72,6 +72,24 @@
       "since": "0.5.0",
       "status": "stable",
       "preview": "<ane-scan-reveal loop seed=\"11\" duration=\"3000\" style=\"width:100%;height:100%;aspect-ratio:auto;border-radius:0\"></ane-scan-reveal>"
+    },
+    {
+      "id": "agent-flow",
+      "tag": "ane-agent-flow",
+      "title": "Agent Flow Visualizer",
+      "titleZh": "智能体流程可视化",
+      "series": "AI Native",
+      "summary": "A live flow graph of an agent run: plan, parallel tool calls, joins and the answer grow as events arrive, with running edges, durations and expandable results.",
+      "summaryZh": "把智能体的执行过程实时画成一张会生长的流程图：规划、并行工具调用、汇合与回答随事件出现，运行中的连线流动，完成后显示耗时，步骤可展开查看结果。",
+      "tech": [
+        "DOM + SVG",
+        "DAG layout",
+        "Web Component"
+      ],
+      "added": "2026-11-12",
+      "since": "0.6.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/agent-flow-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }

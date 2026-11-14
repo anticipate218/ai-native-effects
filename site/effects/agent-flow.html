@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Agent Flow Visualizer · AI Native Effects</title>
+    <meta name="description" content="A Web Component that turns agent events into a live, growing flow graph: plan, parallel tool calls, joins and the final answer, with running edges, durations and expandable results." />
+    <meta property="og:title" content="Agent Flow Visualizer · AI Native Effects" />
+    <meta property="og:description" content="Watch an agent think: a live flow graph of plans, tool calls and results." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/agent-flow.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/agent-flow.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / AI Native</div>
+        <h1>Agent Flow Visualizer</h1>
+        <p class="lead">
+          Agent runs are usually shown as a scrolling log. This component turns the same events into a flow graph that
+          grows as the agent works: the plan, parallel tool calls, joins and the final answer. Running steps glow, edges
+          carry data, finished steps show their duration, and any step expands to show its result.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed" id="viewport">
+          <ane-agent-flow id="effect" label="Flood analysis run" style="border-radius: 0"></ane-agent-flow>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="simulate">Simulate run</button>
+              <button type="button" class="btn small" id="add">Add parallel step</button>
+              <button type="button" class="btn small" id="fail">Fail a step</button>
+              <button type="button" class="btn small" id="reset">Reset</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Click a step to expand it. Listening for <code>ane-step-change</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Methods</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Methods table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>addStep(step)</code></td><td>Adds a step: <code>{ id, parents?, kind?, title, detail?, output?, status?, duration? }</code>. Returns <code>false</code> for a duplicate id.</td></tr>
+              <tr><td><code>updateStep(id, patch)</code></td><td>Updates any field; durations are measured automatically between <code>running</code> and <code>done</code>.</td></tr>
+              <tr><td><code>removeStep(id)</code>, <code>reset()</code></td><td>Removes one step (and its edges) or the whole run.</td></tr>
+              <tr><td><code>toggleStep(id, open?)</code></td><td>Expands or collapses a step's details.</td></tr>
+              <tr><td><code>steps</code></td><td>Get a snapshot, or assign an array: it is diffed, so existing cards are kept and animated (ideal for React/Vue state).</td></tr>
+              <tr><td><code>stacked</code></td><td><code>true</code> while the single-column layout is in use.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Steps</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Step fields table">
+          <table>
+            <thead><tr><th scope="col">Field</th><th scope="col">Values</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>kind</code></td><td><code>plan</code> <code>think</code> <code>search</code> <code>retrieve</code> <code>code</code> <code>tool</code> <code>answer</code> <code>step</code></td><td>Icon and tint.</td></tr>
+              <tr><td><code>status</code></td><td><code>queued</code> <code>running</code> <code>done</code> <code>error</code></td><td>Card and edge styling; running steps glow and their incoming edges carry data.</td></tr>
+              <tr><td><code>parents</code></td><td>id or array of ids</td><td>Edges; several parents make a join.</td></tr>
+              <tr><td><code>output</code></td><td>string</td><td>Shown when the step is expanded.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Attributes, events and CSS</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Name</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>layout</code></td><td><code>auto</code> (single column below 560px), <code>graph</code> or <code>stack</code>.</td></tr>
+              <tr><td><code>accent</code>, <code>accent-2</code></td><td>Running gradient (default <code>#7c5cff</code> → <code>#5ef2ff</code>).</td></tr>
+              <tr><td><code>size</code></td><td>Height (default <code>460px</code>); the width follows the container.</td></tr>
+              <tr><td><code>announce</code>, <code>label</code></td><td>Announce status changes politely; name the step list.</td></tr>
+              <tr><td><code>speed</code>, <code>motion</code></td><td>Time scale; reduced motion places steps instantly, without glows or flowing data.</td></tr>
+              <tr><td><code>ane-step-change</code>, <code>ane-step-toggle</code></td><td>Events with <code>{ id, status, previous }</code> and <code>{ id, expanded }</code>.</td></tr>
+              <tr><td><code>--ane-flow-bg</code>, <code>--ane-flow-card</code>, <code>--ane-flow-text</code>, <code>--ane-flow-node-width</code>, <code>--ane-flow-radius</code></td><td>Theme the canvas and the cards.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/agent-flow.gif">GIF</a>
+          <a class="btn small" href="../media/agent-flow.mp4">MP4</a>
+          <a class="btn small" href="../media/agent-flow.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/agent-flow.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/agent-flow">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./agent-flow.ts"></script>
+  </body>
+</html>

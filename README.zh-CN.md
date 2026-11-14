@@ -52,6 +52,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">在线演示</a> · <a href="docs/zh-CN/effects/scan-reveal.md">文档</a> · <a href="src/effects/scan-reveal">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html"><img src="site/public/media/agent-flow.gif" alt="智能体流程可视化" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">智能体流程可视化</a></b> · <code>&lt;ane-agent-flow&gt;</code> · <sub>AI Native</sub>
+      <br><sub>把智能体的执行过程实时画成一张会生长的流程图：规划、并行工具调用、汇合与回答随事件出现，运行中的连线流动，完成后显示耗时，步骤可展开查看结果。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">在线演示</a> · <a href="docs/zh-CN/effects/agent-flow.md">文档</a> · <a href="src/effects/agent-flow">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
@@ -109,7 +118,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 ## 路线图
 
 - [x] **AI 思考小伙伴**：空闲 / 思考 / 等待 / 成功 / 失败
-- [ ] **Agent Flow Visualizer**：实时呈现规划与工具调用流程
+- [x] **智能体流程可视化**：实时呈现规划、工具调用与结果，步骤可展开
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标
