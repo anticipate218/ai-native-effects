@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.7.0] - 2026-11-14
+
+### Added
+
+- `<ane-agent-flow>` (Agent Flow Visualizer): a live flow graph of an agent run. Steps
+  (`plan`, `think`, `search`, `retrieve`, `code`, `tool`, `answer`) arrive through
+  `addStep` / `updateStep` or a diffed `steps` array and grow into a layered DAG with joins;
+  running steps glow and their edges carry data, durations are measured automatically, and
+  steps expand (native buttons) to show their `output`. A single-column stack layout with
+  rails below 560px (`layout`), `theme="light"`, a camera that follows running work and
+  zooms out at the end, `ane-step-change` / `ane-step-toggle`, polite announcements and a
+  reduced-motion variant.
+
 ### Fixed
 
 - Showcase: the Satellite Scan Reveal "Replay autoplay" button now scrolls the preview into view.
