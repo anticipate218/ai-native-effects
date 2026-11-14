@@ -137,6 +137,19 @@ describe('<ane-agent-flow>', () => {
     expect(li.querySelector('.icon')!.innerHTML).not.toBe(before);
   });
 
+  it('keeps only the nearest-parent rail for joins in the stacked layout', () => {
+    const el = mount({ layout: 'stack' });
+    el.addStep({ id: 'a', title: 'A' });
+    el.addStep({ id: 'b', title: 'B' });
+    el.addStep({ id: 'join', parents: ['a', 'b'], title: 'Join' });
+    vi.advanceTimersByTime(50);
+    const hidden = el.shadowRoot!.querySelectorAll('path.edge.base[data-hidden]');
+    expect(hidden).toHaveLength(1);
+    el.setAttribute('layout', 'graph');
+    vi.advanceTimersByTime(50);
+    expect(el.shadowRoot!.querySelectorAll('path.edge.base[data-hidden]')).toHaveLength(0);
+  });
+
   it('switches to the stacked layout on request', () => {
     const el = mount({ layout: 'stack' });
     el.addStep({ id: 'a', title: 'A' });

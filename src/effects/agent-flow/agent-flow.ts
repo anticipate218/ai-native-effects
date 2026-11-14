@@ -67,7 +67,9 @@ const STYLE = /* css */ `
   --_danger: var(--ane-danger, #ff5d6c);
   --_card: var(--ane-flow-card, rgba(19, 23, 44, 0.92));
   --_text: var(--ane-flow-text, #eef1ff);
-  --_muted: rgba(220, 226, 255, 0.66);
+  --_muted: var(--ane-flow-muted, rgba(220, 226, 255, 0.66));
+  --_line: var(--ane-flow-line, rgba(220, 226, 255, 0.2));
+  --_dot: var(--ane-flow-dot, rgba(220, 226, 255, 0.07));
   --_w: var(--ane-flow-node-width, 236px);
   display: block;
   position: relative;
@@ -77,17 +79,31 @@ const STYLE = /* css */ `
   border-radius: var(--ane-flow-radius, 16px);
   color: var(--_text);
   background-color: var(--ane-flow-bg, #0a0d1a);
-  background-image: radial-gradient(rgba(220, 226, 255, 0.07) 1px, transparent 1.3px);
+  background-image: radial-gradient(var(--_dot) 1px, transparent 1.3px);
   background-size: 22px 22px;
   font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   contain: layout paint style;
 }
 :host([hidden]) { display: none; }
+:host([theme="light"]) {
+  --_card: var(--ane-flow-card, #ffffff);
+  --_text: var(--ane-flow-text, #1b1e33);
+  --_muted: var(--ane-flow-muted, rgba(27, 30, 51, 0.62));
+  --_line: var(--ane-flow-line, rgba(27, 30, 51, 0.24));
+  --_dot: var(--ane-flow-dot, rgba(27, 30, 51, 0.09));
+  --_border: var(--ane-flow-border, rgba(27, 30, 51, 0.1));
+  --_shadow: var(--ane-flow-shadow, 0 6px 18px rgba(27, 30, 51, 0.08));
+  --_output-bg: rgba(27, 30, 51, 0.05);
+  --_output-text: #2a2e48;
+  background-color: var(--ane-flow-bg, #f5f6fb);
+}
 .world { position: absolute; left: 0; top: 0; transform-origin: 0 0; will-change: transform; }
 svg.edges { position: absolute; left: 0; top: 0; width: 1px; height: 1px; overflow: visible; pointer-events: none; }
 .edge { fill: none; stroke-linecap: round; }
-.edge.base { stroke: rgba(220, 226, 255, 0.2); stroke-width: 1.5; }
-.edge.base[data-status="queued"] { stroke: rgba(220, 226, 255, 0.16); stroke-dasharray: 0.012 0.02; }
+.edge.base { stroke: var(--_line); stroke-width: 1.5; }
+.stack .edge.base:not([data-status="running"]) { stroke-opacity: 0.6; stroke-width: 1.2; }
+.edge[data-hidden] { display: none; }
+.edge.base[data-status="queued"] { stroke: var(--_line); stroke-opacity: 0.8; stroke-dasharray: 0.012 0.02; }
 .edge.base[data-status="running"] { stroke: url(#ane-flow-grad); stroke-width: 2; }
 .edge.base[data-status="error"] { stroke: color-mix(in srgb, var(--_danger) 70%, transparent); }
 .edge.glow { stroke: var(--_accent2); stroke-width: 7; opacity: 0; filter: blur(4px); }
@@ -101,8 +117,8 @@ ol { list-style: none; margin: 0; padding: 0; }
   box-sizing: border-box;
   border-radius: 13px;
   background: var(--_card);
-  border: 1px solid rgba(220, 226, 255, 0.09);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--_border, var(--ane-flow-border, rgba(220, 226, 255, 0.09)));
+  box-shadow: var(--_shadow, var(--ane-flow-shadow, 0 10px 30px rgba(0, 0, 0, 0.35)));
   will-change: transform, opacity;
 }
 .stack .node { width: var(--_stack-w, var(--_w)); }
@@ -129,17 +145,17 @@ ol { list-style: none; margin: 0; padding: 0; }
   margin: -2px 10px 10px 50px;
   padding: 8px 10px;
   border-radius: 9px;
-  background: rgba(0, 0, 0, 0.28);
+  background: var(--_output-bg, rgba(0, 0, 0, 0.28));
   box-shadow: inset 0 0 0 1px rgba(220, 226, 255, 0.06);
   font: 11px/1.5 ui-monospace, "SFMono-Regular", "Cascadia Mono", Menlo, Consolas, monospace;
-  color: rgba(220, 226, 255, 0.84);
+  color: var(--_output-text, rgba(220, 226, 255, 0.84));
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   max-height: 9.5em;
   overflow: auto;
 }
 .node[data-expanded] .output:not(:empty) { display: block; }
-.node[data-status="queued"] { border-style: dashed; border-color: rgba(220, 226, 255, 0.16); background: color-mix(in srgb, var(--_card) 70%, transparent); }
+.node[data-status="queued"] { border-style: dashed; border-color: var(--_line); background: color-mix(in srgb, var(--_card) 70%, transparent); }
 .node[data-status="queued"] .text, .node[data-status="queued"] .icon { opacity: 0.6; }
 .node[data-status="error"] { border-color: color-mix(in srgb, var(--_danger) 60%, transparent); }
 .node[data-status="running"] { border-color: transparent; }
@@ -245,6 +261,7 @@ const now = (): number => (typeof performance !== 'undefined' ? performance.now(
  * @attr speed, motion
  * @attr announce - announce status changes through a polite live region
  * @attr label - accessible name of the step list, default `Agent run`
+ * @attr theme - `dark` (default) | `light`
  * @attr layout - `auto` (stack below 560px) | `graph` | `stack`
  * @fires ane-step-change - when a step's status changes
  * @fires ane-step-toggle - when a step is expanded or collapsed
@@ -575,8 +592,24 @@ export class AgentFlowElement extends EffectElement {
     }
   }
 
+  /** The parent of `node` that arrived last (closest above it in stack order). */
+  #nearestParent(node: NodeState): string | undefined {
+    let best: string | undefined;
+    let bestIndex = -1;
+    const order = [...this.#nodes.keys()];
+    for (const p of node.step.parents) {
+      const i = order.indexOf(p);
+      if (i > bestIndex) {
+        bestIndex = i;
+        best = p;
+      }
+    }
+    return best;
+  }
+
   protected tick(deltaMs: number): void {
     if (!this.#world) return;
+    this.#stack = this.stacked;
     if (this.#layoutDirty && this.#width) {
       this.#layoutDirty = false;
       this.#relayout();
@@ -618,6 +651,11 @@ export class AgentFlowElement extends EffectElement {
       const b = this.#nodes.get(edge.to);
       if (!a || !b) continue;
       const box = (n: NodeState): LayoutNode => ({ x: n.x, y: n.y, rank: 0, width: n.width, height: n.height });
+      // Stack mode: only the nearest parent (the latest one to arrive) gets a rail, so joins
+      // do not fan several curves across the left margin.
+      const hidden = this.#stack && edge.from !== this.#nearestParent(b);
+      for (const p of [edge.base, edge.glow, edge.flow]) p.toggleAttribute('data-hidden', hidden);
+      if (hidden) continue;
       const d = this.#stack ? railPath(box(a), box(b)) : edgePath(box(a), box(b));
       edge.base.setAttribute('d', d);
       edge.glow.setAttribute('d', d);
