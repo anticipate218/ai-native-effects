@@ -219,3 +219,32 @@ test('scan reveal playground autoplays, switches to manual control and replays',
   expect(await scan.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
   expect(errors).toEqual([]);
 });
+
+test('agent flow playground simulates a run, expands steps and adapts its layout', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/agent-flow.html');
+  const flow = page.locator('#effect');
+  const plan = flow.locator('li.node[data-kind="plan"]');
+  await expect(plan).toHaveAttribute('data-status', 'done', { timeout: 5000 });
+  await expect(flow.locator('li.node')).toHaveCount(7, { timeout: 12000 });
+  await expect(flow.locator('li.node[data-status="done"]')).toHaveCount(7, { timeout: 12000 });
+
+  // Steps are real buttons: keyboard expands them and reveals the output.
+  const s1 = flow.locator('li.node[data-kind="retrieve"]');
+  const button = s1.locator('button.card');
+  await button.focus();
+  await page.keyboard.press('Enter');
+  await expect(button).toHaveAttribute('aria-expanded', 'true');
+  await expect(s1.locator('.output')).toContainText('S1A_IW_GRDH');
+  await expect(page.locator('#event-log')).toContainText('expanded');
+
+  await page.getByRole('button', { name: 'Fail a step' }).click();
+  await expect(flow.locator('li.node[data-status="error"]')).toHaveCount(1);
+
+  await page.getByRole('button', { name: 'stack', exact: true }).click();
+  await expect(flow).toHaveAttribute('layout', 'stack');
+  expect(await flow.evaluate((el) => (el as HTMLElement & { stacked: boolean }).stacked)).toBe(true);
+  await page.getByRole('button', { name: 'light', exact: true }).click();
+  await expect(page.locator('#code-snippet')).toContainText('theme="light"');
+  expect(errors).toEqual([]);
+});
