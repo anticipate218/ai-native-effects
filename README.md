@@ -56,10 +56,19 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/scan-reveal.html">Playground</a> · <a href="docs/effects/scan-reveal.md">Docs</a> · <a href="src/effects/scan-reveal">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html"><img src="site/public/media/agent-flow.gif" alt="Agent Flow Visualizer" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">Agent Flow Visualizer</a></b> · <code>&lt;ane-agent-flow&gt;</code> · <sub>AI Native</sub>
+      <br><sub>A live flow graph of an agent run: plan, parallel tool calls, joins and the answer grow as events arrive, with running edges, durations and expandable results.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">Playground</a> · <a href="docs/effects/agent-flow.md">Docs</a> · <a href="src/effects/agent-flow">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
-More effects are on the way: an agent flow visualizer and a diffusion-style image reveal. See the [roadmap](#roadmap).
+More effects are on the way, starting with a diffusion-style image reveal. See the [roadmap](#roadmap).
 
 ## Quick start
 
@@ -169,7 +178,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 ## Roadmap
 
 - [x] **AI Thinking Buddy**: robot with idle / thinking / waiting / success / error states
-- [ ] **Agent Flow Visualizer**: live plan → tool call → result graph
+- [x] **Agent Flow Visualizer**: live plan → tool call → result graph with expandable steps
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
