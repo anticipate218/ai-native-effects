@@ -90,6 +90,24 @@
       "since": "0.6.0",
       "status": "stable",
       "preview": "<img src=\"./media/agent-flow-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "glass-lens",
+      "tag": "ane-glass-lens",
+      "title": "Liquid Glass Lens",
+      "titleZh": "液态玻璃透镜",
+      "series": "AI Native",
+      "summary": "A liquid-glass lens that refracts the live content it wraps. In read mode it shows an AI reading: it glides along the text, dwells on cited passages and leaves them highlighted.",
+      "summaryZh": "折射所包裹的实时内容的液态玻璃透镜；阅读模式下展示 AI 读文档：沿文字逐行滑过，在引用段落处停留并留下高亮。",
+      "tech": [
+        "SVG filters",
+        "SDF optics",
+        "Web Component"
+      ],
+      "added": "2026-11-15",
+      "since": "0.7.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/glass-lens-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
