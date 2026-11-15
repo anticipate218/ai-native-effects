@@ -59,7 +59,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>把智能体的执行过程实时画成一张会生长的流程图：规划、并行工具调用、汇合与回答随事件出现，运行中的连线流动，完成后显示耗时，步骤可展开查看结果。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">在线演示</a> · <a href="docs/zh-CN/effects/agent-flow.md">文档</a> · <a href="src/effects/agent-flow">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html"><img src="site/public/media/glass-lens.gif" alt="液态玻璃透镜" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">液态玻璃透镜</a></b> · <code>&lt;ane-glass-lens&gt;</code> · <sub>AI Native</sub>
+      <br><sub>折射所包裹的实时内容的液态玻璃透镜；阅读模式下展示 AI 读文档：沿文字逐行滑过，在引用段落处停留并留下高亮。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">在线演示</a> · <a href="docs/zh-CN/effects/glass-lens.md">文档</a> · <a href="src/effects/glass-lens">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -119,6 +124,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 
 - [x] **AI 思考小伙伴**：空闲 / 思考 / 等待 / 成功 / 失败
 - [x] **智能体流程可视化**：实时呈现规划、工具调用与结果，步骤可展开
+- [x] **液态玻璃透镜**：对实时文字的真实玻璃折射，展示 AI 阅读与引用
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标

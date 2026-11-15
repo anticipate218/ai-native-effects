@@ -63,7 +63,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A live flow graph of an agent run: plan, parallel tool calls, joins and the answer grow as events arrive, with running edges, durations and expandable results.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/agent-flow.html">Playground</a> · <a href="docs/effects/agent-flow.md">Docs</a> · <a href="src/effects/agent-flow">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html"><img src="site/public/media/glass-lens.gif" alt="Liquid Glass Lens" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">Liquid Glass Lens</a></b> · <code>&lt;ane-glass-lens&gt;</code> · <sub>AI Native</sub>
+      <br><sub>A liquid-glass lens that refracts the live content it wraps. In read mode it shows an AI reading: it glides along the text, dwells on cited passages and leaves them highlighted.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">Playground</a> · <a href="docs/effects/glass-lens.md">Docs</a> · <a href="src/effects/glass-lens">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -179,6 +184,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 
 - [x] **AI Thinking Buddy**: robot with idle / thinking / waiting / success / error states
 - [x] **Agent Flow Visualizer**: live plan → tool call → result graph with expandable steps
+- [x] **Liquid Glass Lens**: real glass refraction over live text; watch an assistant read and cite
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
