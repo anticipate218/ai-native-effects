@@ -248,3 +248,27 @@ test('agent flow playground simulates a run, expands steps and adapts its layout
   await expect(page.locator('#code-snippet')).toContainText('theme="light"');
   expect(errors).toEqual([]);
 });
+
+test('glass lens playground reads, highlights citations and follows the pointer', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/glass-lens.html');
+  const lens = page.locator('#effect');
+  await expect(lens).toHaveAttribute('mode', 'read');
+  await expect(page.locator('#event-log')).toContainText('#1:', { timeout: 15000 });
+  expect(await lens.evaluate((el) => (el as HTMLElement & { found: Element[] }).found.length)).toBeGreaterThan(0);
+  // The content stays real, selectable text.
+  await expect(lens.locator('mark').first()).toHaveText('The river peaked on 11 June at 15.9 metres');
+
+  await page.getByRole('button', { name: 'follow', exact: true }).click();
+  await expect(lens).toHaveAttribute('mode', 'follow');
+  const art = page.locator('.glass-art');
+  await art.scrollIntoViewIfNeeded();
+  const box = (await art.boundingBox())!;
+  if (test.info().project.name === 'mobile') await page.touchscreen.tap(box.x + box.width / 2, box.y + box.height / 2);
+  else await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2, { steps: 5 });
+  await expect
+    .poll(() => lens.evaluate((el) => Number(getComputedStyle(el.shadowRoot!.querySelector('.lens')!).opacity)))
+    .toBeGreaterThan(0.8);
+  expect(await lens.evaluate((el) => (el.shadowRoot!.querySelector('.content') as HTMLElement).style.filter)).toContain('#ane-glass');
+  expect(errors).toEqual([]);
+});
