@@ -90,6 +90,23 @@
       "since": "0.6.0",
       "status": "stable",
       "preview": "<img src=\"./media/agent-flow-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "image-reveal",
+      "tag": "ane-image-reveal",
+      "title": "Image Reveal FX",
+      "titleZh": "图像生成揭示",
+      "series": "AI Native",
+      "summary": "TODO: one sentence for the gallery and README.",
+      "summaryZh": "TODO：一句话中文简介。",
+      "tech": [
+        "Canvas",
+        "Web Component"
+      ],
+      "added": "2026-11-15",
+      "since": "0.7.0",
+      "status": "draft",
+      "preview": "<ane-image-reveal size=\"180px\"></ane-image-reveal>"
     }
   ]
 }
