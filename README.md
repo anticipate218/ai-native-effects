@@ -70,10 +70,19 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">Playground</a> · <a href="docs/effects/glass-lens.md">Docs</a> · <a href="src/effects/glass-lens">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html"><img src="site/public/media/image-reveal.gif" alt="Image Reveal FX" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">Image Reveal FX</a></b> · <code>&lt;ane-image-reveal&gt;</code> · <sub>AI Native</sub>
+      <br><sub>Image generation shown like a real diffusion sampler: noise removed step by step, coarse to fine, out of latent blocks, with a step counter and a before/after compare slider.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">Playground</a> · <a href="docs/effects/image-reveal.md">Docs</a> · <a href="src/effects/image-reveal">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
-More effects are on the way, starting with a diffusion-style image reveal. See the [roadmap](#roadmap).
+More effects are on the way. See the [roadmap](#roadmap).
 
 ## Quick start
 
@@ -186,7 +195,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 - [x] **Agent Flow Visualizer**: live plan → tool call → result graph with expandable steps
 - [x] **Liquid Glass Lens**: real glass refraction over live text; watch an assistant read and cite
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
-- [ ] **Image Reveal FX**: diffusion-style before/after reveal for image models
+- [x] **Image Reveal FX**: diffusion-style denoising reveal with a before/after compare slider
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
 - [x] **Satellite Scan Reveal**: push-broom acquisition sweep plus an inference sweep that overlays a land-cover mask
 - [ ] React and Vue typed wrappers
