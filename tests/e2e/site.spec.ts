@@ -272,3 +272,31 @@ test('glass lens playground reads, highlights citations and follows the pointer'
   expect(await lens.evaluate((el) => (el.shadowRoot!.querySelector('.content') as HTMLElement).style.filter)).toContain('#ane-glass');
   expect(errors).toEqual([]);
 });
+
+test('image reveal playground denoises, compares and follows server steps', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/image-reveal.html');
+  const reveal = page.locator('#effect');
+  await expect(reveal).toHaveAttribute('compare', '');
+  await expect(reveal).toHaveAttribute('data-phase', 'done', { timeout: 8000 });
+  await expect(page.locator('#event-log')).toContainText('ane-reveal-complete');
+  expect(await reveal.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
+
+  // The compare divider is a keyboard-operable slider.
+  const knob = reveal.locator('[role="slider"]');
+  await expect(knob).toHaveAttribute('aria-valuenow', '50', { timeout: 4000 });
+  await knob.focus();
+  await page.keyboard.press('Home');
+  await expect(knob).toHaveAttribute('aria-valuenow', '0');
+  await page.keyboard.press('ArrowRight');
+  await expect(knob).toHaveAttribute('aria-valuenow', '2');
+
+  // Driven mode: the counter reports the backend's step.
+  await page.getByLabel('Progress (drive manually)').evaluate((input: HTMLInputElement) => {
+    input.value = '0.5';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  });
+  await expect(reveal).toHaveAttribute('progress', '0.5');
+  await expect(reveal.locator('[role="progressbar"]')).toHaveAttribute('aria-valuetext', 'Step 15 of 30');
+  expect(errors).toEqual([]);
+});

@@ -14,3 +14,4 @@ export * from './effects/token-stream';
 export * from './effects/scan-reveal';
 export * from './effects/agent-flow';
 export * from './effects/glass-lens';
+export * from './effects/image-reveal';

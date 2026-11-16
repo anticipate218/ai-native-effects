@@ -66,6 +66,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-lens.html">在线演示</a> · <a href="docs/zh-CN/effects/glass-lens.md">文档</a> · <a href="src/effects/glass-lens">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html"><img src="site/public/media/image-reveal.gif" alt="图像生成揭示" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">图像生成揭示</a></b> · <code>&lt;ane-image-reveal&gt;</code> · <sub>AI Native</sub>
+      <br><sub>像真实扩散采样器一样展示图像生成：噪声逐步去除、由粗到细、从潜空间色块中浮现，带步数计数与生成前后对比滑块。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">在线演示</a> · <a href="docs/zh-CN/effects/image-reveal.md">文档</a> · <a href="src/effects/image-reveal">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
@@ -126,7 +135,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **智能体流程可视化**：实时呈现规划、工具调用与结果，步骤可展开
 - [x] **液态玻璃透镜**：对实时文字的真实玻璃折射，展示 AI 阅读与引用
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
-- [ ] **Image Reveal FX**：类扩散模型的影像前后对比揭示
+- [x] **图像生成揭示**：扩散式逐步去噪，并带生成前后对比滑块
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标
 - [x] **卫星扫描揭示**：推扫式获取扫描 + 叠加地物分类掩膜的推理扫描
 

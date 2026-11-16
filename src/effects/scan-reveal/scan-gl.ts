@@ -445,3 +445,6 @@ export class ScanRenderer {
     gl.getExtension('WEBGL_lose_context')?.loseContext();
   }
 }
+
+/** Shared with other WebGL effects (e.g. `<ane-image-reveal>` uses the procedural scene as its default image). */
+export { compile as compileProgram, SCENE as SCENE_FRAG, VERT as FULLSCREEN_VERT };

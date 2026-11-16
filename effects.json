@@ -108,6 +108,24 @@
       "since": "0.7.0",
       "status": "stable",
       "preview": "<img src=\"./media/glass-lens-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "image-reveal",
+      "tag": "ane-image-reveal",
+      "title": "Image Reveal FX",
+      "titleZh": "图像生成揭示",
+      "series": "AI Native",
+      "summary": "Image generation shown like a real diffusion sampler: noise removed step by step, coarse to fine, out of latent blocks, with a step counter and a before/after compare slider.",
+      "summaryZh": "像真实扩散采样器一样展示图像生成：噪声逐步去除、由粗到细、从潜空间色块中浮现，带步数计数与生成前后对比滑块。",
+      "tech": [
+        "WebGL2",
+        "Diffusion-style shader",
+        "Web Component"
+      ],
+      "added": "2026-11-15",
+      "since": "0.7.0",
+      "status": "stable",
+      "preview": "<ane-image-reveal loop seed=\"11\" duration=\"3600\" style=\"width:100%;height:100%;aspect-ratio:auto;border-radius:0\"></ane-image-reveal>"
     }
   ]
 }

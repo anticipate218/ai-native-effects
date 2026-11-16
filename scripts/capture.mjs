@@ -36,11 +36,15 @@ const option = (name, fallback) => {
   return index >= 0 ? argv[index + 1] : fallback;
 };
 const flag = (name) => argv.includes(`--${name}`);
-const valueArgs = new Set(['--fps', '--shots', '--gif-width', '--gif-fps'].flatMap((name) => [argv.indexOf(name) + 1]).filter((i) => i > 0));
+const valueArgs = new Set(['--fps', '--shots', '--gif-width', '--gif-fps', '--gif-colors', '--crf', '--gif-dither'].flatMap((name) => [argv.indexOf(name) + 1]).filter((i) => i > 0));
 const fps = Number(option('fps', 25));
 // README GIFs are tuned for size (~1.5 MB): narrower, 20 fps, ordered dithering.
 const gifWidth = Number(option('gif-width', 480));
 const gifFps = Number(option('gif-fps', 20));
+// High-entropy effects (noise, grain) need a smaller palette and a higher CRF to stay small.
+const gifColors = Number(option('gif-colors', 128));
+const crf = String(option('crf', 20));
+const gifDither = option('gif-dither', 'bayer:bayer_scale=3');
 const shots = option('shots', '')
   .split(',')
   .filter(Boolean)
@@ -113,11 +117,11 @@ try {
     const gif = join(mediaDir, `${id}.gif`);
     const poster = join(mediaDir, `${id}.png`);
     const thumb = join(mediaDir, `${id}-thumb.png`);
-    await run(ffmpeg, [...input, '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-pix_fmt', 'yuv420p', '-movflags', '+faststart', mp4]);
+    await run(ffmpeg, [...input, '-c:v', 'libx264', '-preset', 'slow', '-crf', crf, '-pix_fmt', 'yuv420p', '-movflags', '+faststart', mp4]);
     await run(ffmpeg, [
       ...input,
       '-vf',
-      `fps=${gifFps},scale=${Math.min(gifWidth, scene.width)}:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=128:stats_mode=diff[p];[b][p]paletteuse=dither=bayer:bayer_scale=3:diff_mode=rectangle`,
+      `fps=${gifFps},scale=${Math.min(gifWidth, scene.width)}:-1:flags=lanczos,split[a][b];[a]palettegen=max_colors=${gifColors}:stats_mode=diff[p];[b][p]paletteuse=dither=${gifDither}:diff_mode=rectangle`,
       '-loop',
       '0',
       gif,
