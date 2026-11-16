@@ -54,6 +54,21 @@ canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block
 .counter { font: 600 clamp(11px, 1.6cqi, 13px)/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; color: rgba(243, 244, 255, 0.85); font-variant-numeric: tabular-nums; white-space: nowrap; text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6); }
 .bar { position: absolute; left: 0; bottom: 0; height: 2px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, transparent, var(--_accent)); z-index: 1; }
 .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.compare { position: absolute; inset: 0; display: none; touch-action: pan-y; cursor: ew-resize; }
+:host([compare][data-phase="done"]) .compare { display: block; }
+.knob {
+  position: absolute; top: 50%; left: 0; width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: 50%;
+  display: grid; place-items: center; background: rgba(12, 14, 24, 0.55); border: 1.5px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35); backdrop-filter: blur(6px); color: #fff; outline: none;
+}
+.knob:focus-visible { box-shadow: 0 0 0 3px var(--_accent), 0 6px 18px rgba(0, 0, 0, 0.35); }
+.knob svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tag {
+  position: absolute; top: 52px; padding: 4px 9px; border-radius: 999px; background: rgba(8, 10, 20, 0.6);
+  font: 600 11px/1 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace; letter-spacing: 0.06em; color: #fff; white-space: nowrap;
+}
+.tag.before { transform: translateX(calc(-100% - 12px)); }
+.tag.after { transform: translateX(12px); }
 `;
 
 const toRgb = (ctx: CanvasRenderingContext2D | null, color: string): [number, number, number] => {
@@ -86,6 +101,7 @@ const FLASH_MS = 700;
  * @attr noise - `color` (default) | `mono`
  * @attr accent - accent colour, default `#b48cff`
  * @attr ratio - aspect ratio, e.g. `16/9`; defaults to the image's
+ * @attr compare - when done, show a draggable divider between the starting noise and the result
  * @attr size, speed, motion
  * @fires ane-reveal-complete - when the reveal reaches the final step
  */
@@ -93,11 +109,11 @@ export class ImageRevealElement extends EffectElement {
   static override get observedAttributes(): string[] {
     return [
       ...super.observedAttributes,
-      'src', 'alt', 'progress', 'steps', 'duration', 'loop', 'hud', 'caption', 'seed', 'latent', 'noise', 'accent', 'ratio',
+      'src', 'alt', 'progress', 'steps', 'duration', 'loop', 'hud', 'caption', 'seed', 'latent', 'noise', 'accent', 'ratio', 'compare',
     ];
   }
 
-  #el = {} as { canvas: HTMLCanvasElement; prompt: HTMLElement; counter: HTMLElement; seed: HTMLElement; status: HTMLElement; bar: HTMLElement; meter: HTMLElement };
+  #el = {} as { canvas: HTMLCanvasElement; prompt: HTMLElement; counter: HTMLElement; seed: HTMLElement; status: HTMLElement; bar: HTMLElement; meter: HTMLElement; compare: HTMLElement; knob: HTMLElement; before: HTMLElement; after: HTMLElement };
   #gl: RevealRenderer | null = null;
   #ctx: CanvasRenderingContext2D | null = null;
   #probe: CanvasRenderingContext2D | null = null;
@@ -113,6 +129,10 @@ export class ImageRevealElement extends EffectElement {
   #completed = false;
   #dirty = true;
   #lastKey = '';
+  /** Compare divider position, 0..1 of the width. */
+  #split = 0.5;
+  /** The divider sweeps in once after completion; any user input stops the sweep. */
+  #splitTouched = false;
 
   get progress(): number | null {
     const raw = this.getAttribute('progress');
@@ -144,6 +164,11 @@ export class ImageRevealElement extends EffectElement {
   <div class="bottom"><span class="prompt"></span><span class="counter"></span></div>
   <i class="bar"></i>
 </div>
+<div class="compare" part="compare">
+  <span class="tag before" aria-hidden="true">Noise · step 0</span>
+  <span class="tag after" aria-hidden="true">Result</span>
+  <span class="knob" role="slider" tabindex="0" aria-label="Compare the starting noise with the result" aria-valuemin="0" aria-valuemax="100"><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M6.5 5L3 9l3.5 4M11.5 5L15 9l-3.5 4"/></svg></span>
+</div>
 <div class="sr" role="progressbar" aria-valuemin="0"></div>`;
     const $ = <T extends Element>(s: string): T => root.querySelector<T>(s)!;
     this.#el = {
@@ -154,6 +179,10 @@ export class ImageRevealElement extends EffectElement {
       status: $('.status'),
       bar: $('.bar'),
       meter: $('[role="progressbar"]'),
+      compare: $('.compare'),
+      knob: $('.knob'),
+      before: $('.tag.before'),
+      after: $('.tag.after'),
     };
     try {
       this.#probe = document.createElement('canvas').getContext('2d');
@@ -164,6 +193,37 @@ export class ImageRevealElement extends EffectElement {
     this.#syncRatio();
     this.#syncAccent();
     this.#syncAlt();
+    const area = this.#el.compare;
+    const fromEvent = (event: PointerEvent): void => {
+      const box = area.getBoundingClientRect();
+      if (box.width) this.split = (event.clientX - box.left) / box.width;
+    };
+    area.addEventListener('pointerdown', (event) => {
+      area.setPointerCapture?.(event.pointerId);
+      fromEvent(event);
+    });
+    area.addEventListener('pointermove', (event) => {
+      if (area.hasPointerCapture?.(event.pointerId)) fromEvent(event);
+    });
+    this.#el.knob.addEventListener('keydown', (event) => {
+      const step = event.shiftKey ? 0.1 : 0.02;
+      const keys: Record<string, number> = { ArrowLeft: this.#split - step, ArrowDown: this.#split - step, ArrowRight: this.#split + step, ArrowUp: this.#split + step, Home: 0, End: 1, PageUp: this.#split + 0.1, PageDown: this.#split - 0.1 };
+      if (event.key in keys) {
+        event.preventDefault();
+        this.split = keys[event.key]!;
+      }
+    });
+  }
+
+  /** Compare divider position (0 = all result … 1 = all noise), when `compare` is set. */
+  get split(): number {
+    return this.#split;
+  }
+  set split(value: number) {
+    this.#split = clamp(value, 0, 1);
+    this.#splitTouched = true;
+    this.#dirty = true;
+    this.tick(0);
   }
 
   override connectedCallback(): void {
@@ -227,6 +287,7 @@ export class ImageRevealElement extends EffectElement {
 
   /** Restarts the autoplay (and re-arms `ane-reveal-complete`). */
   replay(): void {
+    this.#splitTouched = false;
     this.#autoStart = this.elapsed;
     this.#completed = false;
     this.#doneAt = -Infinity;
@@ -365,7 +426,8 @@ export class ImageRevealElement extends EffectElement {
 
     const flash = reduced ? 0 : hump(clamp((this.elapsed - this.#doneAt) / FLASH_MS, 0, 1));
     this.#updateHud();
-    if (this.#dirty || this.#t !== prev || (this.#t > 0 && this.#t < 1) || flash > 0) {
+    const sweeping = this.#updateCompare(reduced);
+    if (this.#dirty || this.#t !== prev || (this.#t > 0 && this.#t < 1) || flash > 0 || sweeping) {
       this.#render(flash, reduced);
       this.#dirty = false;
     }
@@ -373,7 +435,8 @@ export class ImageRevealElement extends EffectElement {
 
   #updateHud(): void {
     const steps = this.steps;
-    const { step } = stepAt(this.#t, steps);
+    // The counter reports what the app said; only the picture eases towards it.
+    const { step } = stepAt(this.progress ?? this.#t, steps);
     const phase = this.#t >= 1 ? 'done' : this.#t > 0 ? 'denoising' : 'queued';
     const key = `${phase}:${step}:${steps}`;
     if (key === this.#lastKey) {
@@ -392,6 +455,30 @@ export class ImageRevealElement extends EffectElement {
     meter.setAttribute('aria-valuetext', phase === 'done' ? 'Complete' : `Step ${step} of ${steps}`);
   }
 
+  #compareValue(): number {
+    return this.hasAttribute('compare') && this.#t >= 1 ? this.#split : -1;
+  }
+
+  /** Positions the divider; after the result has been shown, the noise slides in from the left to the middle once. */
+  #updateCompare(reduced: boolean): boolean {
+    if (!this.hasAttribute('compare') || this.#t < 1) return false;
+    if (!this.#splitTouched) {
+      const k = reduced ? 1 : clamp((this.elapsed - this.#doneAt - 1000) / 1100, 0, 1);
+      this.#split = 0.5 * (1 - Math.pow(1 - k, 3));
+      this.#el.compare.style.opacity = String(clamp(k * 4, 0, 1));
+    } else {
+      this.#el.compare.style.opacity = '1';
+    }
+    const pct = `${(this.#split * 100).toFixed(2)}%`;
+    this.#el.knob.style.left = pct;
+    this.#el.before.style.left = pct;
+    this.#el.after.style.left = pct;
+    const value = Math.round(this.#split * 100);
+    this.#el.knob.setAttribute('aria-valuenow', String(value));
+    this.#el.knob.setAttribute('aria-valuetext', `${value}% noise, ${100 - value}% result`);
+    return !this.#splitTouched;
+  }
+
   #render(flash: number, reduced: boolean): void {
     if (!this.#width) return;
     const { step, frac } = stepAt(this.#t, this.steps);
@@ -404,7 +491,7 @@ export class ImageRevealElement extends EffectElement {
         latent: parseNumber(this.getAttribute('latent'), 8, 1, 64) * this.#dpr,
         mono: this.getAttribute('noise') === 'mono',
         flash,
-        compare: -1,
+        compare: this.#compareValue(),
         accent: toRgb(this.#probe, this.getAttribute('accent') || '#b48cff'),
       });
       return;

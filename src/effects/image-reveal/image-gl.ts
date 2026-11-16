@@ -49,7 +49,7 @@ void main() {
   float t = clamp(uT, 0.0, 1.0);
 
   // Signal fraction ᾱ: coarse colour blobs show within the first few steps, detail late.
-  float abar = t;
+  float abar = 1.0 - pow(1.0 - t, 1.6);
   if (t >= 1.0) abar = 1.0;
 
   // Latent quantisation fades out over the last 45% (the "VAE decode").
@@ -61,15 +61,21 @@ void main() {
   // Coarse-to-fine prediction: high mip early, full detail at the end; colour comes in late.
   float lod = uMaxLod * pow(1.0 - t, 1.6);
   vec3 x0 = textureLod(uImage, uvS, lod).rgb;
+  // Early predictions are blurry: stretch them around the image's mean colour so bold blobs
+  // of colour read through the noise, like a real sampler's preview.
+  vec3 avg = textureLod(uImage, vec2(0.5), 12.0).rgb;
+  x0 = clamp(avg + (x0 - avg) * mix(2.6, 1.0, smoothstep(0.0, 0.7, t)), 0.0, 1.0);
   float luma = dot(x0, vec3(0.299, 0.587, 0.114));
-  x0 = mix(vec3(luma), x0, smoothstep(0.15, 0.8, t));
+  x0 = mix(vec3(luma), x0, smoothstep(0.0, 0.6, t) * 0.85 + 0.15);
 
   // Per-step noise on latent cells plus fine grain; cross-fade into the next step.
   float k = uStep;
   float next = smoothstep(0.6, 1.0, uStepFrac);
   vec3 epsLatent = mix(noiseAt(cell, k), noiseAt(cell, k + 1.0), next);
-  vec3 epsFine = mix(noiseAt(frag, k + 0.5), noiseAt(frag, k + 1.5), next);
-  vec3 eps = mix(epsFine, epsLatent * 0.9 + epsFine * 0.25, latentMix);
+  // Fine grain on 2 CSS px cells (latent / 4): reads as decoder texture, not TV static.
+  vec2 fine = floor(frag / max(1.0, uLatent * 0.25));
+  vec3 epsFine = mix(noiseAt(fine, k + 0.5), noiseAt(fine, k + 1.5), next);
+  vec3 eps = mix(epsFine * 0.8, epsLatent * 0.92 + epsFine * 0.18, latentMix);
 
   vec3 color = sqrt(abar) * x0 + sqrt(1.0 - abar) * (0.38 + 0.17 * eps);
 
@@ -78,7 +84,7 @@ void main() {
 
   // Before/after comparison: left of the split shows the noisy start.
   if (uCompare >= 0.0) {
-    vec3 start = 0.38 + 0.17 * (noiseAt(cell, 0.0) * 0.9 + noiseAt(frag, 0.5) * 0.25);
+    vec3 start = 0.38 + 0.17 * (noiseAt(cell, 0.0) * 0.92 + noiseAt(floor(frag / max(1.0, uLatent * 0.25)), 0.5) * 0.18);
     vec3 final = textureLod(uImage, uv, 0.0).rgb;
     float x = uv.x;
     color = x < uCompare ? start : final;
@@ -193,7 +199,7 @@ export class RevealRenderer {
     gl.uniform1f(loc.uLatent, frame.latent);
     gl.uniform1f(loc.uMono, frame.mono ? 1 : 0);
     gl.uniform1f(loc.uFlash, frame.flash);
-    gl.uniform1f(loc.uMaxLod, Math.min(7, Math.max(0, this.#levels - 3)));
+    gl.uniform1f(loc.uMaxLod, Math.min(5.5, Math.max(0, this.#levels - 4)));
     gl.uniform1f(loc.uCompare, frame.compare);
     gl.uniform3f(loc.uAccent, ...frame.accent);
     gl.bindVertexArray(this.#vao);
