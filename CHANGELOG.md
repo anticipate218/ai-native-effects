@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-15
+
+### Added
+
+- `<ane-glass-lens>` (Liquid Glass Lens): a liquid-glass lens that refracts the live DOM it
+  wraps, via an SVG `filter: url()` chain (works in Chromium, Firefox and Safari): an SDF
+  displacement map with a magnifying dome and an outward-bending rim, RGB dispersion, alpha
+  restore, lens-shape masking and a specular rim. `mode="read"` shows an assistant reading a
+  source line by line, dwelling on citations (`marks`) and highlighting them
+  (`ane-lens-mark`, `ane-lens-done`, `found`); `follow` tracks the pointer (tap to place on
+  touch screens); `static` with `focusOn()`. Reduced motion, polite announcements.
+
 ## [0.7.0] - 2026-11-14
 
 ### Added
