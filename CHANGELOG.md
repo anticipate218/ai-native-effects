@@ -6,6 +6,23 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-11-16
+
+### Added
+
+- `<ane-image-reveal>` (Image Reveal FX): image generation shown like a real diffusion
+  sampler. A WebGL2 shader mixes a coarse-to-fine prediction with per-step noise
+  (x_t = √ᾱ·x̂₀ + √(1−ᾱ)·ε) on latent blocks that dissolve like a VAE decode. Autoplay or
+  backend-driven `progress` with a step counter, prompt and seed HUD, `ane-reveal-complete`,
+  and an optional `compare` divider (drag or keyboard, `role="slider"`) between the starting
+  noise and the result. Works with your `src` or a procedural aerial scene; reduced motion.
+
+### Changed
+
+- `npm run capture` accepts `--gif-colors`, `--gif-dither` and `--crf` for high-entropy
+  effects such as noise and grain.
+- `scan-reveal`'s procedural scene shader is exported for reuse by other WebGL effects.
+
 ## [0.8.0] - 2026-11-15
 
 ### Added
