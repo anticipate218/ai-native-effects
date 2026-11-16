@@ -4,8 +4,10 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Image Reveal FX · AI Native Effects</title>
-    <meta name="description" content="TODO: one-sentence description of Image Reveal FX." />
+    <meta name="description" content="A WebGL Web Component that shows image generation like a real diffusion sampler: noise removed step by step, coarse to fine, out of latent blocks, then a before/after compare slider." />
     <meta property="og:title" content="Image Reveal FX · AI Native Effects" />
+    <meta property="og:description" content="Watch the image denoise, step by step." />
+    <meta property="og:type" content="website" />
     <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/image-reveal.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#070914" />
@@ -32,41 +34,77 @@
       <div class="pg-head">
         <div class="crumbs"><a href="../">Effects</a> / AI Native</div>
         <h1>Image Reveal FX</h1>
-        <p class="lead">TODO: what problem this effect solves in an AI product, in one or two sentences.</p>
+        <p class="lead">
+          Image models make people wait behind a spinner. This component shows the generation the way a diffusion sampler
+          actually works: noise is removed step by step, the picture emerges coarse to fine out of latent blocks, and a
+          step counter keeps pace with your backend. When it is done, drag the divider to compare the starting noise with
+          the result.
+        </p>
       </div>
 
       <div class="pg">
-        <div class="panel viewport" id="viewport" data-bg="dark">
-          <ane-image-reveal id="effect"></ane-image-reveal>
-          <div class="viewport-tools" role="group" aria-label="Preview background">
-            <button type="button" class="btn small" data-bg="dark" aria-pressed="true">Dark</button>
-            <button type="button" class="btn small" data-bg="light" aria-pressed="false">Light</button>
-            <button type="button" class="btn small" data-bg="checker" aria-pressed="false">Grid</button>
-          </div>
+        <div class="panel viewport bleed" id="viewport">
+          <ane-image-reveal
+            id="effect"
+            caption="“Aerial photo of farmland along a river, small town, summer, high detail”"
+            alt="Generated aerial photo of farmland along a river with a small town"
+            style="border-radius: 0"
+          ></ane-image-reveal>
         </div>
         <aside class="panel controls" aria-label="Controls">
           <div id="controls" style="display: grid; gap: 18px"></div>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions">
+              <button type="button" class="btn small primary" id="generate">Generate again</button>
+              <button type="button" class="btn small" id="simulate">Simulate server steps</button>
+            </div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-reveal-complete</code>…</p>
         </aside>
         <div class="panel code" id="code"></div>
       </div>
 
       <section class="api" aria-labelledby="api-title">
         <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
         <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
           <table>
             <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
             <tbody>
-              <tr><td><code>color</code></td><td>any CSS color</td><td><code>#7c5cff</code></td><td>Primary color.</td></tr>
-              <tr><td><code>accent</code></td><td>any CSS color</td><td><code>#5ef2ff</code></td><td>Secondary color.</td></tr>
-              <tr><td><code>size</code></td><td>CSS length</td><td><code>240px</code></td><td>Width and height.</td></tr>
-              <tr><td><code>speed</code></td><td><code>0</code>–<code>5</code></td><td><code>1</code></td><td>Animation time scale.</td></tr>
-              <tr><td><code>motion</code></td><td><code>auto</code> <code>reduce</code> <code>full</code></td><td><code>auto</code></td><td>Reduced-motion override.</td></tr>
+              <tr><td><code>src</code></td><td>image URL</td><td>procedural scene</td><td>The image being generated (CORS-enabled for WebGL; otherwise a plain fade).</td></tr>
+              <tr><td><code>alt</code></td><td>string</td><td><code>Generated image</code></td><td>Description of the image.</td></tr>
+              <tr><td><code>progress</code></td><td><code>0</code>–<code>1</code></td><td>none</td><td>Sampler progress from your backend; when absent the reveal autoplays.</td></tr>
+              <tr><td><code>steps</code></td><td>integer</td><td><code>30</code></td><td>Steps shown in the counter and used for the noise cadence.</td></tr>
+              <tr><td><code>duration</code>, <code>loop</code></td><td>ms, boolean</td><td><code>4200</code>, off</td><td>Autoplay length and repeat.</td></tr>
+              <tr><td><code>compare</code></td><td>boolean</td><td>off</td><td>When done, a divider (drag or arrow keys) compares the starting noise with the result.</td></tr>
+              <tr><td><code>hud</code>, <code>caption</code></td><td>boolean, string</td><td>off</td><td>Status, seed and step counter; the prompt.</td></tr>
+              <tr><td><code>seed</code></td><td>integer</td><td><code>7</code></td><td>Noise seed (and procedural scene).</td></tr>
+              <tr><td><code>latent</code></td><td>px</td><td><code>8</code></td><td>Latent block size (an 8× VAE downsampling by default).</td></tr>
+              <tr><td><code>noise</code></td><td><code>color</code> <code>mono</code></td><td><code>color</code></td><td>Noise style.</td></tr>
+              <tr><td><code>accent</code>, <code>ratio</code>, <code>size</code></td><td></td><td><code>#b48cff</code>, image ratio, <code>100%</code></td><td>Accent colour, aspect ratio, width.</td></tr>
+              <tr><td><code>speed</code>, <code>motion</code></td><td></td><td><code>1</code>, <code>auto</code></td><td>Reduced motion: no per-step flicker; autoplay shows the result.</td></tr>
             </tbody>
           </table>
         </div>
+        <h3>Properties, methods and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Properties, methods and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>progress</code>, <code>step</code>, <code>steps</code></td><td>Progress (reflects; <code>null</code> = autoplay), current step, step count.</td></tr>
+              <tr><td><code>split</code></td><td>Compare divider position, <code>0</code>–<code>1</code>.</td></tr>
+              <tr><td><code>replay()</code></td><td>Restarts the autoplay.</td></tr>
+              <tr><td><code>webgl</code></td><td><code>false</code> when the 2D fallback is used.</td></tr>
+              <tr><td><code>ane-reveal-complete</code></td><td>Fired when the last step is reached (<code>{ steps }</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
         <div class="downloads">
           <a class="btn small" href="../media/image-reveal.gif">GIF</a>
           <a class="btn small" href="../media/image-reveal.mp4">MP4</a>
+          <a class="btn small" href="../media/image-reveal.png">Poster PNG</a>
           <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/image-reveal.md">Full docs</a>
         </div>
       </section>
