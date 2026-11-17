@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-11-17
+
+### Added
+
+- `<ane-aurora>` (Aurora Curtain), the first effect of the new **UI FX** series: a WebGL2
+  northern-lights hero background. Curtains with bright hems, rising rays and drifting folds that
+  lean towards the pointer (`interactive`), twinkling stars, rim-lit mountain ridges and a
+  film-grain overlay. Palettes `borealis`, `dusk`, `glacier`, `ember` or custom `color` /
+  `accent`; `intensity`, `rays`, `stars`, `horizon`, `grain`, `quality`, `seed`. Slotted hero
+  content stays plain HTML. CSS fallback without WebGL2; reduced motion shows a still frame.
+
 ## [0.9.0] - 2026-11-16
 
 ### Added
