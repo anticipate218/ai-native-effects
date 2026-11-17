@@ -97,6 +97,14 @@ export class AuroraElement extends EffectElement {
   #w = 0;
   #h = 0;
   #pointer = { x: 0.5, y: 0.6, tx: 0.5, ty: 0.6, on: 0, target: 0 };
+  /** Adaptive render scale: starts at the `quality` attribute and drops on slow devices. */
+  #scale = 0.75;
+  #perf = { since: 0, frames: 0 };
+
+  /** Current render scale (may be below `quality` on slow devices). */
+  get renderScale(): number {
+    return this.#scale;
+  }
 
   get palette(): AuroraPalette {
     const p = this.getAttribute('palette');
@@ -111,6 +119,7 @@ export class AuroraElement extends EffectElement {
   protected build(root: ShadowRoot): void {
     root.innerHTML = `<style>${STYLE}</style><canvas aria-hidden="true"></canvas><div class="fallback" aria-hidden="true"></div><div class="grain" aria-hidden="true"></div><div class="content" part="content"><slot></slot></div>`;
     this.#canvas = root.querySelector('canvas');
+    this.#scale = parseNumber(this.getAttribute('quality'), 0.75, 0.25, 1);
     this.addEventListener('pointermove', this.#onPointer);
     this.addEventListener('pointerdown', this.#onPointer);
     this.addEventListener('pointerleave', () => {
@@ -146,7 +155,10 @@ export class AuroraElement extends EffectElement {
   }
 
   protected override attributeChanged(name: string): void {
-    if (name === 'quality') this.#fit();
+    if (name === 'quality') {
+      this.#scale = parseNumber(this.getAttribute('quality'), 0.75, 0.25, 1);
+      this.#fit();
+    }
     this.#syncStyle();
     this.tick(0);
   }
@@ -187,15 +199,38 @@ export class AuroraElement extends EffectElement {
     const rect = this.getBoundingClientRect();
     this.#w = rect.width;
     this.#h = rect.height;
-    const scale = parseNumber(this.getAttribute('quality'), 0.75, 0.25, 1);
-    const dpr = Math.min(globalThis.devicePixelRatio || 1, 2);
-    canvas.width = Math.max(1, Math.round(rect.width * dpr * scale));
-    canvas.height = Math.max(1, Math.round(rect.height * dpr * scale));
+    // The aurora is soft: 1.5× is plenty on dense screens, and a pixel budget keeps huge heroes cheap.
+    const dpr = Math.min(globalThis.devicePixelRatio || 1, 1.5);
+    let scale = this.#scale * dpr;
+    const budget = 1_000_000;
+    if (rect.width * rect.height * scale * scale > budget) scale = Math.sqrt(budget / (rect.width * rect.height));
+    canvas.width = Math.max(1, Math.round(rect.width * scale));
+    canvas.height = Math.max(1, Math.round(rect.height * scale));
     this.tick(0);
+  }
+
+  /** Every half second of real time, lowers the render scale if frames are slow (min 0.3). */
+  #adapt(deltaMs: number): void {
+    if (deltaMs === 0 || typeof performance === 'undefined') return;
+    const now = performance.now();
+    if (!this.#perf.since) {
+      this.#perf = { since: now, frames: 0 };
+      return;
+    }
+    this.#perf.frames++;
+    const span = now - this.#perf.since;
+    if (span < 500) return;
+    const interval = span / this.#perf.frames;
+    this.#perf = { since: now, frames: 0 };
+    if (interval > 24 && this.#scale > 0.3) {
+      this.#scale = Math.max(0.3, this.#scale * 0.72);
+      this.#fit();
+    }
   }
 
   protected tick(deltaMs: number): void {
     if (!this.#gl || !this.#w || !this.#h) return;
+    this.#adapt(deltaMs);
     const reduced = this.reducedMotion;
     const ptr = this.#pointer;
     const interactive = this.hasAttribute('interactive') && !reduced;

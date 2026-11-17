@@ -37,12 +37,16 @@ float noise(vec2 p) {
 }
 float fbm(vec2 p) {
   float s = 0.0, a = 0.5;
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < 3; i++) {
     s += a * noise(p);
     p = p * 2.03 + 17.1;
     a *= 0.5;
   }
-  return s / 0.9375;
+  return s / 0.875;
+}
+// Two octaves: enough for slow, large shapes (hems, heights, ridges).
+float fbm2(vec2 p) {
+  return (noise(p) * 0.5 + noise(p * 2.03 + 17.1) * 0.25) / 0.75;
 }
 
 // Returns colour contribution of one curtain at point p (x in 0..aspect, y in 0..1).
@@ -51,10 +55,10 @@ vec3 curtain(vec2 p, float i, float t, out float glow) {
   float x = p.x;
   float base = 0.40 + 0.09 * i
     + 0.09 * sin(x * (0.8 + 0.25 * i) + t * (0.10 + 0.03 * i) + seed)
-    + 0.10 * (fbm(vec2(x * 1.2 + seed, t * 0.04 + i)) - 0.5);
+    + 0.10 * (fbm2(vec2(x * 1.2 + seed, t * 0.04 + i)) - 0.5);
   float dxp = x - uPointer.x;
   base -= uPointerOn * 0.07 * exp(-dxp * dxp * 6.0);
-  float height = 0.16 + 0.18 * fbm(vec2(x * 1.8 + seed * 2.0, t * 0.05));
+  float height = 0.16 + 0.18 * fbm2(vec2(x * 1.8 + seed * 2.0, t * 0.05));
   float dy = p.y - base;
   float above = dy > 0.0 ? exp(-dy / height) : 0.0;
   float below = dy <= 0.0 ? exp(dy * 55.0) : 0.0;
@@ -110,9 +114,10 @@ void main() {
   vec3 color = sky + (light * 0.5 + bloom) * uIntensity;
 
   // Mountains: a far, hazy ridge and a near, black one with an aurora rim light.
-  if (uHorizon > 0.0) {
-    float far = 0.12 + 0.06 * fbm(vec2(p.x * 2.2 + uSeed, 1.0)) + 0.025 * fbm(vec2(p.x * 9.0, 4.0));
-    float near = 0.06 + 0.05 * fbm(vec2(p.x * 1.4 + uSeed + 5.0, 2.0)) + 0.02 * fbm(vec2(p.x * 14.0, 6.0));
+  // Ridges only exist near the bottom; skip the work elsewhere.
+  if (uHorizon > 0.0 && uv.y < 0.3) {
+    float far = 0.12 + 0.06 * fbm2(vec2(p.x * 2.2 + uSeed, 1.0)) + 0.025 * noise(vec2(p.x * 9.0, 4.0));
+    float near = 0.06 + 0.05 * fbm2(vec2(p.x * 1.4 + uSeed + 5.0, 2.0)) + 0.02 * noise(vec2(p.x * 14.0, 6.0));
     far = mix(-0.2, far, uHorizon);
     near = mix(-0.2, near, uHorizon);
     vec3 haze = uSky * 0.7 + mix(uLow, uHigh, 0.3) * 0.025;
