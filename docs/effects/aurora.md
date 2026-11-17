@@ -45,7 +45,7 @@ Pick a preset (`borealis`, `dusk`, `glacier`, `ember`) or set your own colours w
 | `horizon` | `0`–`1` | `1` | Mountain ridges (`0` hides them). |
 | `grain` | `0`–`1` | `0.22` | Film-grain overlay. |
 | `interactive` | boolean | off | Curtains dip and brighten near the pointer (touch: on tap). |
-| `quality` | `0.25`–`1` | `0.75` | Render scale. The aurora is soft, so lower values stay pretty and save GPU time; the grain overlay stays crisp. |
+| `quality` | `0.25`–`1` | `0.75` | Starting render scale. The aurora is soft, so lower values stay pretty and save GPU time; the grain overlay stays crisp. On slow devices the scale drops automatically (down to 0.3) until frames are smooth; `renderScale` reports the current value. |
 | `seed` | number | `7` | Shape of the curtains and ridges. |
 | `size` | CSS length | `520px` | Minimum height (`--ane-size`); the element is always full width. |
 | `speed`, `motion` | | `1`, `auto` | Time scale; reduced motion shows a still frame. |
@@ -66,4 +66,4 @@ One full-screen fragment shader (WebGL2):
 
 - The canvas and grain are decorative (`aria-hidden`); your slotted content is untouched DOM, readable and clickable. Check your text contrast over the brightest curtains (white text works well with the presets).
 - Reduced motion renders a still frame and ignores the pointer.
-- One draw call per frame at 75% resolution by default; the loop pauses off-screen and the WebGL context is released when the element is removed. Without WebGL2 a CSS gradient fallback is shown.
+- One draw call per frame at 75% resolution by default (device pixel ratio capped at 1.5, about one megapixel at most), adapting downwards on slow GPUs or software rendering; the loop pauses off-screen and the WebGL context is released when the element is removed. Without WebGL2 a CSS gradient fallback is shown.
