@@ -73,7 +73,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>像真实扩散采样器一样展示图像生成：噪声逐步去除、由粗到细、从潜空间色块中浮现，带步数计数与生成前后对比滑块。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">在线演示</a> · <a href="docs/zh-CN/effects/image-reveal.md">文档</a> · <a href="src/effects/image-reveal">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html"><img src="site/public/media/aurora.gif" alt="极光帷幕" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">极光帷幕</a></b> · <code>&lt;ane-aurora&gt;</code> · <sub>UI FX</sub>
+      <br><sub>写实的北极光首屏背景：带上升光柱的极光帷幕、随风折叠并向指针弯曲、星空闪烁、山脊地平线；首屏内容保持普通 HTML。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">在线演示</a> · <a href="docs/zh-CN/effects/aurora.md">文档</a> · <a href="src/effects/aurora">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -134,6 +139,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **AI 思考小伙伴**：空闲 / 思考 / 等待 / 成功 / 失败
 - [x] **智能体流程可视化**：实时呈现规划、工具调用与结果，步骤可展开
 - [x] **液态玻璃透镜**：对实时文字的真实玻璃折射，展示 AI 阅读与引用
+- [x] **极光帷幕**（UI FX）：写实的北极光首屏背景
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [x] **图像生成揭示**：扩散式逐步去噪，并带生成前后对比滑块
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标
