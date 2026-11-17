@@ -15,3 +15,4 @@ export * from './effects/scan-reveal';
 export * from './effects/agent-flow';
 export * from './effects/glass-lens';
 export * from './effects/image-reveal';
+export * from './effects/aurora';
