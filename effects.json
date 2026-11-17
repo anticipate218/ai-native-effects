@@ -126,6 +126,24 @@
       "since": "0.7.0",
       "status": "stable",
       "preview": "<ane-image-reveal loop seed=\"11\" duration=\"3600\" style=\"width:100%;height:100%;aspect-ratio:auto;border-radius:0\"></ane-image-reveal>"
+    },
+    {
+      "id": "aurora",
+      "tag": "ane-aurora",
+      "title": "Aurora Curtain",
+      "titleZh": "极光帷幕",
+      "series": "UI FX",
+      "summary": "A realistic northern-lights hero background: curtains with rising rays, drifting folds that lean towards the pointer, twinkling stars and a mountain horizon. Your hero content stays plain HTML.",
+      "summaryZh": "写实的北极光首屏背景：带上升光柱的极光帷幕、随风折叠并向指针弯曲、星空闪烁、山脊地平线；首屏内容保持普通 HTML。",
+      "tech": [
+        "WebGL2",
+        "Shader",
+        "Web Component"
+      ],
+      "added": "2026-11-17",
+      "since": "0.9.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/aurora-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
