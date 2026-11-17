@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.10.1] - 2026-11-17
+
+### Fixed
+
+- `<ane-image-reveal>`: smoother on slow GPUs and software WebGL. The canvas uses at most 1.5 device
+  pixels per CSS pixel and the render scale steps down (to 0.5) while denoising if frames run long
+  (`renderScale`). Caught by the CI frame-budget check, which ran at 25–30 frames in 2 s.
+
 ## [0.10.0] - 2026-11-17
 
 ### Added

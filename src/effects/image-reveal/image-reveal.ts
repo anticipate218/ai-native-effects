@@ -129,6 +129,9 @@ export class ImageRevealElement extends EffectElement {
   #completed = false;
   #dirty = true;
   #lastKey = '';
+  /** Adaptive render scale (1 = up to 1.5 device px per CSS px); drops on slow devices while denoising. */
+  #scale = 1;
+  #perf = { since: 0, frames: 0 };
   /** Compare divider position, 0..1 of the width. */
   #split = 0.5;
   /** The divider sweeps in once after completion; any user input stops the sweep. */
@@ -390,7 +393,8 @@ export class ImageRevealElement extends EffectElement {
   #fit(): void {
     const rect = this.getBoundingClientRect();
     if (!rect.width || !rect.height) return;
-    this.#dpr = Math.min(globalThis.devicePixelRatio || 1, 2);
+    // 1.5 device px per CSS px is plenty for a noisy reveal; slow devices go lower (see #adapt).
+    this.#dpr = Math.min(globalThis.devicePixelRatio || 1, 1.5) * this.#scale;
     this.#width = rect.width;
     this.#el.canvas.width = Math.max(1, Math.round(rect.width * this.#dpr));
     this.#el.canvas.height = Math.max(1, Math.round(rect.height * this.#dpr));
@@ -400,7 +404,36 @@ export class ImageRevealElement extends EffectElement {
 
   // --- frame ---------------------------------------------------------------------
 
+  /** While denoising, lowers the render scale every half second if frames are slow (min 0.5). */
+  #adapt(deltaMs: number): void {
+    const active = this.#t > 0 && this.#t < 1 && this.#gl != null;
+    if (!active || deltaMs === 0 || typeof performance === 'undefined') {
+      this.#perf = { since: 0, frames: 0 };
+      return;
+    }
+    const now = performance.now();
+    if (!this.#perf.since) {
+      this.#perf = { since: now, frames: 0 };
+      return;
+    }
+    this.#perf.frames++;
+    const span = now - this.#perf.since;
+    if (span < 500) return;
+    const interval = span / this.#perf.frames;
+    this.#perf = { since: now, frames: 0 };
+    if (interval > 24 && this.#scale > 0.5) {
+      this.#scale = Math.max(0.5, this.#scale * 0.75);
+      this.#fit();
+    }
+  }
+
+  /** Current render scale (below 1 on slow devices). */
+  get renderScale(): number {
+    return this.#scale;
+  }
+
   protected tick(deltaMs: number): void {
+    this.#adapt(deltaMs);
     const reduced = this.reducedMotion;
     const target = this.progress;
     const prev = this.#t;
