@@ -77,7 +77,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>Image generation shown like a real diffusion sampler: noise removed step by step, coarse to fine, out of latent blocks, with a step counter and a before/after compare slider.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/image-reveal.html">Playground</a> · <a href="docs/effects/image-reveal.md">Docs</a> · <a href="src/effects/image-reveal">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html"><img src="site/public/media/aurora.gif" alt="Aurora Curtain" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">Aurora Curtain</a></b> · <code>&lt;ane-aurora&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A realistic northern-lights hero background: curtains with rising rays, drifting folds that lean towards the pointer, twinkling stars and a mountain horizon. Your hero content stays plain HTML.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">Playground</a> · <a href="docs/effects/aurora.md">Docs</a> · <a href="src/effects/aurora">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -194,6 +199,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 - [x] **AI Thinking Buddy**: robot with idle / thinking / waiting / success / error states
 - [x] **Agent Flow Visualizer**: live plan → tool call → result graph with expandable steps
 - [x] **Liquid Glass Lens**: real glass refraction over live text; watch an assistant read and cite
+- [x] **Aurora Curtain** (UI FX): a realistic northern-lights hero background
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [x] **Image Reveal FX**: diffusion-style denoising reveal with a before/after compare slider
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret

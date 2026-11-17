@@ -300,3 +300,23 @@ test('image reveal playground denoises, compares and follows server steps', asyn
   await expect(reveal.locator('[role="progressbar"]')).toHaveAttribute('aria-valuetext', 'Step 15 of 30');
   expect(errors).toEqual([]);
 });
+
+test('aurora playground renders with WebGL, switches palettes and keeps content interactive', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/aurora.html');
+  const aurora = page.locator('#effect');
+  expect(await aurora.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
+  // The background fills its container.
+  const host = (await aurora.boundingBox())!;
+  const panel = (await page.locator('#viewport').boundingBox())!;
+  expect(host.width).toBeGreaterThan(panel.width - 4);
+
+  await page.getByRole('button', { name: 'ember', exact: true }).click();
+  await expect(aurora).toHaveAttribute('palette', 'ember');
+  await expect(page.locator('#code-snippet')).toContainText('palette="ember"');
+
+  // Slotted hero content stays real, clickable HTML.
+  await expect(aurora.getByRole('link', { name: 'Start for free' })).toBeVisible();
+  await aurora.hover();
+  expect(errors).toEqual([]);
+});
