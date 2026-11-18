@@ -84,6 +84,15 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">Playground</a> · <a href="docs/effects/aurora.md">Docs</a> · <a href="src/effects/aurora">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html"><img src="site/public/media/decrypt-text.gif" alt="Decrypt Text" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">Decrypt Text</a></b> · <code>&lt;ane-decrypt-text&gt;</code> · <sub>UI FX</sub>
+      <br><sub>Headlines that decode themselves out of width-matched scramble glyphs: no layout jitter, smooth morphs between strings, a glowing lock flash and CJK-aware scrambling.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">Playground</a> · <a href="docs/effects/decrypt-text.md">Docs</a> · <a href="src/effects/decrypt-text">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
@@ -200,6 +209,7 @@ effects.json         effect manifest: gallery, READMEs, tests and builds read it
 - [x] **Agent Flow Visualizer**: live plan → tool call → result graph with expandable steps
 - [x] **Liquid Glass Lens**: real glass refraction over live text; watch an assistant read and cite
 - [x] **Aurora Curtain** (UI FX): a realistic northern-lights hero background
+- [x] **Decrypt Text** (UI FX): jitter-free scramble-to-text with smooth morphs between strings
 - [x] **Orbit Loading Screen**: a full WebGL loading screen where the planet sharpens tile by tile
 - [x] **Image Reveal FX**: diffusion-style denoising reveal with a before/after compare slider
 - [x] **Token Stream Text**: adaptive-paced streaming text with blur-to-sharp ink and a glowing caret
