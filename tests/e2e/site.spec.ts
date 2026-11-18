@@ -320,3 +320,27 @@ test('aurora playground renders with WebGL, switches palettes and keeps content 
   await aurora.hover();
   expect(errors).toEqual([]);
 });
+
+test('decrypt text playground decodes, morphs custom text and stays jitter-free', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/decrypt-text.html');
+  const title = page.locator('#effect');
+  await expect(title).toHaveAttribute('aria-label', 'Interfaces that');
+  // Only the done handler writes the decoded text into the log.
+  await expect(page.locator('#event-log')).toContainText('· Interfaces that', { timeout: 6000 });
+
+  // The headline keeps its width while it re-decodes (no layout jitter).
+  const before = (await title.boundingBox())!.width;
+  await page.getByRole('button', { name: 'Decode again' }).click();
+  await expect.poll(() => title.evaluate((el) => (el as HTMLElement & { decoding: boolean }).decoding), { timeout: 3000, intervals: [20] }).toBe(true);
+  expect(Math.abs((await title.boundingBox())!.width - before)).toBeLessThan(1.5);
+
+  await page.getByLabel('Your text').fill('Decode anything 你好');
+  await page.getByRole('button', { name: 'Morph' }).click();
+  await expect(title).toHaveAttribute('aria-label', 'Decode anything 你好');
+  await expect(page.locator('#event-log')).toContainText('Decode anything 你好', { timeout: 6000 });
+
+  await page.getByLabel('Charset').selectOption('hex');
+  await expect(page.locator('#code-snippet')).toContainText('charset="hex"');
+  expect(errors).toEqual([]);
+});
