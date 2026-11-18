@@ -16,3 +16,4 @@ export * from './effects/agent-flow';
 export * from './effects/glass-lens';
 export * from './effects/image-reveal';
 export * from './effects/aurora';
+export * from './effects/decrypt-text';
