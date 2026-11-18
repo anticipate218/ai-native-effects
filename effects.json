@@ -144,6 +144,24 @@
       "since": "0.9.0",
       "status": "stable",
       "preview": "<img src=\"./media/aurora-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "decrypt-text",
+      "tag": "ane-decrypt-text",
+      "title": "Decrypt Text",
+      "titleZh": "解码文字",
+      "series": "UI FX",
+      "summary": "Headlines that decode themselves out of width-matched scramble glyphs: no layout jitter, smooth morphs between strings, a glowing lock flash and CJK-aware scrambling.",
+      "summaryZh": "从宽度匹配的乱码中自我解码的标题：整行零抖动，字符串之间平滑变形，锁定时闪光，中日韩字符自动用对应字形乱码。",
+      "tech": [
+        "DOM",
+        "Width-matched glyphs",
+        "Web Component"
+      ],
+      "added": "2026-11-18",
+      "since": "0.10.1",
+      "status": "stable",
+      "preview": "<img src=\"./media/decrypt-text-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }

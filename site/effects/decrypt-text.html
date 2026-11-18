@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Decrypt Text · AI Native Effects</title>
+    <meta name="description" content="A Web Component for headlines that decode themselves out of width-matched scramble glyphs, with no layout jitter, smooth morphs between strings and mixed-script support." />
+    <meta property="og:title" content="Decrypt Text · AI Native Effects" />
+    <meta property="og:description" content="Scramble-to-text that never jitters." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/decrypt-text.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+    <style>
+      .viewport.bleed.dt-stage { display: grid; place-items: center; min-height: 380px; padding: 40px 22px; background:
+        radial-gradient(60% 55% at 50% 40%, rgba(94, 242, 255, 0.1), transparent 70%),
+        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 32px 32px,
+        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px) 0 0 / 32px 32px, #05070d; }
+      .dt-hero { text-align: center; }
+      .dt-hero h2 { margin: 0; font-size: clamp(34px, 6.4vw, 60px); line-height: 1.05; font-weight: 680; letter-spacing: -0.035em; color: #fff; }
+      .dt-grad { background: linear-gradient(90deg, #5ef2ff, #9b7bff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+      .dt-hero p { margin: 18px 0 0; color: rgba(232, 240, 255, 0.66); }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/decrypt-text.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / UI FX</div>
+        <h1>Decrypt Text</h1>
+        <p class="lead">
+          Headlines, labels and numbers that decode themselves. Unlike most scramble effects, the line never jitters:
+          every character cell keeps its final width and scrambles only through glyphs of a similar width. Change the text
+          and it morphs from the old string to the new one; Chinese and Japanese scramble through their own glyphs.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed dt-stage" id="viewport">
+          <div class="dt-hero">
+            <h2><ane-decrypt-text id="effect">Interfaces that</ane-decrypt-text><br /><span class="dt-grad"><ane-decrypt-text id="word" stagger="300" accent="#ffffff">remember.</ane-decrypt-text></span></h2>
+            <p><ane-decrypt-text order="random" stagger="900" scramble="500" accent="#9b7bff">解码文字 · 中英混排也会用各自的字形乱码。</ane-decrypt-text></p>
+          </div>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <form class="control" id="custom">
+            <label for="custom-text">Your text</label>
+            <div class="actions"><input id="custom-text" type="text" value="Decode anything 你好" style="flex:1;min-width:0;padding:8px 10px;border-radius:8px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:inherit;font:inherit" /><button type="submit" class="btn small primary">Morph</button></div>
+          </form>
+          <div class="control">
+            <span class="label">Try it</span>
+            <div class="actions"><button type="button" class="btn small" id="replay">Decode again</button></div>
+          </div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-decrypt-done</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>text</code></td><td>string</td><td>text content</td><td>The text. Changing it morphs from the current text.</td></tr>
+              <tr><td><code>trigger</code></td><td><code>view</code> <code>hover</code> <code>manual</code></td><td><code>view</code></td><td>Decode once when scrolled into view; also on hover/focus; or only via <code>decode()</code>.</td></tr>
+              <tr><td><code>order</code></td><td><code>ltr</code> <code>rtl</code> <code>center</code> <code>random</code></td><td><code>ltr</code></td><td>Order in which characters lock.</td></tr>
+              <tr><td><code>charset</code></td><td><code>latin</code> <code>upper</code> <code>hex</code> <code>binary</code> <code>digits</code> <code>blocks</code> <code>symbols</code> <code>katakana</code> or any glyph string</td><td><code>latin</code></td><td>Scramble glyphs. <code>latin</code> keeps case and digits; CJK positions always use CJK glyphs.</td></tr>
+              <tr><td><code>stagger</code>, <code>scramble</code></td><td>ms</td><td><code>600</code>, <code>450</code></td><td>Spread of start times; scramble time per character.</td></tr>
+              <tr><td><code>accent</code>, <code>glow</code></td><td>colour, <code>0</code>–<code>2</code></td><td><code>#5ef2ff</code>, <code>1</code></td><td>Scramble colour and lock-flash glow.</td></tr>
+              <tr><td><code>seed</code>, <code>size</code>, <code>speed</code>, <code>motion</code></td><td></td><td><code>7</code>, inherit, <code>1</code>, <code>auto</code></td><td>Deterministic glyphs; font size; time scale; reduced motion fades instead.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Methods and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Methods and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>decode()</code></td><td>Plays the decode again.</td></tr>
+              <tr><td><code>text</code>, <code>decoding</code></td><td>Get/set the text (setting morphs); whether it is still scrambling.</td></tr>
+              <tr><td><code>ane-decrypt-done</code></td><td>Fired when the text has fully decoded (<code>{ text }</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/decrypt-text.gif">GIF</a>
+          <a class="btn small" href="../media/decrypt-text.mp4">MP4</a>
+          <a class="btn small" href="../media/decrypt-text.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/decrypt-text.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/decrypt-text">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./decrypt-text.ts"></script>
+  </body>
+</html>
