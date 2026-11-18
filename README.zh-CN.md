@@ -80,6 +80,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/aurora.html">在线演示</a> · <a href="docs/zh-CN/effects/aurora.md">文档</a> · <a href="src/effects/aurora">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html"><img src="site/public/media/decrypt-text.gif" alt="解码文字" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">解码文字</a></b> · <code>&lt;ane-decrypt-text&gt;</code> · <sub>UI FX</sub>
+      <br><sub>从宽度匹配的乱码中自我解码的标题：整行零抖动，字符串之间平滑变形，锁定时闪光，中日韩字符自动用对应字形乱码。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">在线演示</a> · <a href="docs/zh-CN/effects/decrypt-text.md">文档</a> · <a href="src/effects/decrypt-text">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
@@ -140,6 +149,7 @@ npm run sync       # 根据 effects.json 更新 README 组件表格
 - [x] **智能体流程可视化**：实时呈现规划、工具调用与结果，步骤可展开
 - [x] **液态玻璃透镜**：对实时文字的真实玻璃折射，展示 AI 阅读与引用
 - [x] **极光帷幕**（UI FX）：写实的北极光首屏背景
+- [x] **解码文字**（UI FX）：零抖动的乱码解码文字，字符串之间平滑变形
 - [x] **轨道加载界面**：完整的 WebGL 加载界面，星球随下载逐块变清晰
 - [x] **图像生成揭示**：扩散式逐步去噪，并带生成前后对比滑块
 - [x] **流式文本**：自适应节奏的流式文字，模糊到清晰的落墨效果与发光光标

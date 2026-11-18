@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-11-18
+
+### Added
+
+- `<ane-decrypt-text>` (Decrypt Text, UI FX): text that decodes itself out of scrambled glyphs
+  without layout jitter. Cells keep their final width and scramble only through glyphs of a
+  similar width in the element's font; changing `text` morphs from the old string with cells
+  opening and closing smoothly; CJK positions scramble through CJK glyphs. `trigger`
+  (`view` / `hover` / `manual`), `order`, `charset`, `stagger`, `scramble`, `accent`, `glow`,
+  `seed`; `decode()`, `ane-decrypt-done`. Screen readers get the final text; reduced motion fades.
+
 ## [0.10.1] - 2026-11-17
 
 ### Fixed
