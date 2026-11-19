@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-11-19
+
+### Added
+
+- `<ane-magnet-dock>` (Magnetic Dock, UI FX): a dock for any buttons or links. Icons swell under
+  the pointer on springs with a slight overshoot (cosine-squared falloff), neighbours lean in, one
+  shared label glides between items and resizes to the new text, and launches bounce with squash
+  and stretch. A real toolbar: roving tab index, arrow keys / Home / End, focus magnifies like hover;
+  touch scrubbing; activity dots from `data-active`; `fit="auto"` shrinks icons on narrow screens.
+  `size`, `magnify`, `range`, `lean`, `gap`, `tint`, `accent`, `labels`, `fit`; `launch()`,
+  `items`, `ane-dock-launch`. Reduced motion snaps to a fixed scale with no springs or bounce.
+
 ## [0.11.0] - 2026-11-18
 
 ### Added

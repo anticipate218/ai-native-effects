@@ -344,3 +344,61 @@ test('decrypt text playground decodes, morphs custom text and stays jitter-free'
   await expect(page.locator('#code-snippet')).toContainText('charset="hex"');
   expect(errors).toEqual([]);
 });
+
+test('magnet dock playground magnifies under the pointer, follows the keyboard and launches', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/magnet-dock.html');
+  const dock = page.locator('#effect');
+  await expect(dock).toHaveAttribute('role', 'toolbar');
+  const music = page.getByRole('button', { name: 'Music' });
+  const files = page.getByRole('button', { name: 'Files' });
+  const rest = (await music.boundingBox())!.width;
+  const label = dock.locator('.label');
+
+  // Hover: the icon under the pointer swells, its far neighbour barely moves, the label names it.
+  const box = (await music.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await expect.poll(async () => (await music.boundingBox())!.width / rest, { timeout: 3000 }).toBeGreaterThan(1.6);
+  expect((await files.boundingBox())!.width / rest).toBeLessThan(1.1);
+  await expect(label).toHaveText('Music');
+  await expect.poll(() => label.evaluate((el) => Number(getComputedStyle(el).opacity))).toBeGreaterThan(0.9);
+
+  // Leaving the dock settles everything back.
+  await page.mouse.move(box.x + box.width / 2, box.y - 260);
+  await expect.poll(async () => (await music.boundingBox())!.width / rest, { timeout: 3000 }).toBeLessThan(1.02);
+
+  // Keyboard: one tab stop, arrows move focus and the focused icon magnifies.
+  await files.focus();
+  await page.keyboard.press('ArrowRight');
+  const messages = page.getByRole('button', { name: 'Messages' });
+  await expect(messages).toBeFocused();
+  await expect(messages).toHaveAttribute('tabindex', '0');
+  await expect(files).toHaveAttribute('tabindex', '-1');
+  await expect.poll(async () => (await messages.boundingBox())!.width / rest, { timeout: 3000 }).toBeGreaterThan(1.6);
+  await expect(label).toHaveText('Messages');
+
+  // Launch: the event fires and the playground shows the activity dot.
+  await page.keyboard.press('ArrowRight');
+  const mail = page.getByRole('button', { name: 'Mail' });
+  await expect(mail).toBeFocused();
+  await expect(mail).not.toHaveAttribute('data-active');
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#event-log')).toContainText('Mail opened');
+  await expect(mail).toHaveAttribute('data-active', '');
+
+  await page.getByLabel('Magnify').fill('1');
+  await expect(page.locator('#code-snippet')).toContainText('magnify="1"');
+  expect(errors).toEqual([]);
+});
+
+test('magnet dock snaps without springs under reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('effects/magnet-dock.html');
+  const music = page.getByRole('button', { name: 'Music' });
+  const rest = (await music.boundingBox())!.width;
+  const box = (await music.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await expect.poll(async () => (await music.boundingBox())!.width / rest, { timeout: 2000 }).toBeCloseTo(1.3, 1);
+  const files = page.getByRole('button', { name: 'Files' });
+  expect((await files.boundingBox())!.width / rest).toBeCloseTo(1, 2);
+});

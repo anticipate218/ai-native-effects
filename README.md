@@ -91,7 +91,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>Headlines that decode themselves out of width-matched scramble glyphs: no layout jitter, smooth morphs between strings, a glowing lock flash and CJK-aware scrambling.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">Playground</a> · <a href="docs/effects/decrypt-text.md">Docs</a> · <a href="src/effects/decrypt-text">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html"><img src="site/public/media/magnet-dock.gif" alt="Magnetic Dock" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">Magnetic Dock</a></b> · <code>&lt;ane-magnet-dock&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A spring-physics dock for any buttons or links: icons swell and lean towards the pointer, one label glides between them, launches bounce with squash and stretch, and keyboard focus and touch scrubbing magnify too.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">Playground</a> · <a href="docs/effects/magnet-dock.md">Docs</a> · <a href="src/effects/magnet-dock">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

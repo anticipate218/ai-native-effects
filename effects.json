@@ -162,6 +162,24 @@
       "since": "0.10.1",
       "status": "stable",
       "preview": "<img src=\"./media/decrypt-text-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "magnet-dock",
+      "tag": "ane-magnet-dock",
+      "title": "Magnetic Dock",
+      "titleZh": "磁吸 Dock 栏",
+      "series": "UI FX",
+      "summary": "A spring-physics dock for any buttons or links: icons swell and lean towards the pointer, one label glides between them, launches bounce with squash and stretch, and keyboard focus and touch scrubbing magnify too.",
+      "summaryZh": "适用于任意按钮或链接的弹簧物理 Dock 栏：图标在指针下放大并向指针倾靠，一个共享标签在图标间滑动，启动时带挤压拉伸的弹跳，键盘焦点和触摸滑动同样会放大。",
+      "tech": [
+        "DOM",
+        "Spring physics",
+        "Web Component"
+      ],
+      "added": "2026-11-19",
+      "since": "0.12.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/magnet-dock-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
