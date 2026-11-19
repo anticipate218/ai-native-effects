@@ -87,7 +87,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>从宽度匹配的乱码中自我解码的标题：整行零抖动，字符串之间平滑变形，锁定时闪光，中日韩字符自动用对应字形乱码。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/decrypt-text.html">在线演示</a> · <a href="docs/zh-CN/effects/decrypt-text.md">文档</a> · <a href="src/effects/decrypt-text">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html"><img src="site/public/media/magnet-dock.gif" alt="磁吸 Dock 栏" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">磁吸 Dock 栏</a></b> · <code>&lt;ane-magnet-dock&gt;</code> · <sub>UI FX</sub>
+      <br><sub>适用于任意按钮或链接的弹簧物理 Dock 栏：图标在指针下放大并向指针倾靠，一个共享标签在图标间滑动，启动时带挤压拉伸的弹跳，键盘焦点和触摸滑动同样会放大。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">在线演示</a> · <a href="docs/zh-CN/effects/magnet-dock.md">文档</a> · <a href="src/effects/magnet-dock">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

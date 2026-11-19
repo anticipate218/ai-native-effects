@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Magnetic Dock · AI Native Effects</title>
+    <meta name="description" content="A magnifying, spring-physics dock for any buttons or links: icons swell and lean towards the pointer, one label glides between them, launches bounce; keyboard and touch work too." />
+    <meta property="og:title" content="Magnetic Dock · AI Native Effects" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/magnet-dock.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+    <style>
+      .viewport.bleed.md-stage { position: relative; overflow: hidden; min-height: 400px; padding: 0; }
+      .md-desk { position: absolute; inset: 0; }
+      .md-hint { position: absolute; left: 0; right: 0; top: 42%; text-align: center; color: rgba(255, 255, 255, 0.86); font-size: 15px; text-shadow: 0 1px 12px rgba(20, 10, 50, 0.5); padding: 0 20px; }
+      .md-hint kbd { font: 600 12px/1 ui-monospace, Consolas, monospace; padding: 3px 6px; border-radius: 5px; background: rgba(255, 255, 255, 0.18); }
+      .md-dock { position: absolute; left: 0; right: 0; bottom: 16px; display: flex; justify-content: center; padding: 0 12px; }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/magnet-dock.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / UI FX</div>
+        <h1>Magnetic Dock</h1>
+        <p class="lead">
+          A dock for any buttons or links. Icons swell under the pointer on springs with a little overshoot, neighbours
+          follow and lean in, one shared label glides between apps, and a launch bounces with squash and stretch. It is a
+          real toolbar: arrow keys move focus and magnify, and on touch you can scrub along the dock.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed md-stage" id="viewport">
+          <div class="md-desk" id="desk"></div>
+          <p class="md-hint">Hover the dock, press <kbd>Tab</kbd> then arrow keys, or scrub with a finger. Click to launch.</p>
+          <div class="md-dock"><ane-magnet-dock id="effect" aria-label="Apps"></ane-magnet-dock></div>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+          <p class="crumbs" id="event-log">Listening for <code>ane-dock-launch</code>…</p>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>size</code></td><td>CSS length</td><td><code>52px</code></td><td>Resting icon size.</td></tr>
+              <tr><td><code>magnify</code></td><td><code>1</code>–<code>3</code></td><td><code>1.85</code></td><td>Scale of the icon under the pointer.</td></tr>
+              <tr><td><code>range</code></td><td><code>0.5</code>–<code>8</code></td><td><code>2.6</code></td><td>How far the swell reaches, in icon widths.</td></tr>
+              <tr><td><code>lean</code></td><td><code>0</code>–<code>1</code></td><td><code>0.35</code></td><td>How much icons lean towards the pointer.</td></tr>
+              <tr><td><code>gap</code></td><td>CSS length</td><td><code>10px</code></td><td>Space between icons.</td></tr>
+              <tr><td><code>tint</code>, <code>accent</code></td><td>colours</td><td>white 14%, <code>#fff</code></td><td>Glass tint; focus ring and activity dots.</td></tr>
+              <tr><td><code>labels</code></td><td><code>auto</code> <code>none</code></td><td><code>auto</code></td><td>Shared gliding label (text from <code>aria-label</code>, <code>title</code> or content).</td></tr>
+              <tr><td><code>fit</code></td><td><code>auto</code> <code>none</code></td><td><code>auto</code></td><td>Shrink icons when the parent is too narrow.</td></tr>
+              <tr><td><code>speed</code>, <code>motion</code></td><td><code>0</code>–<code>5</code>, <code>auto</code> <code>reduce</code> <code>full</code></td><td><code>1</code>, <code>auto</code></td><td>Time scale; reduced motion snaps the hovered icon to a small fixed scale with no springs or bounce.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Items, methods and events</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Methods and events table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td>children</td><td>Any focusable elements (<code>&lt;button&gt;</code>, <code>&lt;a&gt;</code>) holding an icon; give each an <code>aria-label</code>.</td></tr>
+              <tr><td><code>data-active</code></td><td>On an item: shows its activity dot.</td></tr>
+              <tr><td><code>launch(item)</code>, <code>items</code></td><td>Plays the launch bounce; the slotted items.</td></tr>
+              <tr><td><code>ane-dock-launch</code></td><td>Fired when an item is clicked or launched (<code>{ item }</code>).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/magnet-dock.gif">GIF</a>
+          <a class="btn small" href="../media/magnet-dock.mp4">MP4</a>
+          <a class="btn small" href="../media/magnet-dock.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/magnet-dock.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/magnet-dock">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./magnet-dock.ts"></script>
+  </body>
+</html>
