@@ -98,6 +98,15 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">Playground</a> · <a href="docs/effects/magnet-dock.md">Docs</a> · <a href="src/effects/magnet-dock">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html"><img src="site/public/media/tilt-holo-card.gif" alt="Holographic Tilt Card" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">Holographic Tilt Card</a></b> · <code>&lt;ane-tilt-holo-card&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A card that tilts towards the pointer on springs, with a procedural holographic foil that shows a rainbow only where the light hits, an iridescent sheen, a moving glare and a shimmering rim. Any content inside; idle sway and optional gyroscope.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">Playground</a> · <a href="docs/effects/tilt-holo-card.md">Docs</a> · <a href="src/effects/tilt-holo-card">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
