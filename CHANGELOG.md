@@ -6,6 +6,22 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-11-20
+
+### Added
+
+- `<ane-tilt-holo-card>` (Holographic Tilt Card, UI FX): a card that tilts towards the pointer on
+  springs with a procedural holographic foil (`sparkle`, `lines`, `scales` or `none`) that shows
+  a rainbow only where the pattern and the pointer's light overlap, a broad iridescent sheen, a
+  glare, a shimmering rim and a counter-moving shadow. Any HTML inside; idle sway; optional
+  gyroscope (`gyro`); keyboard focus inside tilts it. `tilt`, `foil`, `foil-strength`, `sheen`,
+  `glare`, `blend`, `hue`, `radius`, `ratio`, `perspective`, `idle`, `seed`; `tiltAngles`.
+  Reduced motion keeps the card flat with a static sheen.
+
+### Changed
+
+- `springStep` moved to `core/math` and is shared by effects (still exported from `magnet-dock`).
+
 ## [0.12.0] - 2026-11-19
 
 ### Added
