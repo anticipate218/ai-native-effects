@@ -18,3 +18,4 @@ export * from './effects/image-reveal';
 export * from './effects/aurora';
 export * from './effects/decrypt-text';
 export * from './effects/magnet-dock';
+export * from './effects/tilt-holo-card';

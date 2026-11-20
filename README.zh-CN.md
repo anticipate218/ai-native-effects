@@ -94,6 +94,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/magnet-dock.html">在线演示</a> · <a href="docs/zh-CN/effects/magnet-dock.md">文档</a> · <a href="src/effects/magnet-dock">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html"><img src="site/public/media/tilt-holo-card.gif" alt="全息倾斜卡片" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">全息倾斜卡片</a></b> · <code>&lt;ane-tilt-holo-card&gt;</code> · <sub>UI FX</sub>
+      <br><sub>随指针弹簧倾斜的卡片：程序化全息箔纹只在光照处显出彩虹，叠加虹彩光带、跟随的高光和流光描边。卡片内容可放任意 HTML；空闲时轻微摆动，手机上可选陀螺仪。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">在线演示</a> · <a href="docs/zh-CN/effects/tilt-holo-card.md">文档</a> · <a href="src/effects/tilt-holo-card">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 

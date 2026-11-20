@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Holographic Tilt Card · AI Native Effects</title>
+    <meta name="description" content="A card that tilts towards the pointer with a procedural holographic foil, an iridescent sheen, a moving glare and a rainbow rim. Put any content inside." />
+    <meta property="og:title" content="Holographic Tilt Card · AI Native Effects" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/tilt-holo-card.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+    <style>
+      .viewport.bleed.hc-stage { display: grid; grid-template-columns: minmax(0, 1fr); place-items: center; min-height: 460px; padding: 40px 20px; background:
+        radial-gradient(55% 65% at 50% 50%, rgba(140, 90, 255, 0.26), transparent 70%),
+        radial-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1.4px) 0 0 / 22px 22px, #0a0816; }
+      .hc-link:focus-visible { outline: 2px solid #fff; }
+      .hc-stage > div { width: 100%; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+      .hc-hint { margin: 26px 0 0; text-align: center; color: rgba(236, 232, 255, 0.62); font-size: 14px; }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/tilt-holo-card.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / UI FX</div>
+        <h1>Holographic Tilt Card</h1>
+        <p class="lead">
+          A card that tilts towards the pointer on springs. A procedural foil (glitter, grooves or scales) shows a rainbow only
+          where the light hits, a broad iridescent band and a glare follow the pointer, and the rim shimmers. Your own HTML goes
+          inside. When nobody touches it, it sways gently; on phones it can follow the gyroscope.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed hc-stage" id="viewport">
+          <div>
+            <ane-tilt-holo-card id="effect"></ane-tilt-holo-card>
+            <p class="hc-hint">Move the pointer over the card, drag on touch, or Tab to the card's link.</p>
+          </div>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>size</code></td><td>CSS length</td><td><code>300px</code></td><td>Card width (never wider than its container).</td></tr>
+              <tr><td><code>tilt</code></td><td><code>0</code>–<code>35</code></td><td><code>16</code></td><td>Maximum tilt in degrees.</td></tr>
+              <tr><td><code>foil</code></td><td><code>sparkle</code> <code>lines</code> <code>scales</code> <code>none</code></td><td><code>sparkle</code></td><td>Procedural foil pattern; <code>none</code> lets the rainbow cover the whole card.</td></tr>
+              <tr><td><code>foil-strength</code>, <code>sheen</code>, <code>glare</code></td><td><code>0</code>–<code>1</code></td><td><code>0.85</code>, <code>0.55</code>, <code>0.8</code></td><td>Foil rainbow, broad iridescent band, white highlight.</td></tr>
+              <tr><td><code>blend</code></td><td><code>color-dodge</code> <code>screen</code> <code>overlay</code> <code>soft-light</code> <code>hard-light</code> <code>plus-lighter</code></td><td><code>color-dodge</code></td><td>How the foil mixes with your content (try <code>screen</code> on light cards).</td></tr>
+              <tr><td><code>hue</code></td><td>degrees</td><td><code>0</code></td><td>Shifts the rainbow.</td></tr>
+              <tr><td><code>radius</code>, <code>ratio</code>, <code>perspective</code></td><td>CSS values</td><td><code>18px</code>, content, <code>800px</code></td><td>Corner radius, aspect ratio (e.g. <code>5/7</code>), 3D depth.</td></tr>
+              <tr><td><code>idle</code></td><td><code>on</code> <code>off</code></td><td><code>on</code></td><td>Slow sway when nobody is touching the card.</td></tr>
+              <tr><td><code>gyro</code></td><td>boolean</td><td>off</td><td>Follow device orientation on phones (asks for permission on iOS at the first tap).</td></tr>
+              <tr><td><code>seed</code>, <code>speed</code>, <code>motion</code></td><td></td><td><code>7</code>, <code>1</code>, <code>auto</code></td><td>Foil pattern seed; time scale; reduced motion keeps the card flat with a static sheen.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Styling</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Styling hooks table">
+          <table>
+            <thead><tr><th scope="col">Hook</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>::part(card)</code>, <code>::part(foil)</code>, <code>::part(sheen)</code>, <code>::part(glare)</code>, <code>::part(shadow)</code></td><td>The layers.</td></tr>
+              <tr><td><code>--ane-holo-bg</code>, <code>--ane-holo-radius</code></td><td>Card background behind your content; corner radius.</td></tr>
+              <tr><td><code>tiltAngles</code></td><td>Current <code>[rotateX, rotateY]</code> in degrees (read-only).</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/tilt-holo-card.gif">GIF</a>
+          <a class="btn small" href="../media/tilt-holo-card.mp4">MP4</a>
+          <a class="btn small" href="../media/tilt-holo-card.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/tilt-holo-card.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/tilt-holo-card">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./tilt-holo-card.ts"></script>
+  </body>
+</html>

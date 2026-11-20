@@ -402,3 +402,48 @@ test('magnet dock snaps without springs under reduced motion', async ({ page }) 
   const files = page.getByRole('button', { name: 'Files' });
   expect((await files.boundingBox())!.width / rest).toBeCloseTo(1, 2);
 });
+
+test('holographic tilt card follows the pointer, settles back to its sway and reacts to the controls', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/tilt-holo-card.html');
+  const card = page.locator('#effect');
+  const angles = () => card.evaluate((el) => (el as HTMLElement & { tiltAngles: [number, number] }).tiltAngles);
+  await card.evaluate((el) => el.setAttribute('idle', 'off'));
+  await card.scrollIntoViewIfNeeded();
+  const box = (await card.boundingBox())!;
+
+  // Pointer near the top-right corner: the top and the right side dip away.
+  await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1);
+  await expect.poll(async () => (await angles())[1], { timeout: 3000 }).toBeGreaterThan(10);
+  expect((await angles())[0]).toBeGreaterThan(8);
+  // Bottom-left: the opposite.
+  await page.mouse.move(box.x + box.width * 0.1, box.y + box.height * 0.9);
+  await expect.poll(async () => (await angles())[1], { timeout: 3000 }).toBeLessThan(-10);
+  expect((await angles())[0]).toBeLessThan(-8);
+  // The glare follows: --px near the left edge.
+  expect(Number(await card.evaluate((el) => (el as HTMLElement).style.getPropertyValue('--px')))).toBeLessThan(25);
+
+  // Leaving with idle off settles to the resting pose.
+  await page.mouse.move(box.x - 200, box.y - 100);
+  await expect.poll(async () => Math.abs((await angles())[1]), { timeout: 3000 }).toBeLessThan(5);
+
+  // Keyboard: the card face is a link; focusing it tilts the card.
+  await page.locator('.hc-link').focus();
+  await expect.poll(async () => (await angles())[1], { timeout: 3000 }).toBeGreaterThan(5);
+
+  await page.getByRole('button', { name: 'scales' }).click();
+  await expect(card).toHaveAttribute('foil', 'scales');
+  await expect(page.locator('#code-snippet')).toContainText('foil="scales"');
+  expect(await card.evaluate((el) => (el as HTMLElement).style.getPropertyValue('--_pattern'))).toContain('data:image/png');
+  expect(errors).toEqual([]);
+});
+
+test('holographic tilt card stays flat under reduced motion', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('effects/tilt-holo-card.html');
+  const card = page.locator('#effect');
+  const box = (await card.boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.9, box.y + box.height * 0.1);
+  await page.waitForTimeout(500);
+  expect(await card.evaluate((el) => (el as HTMLElement & { tiltAngles: [number, number] }).tiltAngles)).toEqual([0, 0]);
+});

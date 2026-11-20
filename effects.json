@@ -180,6 +180,24 @@
       "since": "0.12.0",
       "status": "stable",
       "preview": "<img src=\"./media/magnet-dock-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "tilt-holo-card",
+      "tag": "ane-tilt-holo-card",
+      "title": "Holographic Tilt Card",
+      "titleZh": "全息倾斜卡片",
+      "series": "UI FX",
+      "summary": "A card that tilts towards the pointer on springs, with a procedural holographic foil that shows a rainbow only where the light hits, an iridescent sheen, a moving glare and a shimmering rim. Any content inside; idle sway and optional gyroscope.",
+      "summaryZh": "随指针弹簧倾斜的卡片：程序化全息箔纹只在光照处显出彩虹，叠加虹彩光带、跟随的高光和流光描边。卡片内容可放任意 HTML；空闲时轻微摆动，手机上可选陀螺仪。",
+      "tech": [
+        "CSS 3D",
+        "Canvas foil masks",
+        "Web Component"
+      ],
+      "added": "2026-11-20",
+      "since": "0.13.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/tilt-holo-card-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
