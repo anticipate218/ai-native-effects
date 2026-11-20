@@ -24,6 +24,18 @@ export const easeOutBack = (t: number, overshoot = 1.70158): number => {
 /** A smooth 0 → 1 → 0 hump over t ∈ [0, 1]. */
 export const hump = (t: number): number => (t <= 0 || t >= 1 ? 0 : Math.sin(Math.PI * t));
 
+/**
+ * One semi-implicit (symplectic Euler) spring step towards `target`. Returns the new
+ * [value, velocity]. Frame gaps are clamped to 48 ms so a background tab never makes it explode.
+ * The defaults (stiffness 320, damping 24) give a damping ratio of about 0.67: a few percent of overshoot.
+ */
+export function springStep(x: number, v: number, target: number, dtMs: number, stiffness = 320, damping = 24): [number, number] {
+  const dt = Math.min(dtMs, 48) / 1000;
+  const a = -stiffness * (x - target) - damping * v;
+  const nv = v + a * dt;
+  return [x + nv * dt, nv];
+}
+
 /** Seeded PRNG (mulberry32): deterministic sequences make recordings and tests reproducible. */
 export function createRandom(seed: number): () => number {
   let state = seed >>> 0;

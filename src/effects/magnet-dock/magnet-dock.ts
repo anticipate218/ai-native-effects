@@ -1,5 +1,7 @@
 import { defineElement, EffectElement } from '../../core/effect-element';
-import { clamp, damp, parseNumber } from '../../core/math';
+import { clamp, damp, parseNumber, springStep } from '../../core/math';
+
+export { springStep };
 
 /** Target scale for an icon at distance `d` (px) from the pointer: cosine² falloff over `range` px. */
 export function magnifyAt(d: number, range: number, max: number): number {
@@ -7,14 +9,6 @@ export function magnifyAt(d: number, range: number, max: number): number {
   const k = Math.min(1, Math.abs(d) / range);
   const c = Math.cos((k * Math.PI) / 2);
   return 1 + (max - 1) * c * c;
-}
-
-/** One semi-implicit spring step. Returns the new [value, velocity]. */
-export function springStep(x: number, v: number, target: number, dtMs: number, stiffness = 320, damping = 24): [number, number] {
-  const dt = Math.min(dtMs, 48) / 1000;
-  const a = -stiffness * (x - target) - damping * v;
-  const nv = v + a * dt;
-  return [x + nv * dt, nv];
 }
 
 const STYLE = /* css */ `
