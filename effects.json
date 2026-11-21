@@ -198,6 +198,24 @@
       "since": "0.13.0",
       "status": "stable",
       "preview": "<img src=\"./media/tilt-holo-card-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "spotlight-grid",
+      "tag": "ane-spotlight-grid",
+      "title": "Spotlight Grid",
+      "titleZh": "聚光卡片墙",
+      "series": "UI FX",
+      "summary": "One shared light for a whole wall of cards: it follows the pointer with inertia, lights borders across the gaps, reveals a dot grid and sends a light wave through the wall on click. Idle drift, keyboard focus and touch.",
+      "summaryZh": "整面卡片墙共享一束光：带惯性跟随指针，越过间隙照亮相邻卡片的边框，点亮背景点阵，点击时发出一圈光波扫过整面墙。支持空闲游走、键盘聚焦和触屏。",
+      "tech": [
+        "DOM",
+        "CSS masks",
+        "Web Component"
+      ],
+      "added": "2026-11-21",
+      "since": "0.14.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/spotlight-grid-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
