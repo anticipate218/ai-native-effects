@@ -2,7 +2,7 @@ import type { Scene } from './scene';
 
 declare global {
   interface Window {
-    __scene?: Pick<Scene, 'width' | 'height' | 'duration' | 'poster'>;
+    __scene?: Pick<Scene, 'width' | 'height' | 'duration' | 'poster' | 'capture'>;
     __stageReady?: boolean;
     __startScene?: () => void;
   }
@@ -23,7 +23,7 @@ async function main(): Promise<void> {
   const scene = (await load()).default;
   stage.style.width = `${scene.width}px`;
   stage.style.height = `${scene.height}px`;
-  window.__scene = { width: scene.width, height: scene.height, duration: scene.duration, poster: scene.poster };
+  window.__scene = { width: scene.width, height: scene.height, duration: scene.duration, poster: scene.poster, capture: scene.capture };
 
   let dispose = (): void => {};
   const start = (): void => {

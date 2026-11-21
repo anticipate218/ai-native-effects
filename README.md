@@ -105,7 +105,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A card that tilts towards the pointer on springs, with a procedural holographic foil that shows a rainbow only where the light hits, an iridescent sheen, a moving glare and a shimmering rim. Any content inside; idle sway and optional gyroscope.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">Playground</a> · <a href="docs/effects/tilt-holo-card.md">Docs</a> · <a href="src/effects/tilt-holo-card">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html"><img src="site/public/media/spotlight-grid.gif" alt="Spotlight Grid" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">Spotlight Grid</a></b> · <code>&lt;ane-spotlight-grid&gt;</code> · <sub>UI FX</sub>
+      <br><sub>One shared light for a whole wall of cards: it follows the pointer with inertia, lights borders across the gaps, reveals a dot grid and sends a light wave through the wall on click. Idle drift, keyboard focus and touch.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">Playground</a> · <a href="docs/effects/spotlight-grid.md">Docs</a> · <a href="src/effects/spotlight-grid">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -201,7 +206,7 @@ Every effect passes the same quality gate before it ships: unit tests, axe-core 
 npm install
 npm run dev        # showcase site with hot reload: http://localhost:5173
 npm run check      # typecheck + unit tests + build + e2e quality gate
-npm run capture    # re-record GIF / MP4 / poster previews (needs ffmpeg)
+npm run capture -- <id>   # re-record GIF / MP4 / poster previews (needs ffmpeg; --all for every effect)
 npm run new -- my-effect --title "My Effect"   # scaffold a new effect
 npm run sync       # regenerate README effect tables from effects.json
 ```

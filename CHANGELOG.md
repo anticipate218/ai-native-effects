@@ -6,6 +6,23 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-11-21
+
+### Added
+
+- `<ane-spotlight-grid>` (Spotlight Grid, UI FX): one shared light for a whole wall of cards. It
+  follows the pointer on a spring, lights card borders by distance (neighbours too, across the gaps),
+  reveals a dot grid behind the cards, adds a surface sheen and sends a light wave through the wall
+  on click (`pulse()`). Idle drift, keyboard focus moves the light, touch drag. `color`, `accent`,
+  `radius`, `intensity`, `border`, `sheen`, `dots`, `dot-gap`, `idle`. Reduced motion: no inertia,
+  drift or waves.
+
+### Changed
+
+- `scripts/capture.mjs`: scenes can declare their own encoder settings (`capture: { gifFps, gifColors,
+  gifDither, crf }`; command-line flags still win), so `npm run capture -- <id>` reproduces committed
+  media. Running it without an id now prints usage instead of re-capturing every effect; use `--all`.
+
 ## [0.13.0] - 2026-11-20
 
 ### Added

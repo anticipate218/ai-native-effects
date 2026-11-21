@@ -83,6 +83,7 @@ const scene: Scene = {
   height: 450,
   duration: 9000,
   poster: 2700,
+  capture: { gifFps: 15, gifColors: 96, gifDither: 'bayer:bayer_scale=4', crf: 24 },
   play(stage) {
     stage.innerHTML = PAGE + CURSOR;
     const card = stage.querySelector<TiltHoloCardElement>('ane-tilt-holo-card')!;
