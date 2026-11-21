@@ -447,3 +447,36 @@ test('holographic tilt card stays flat under reduced motion', async ({ page }) =
   await page.waitForTimeout(500);
   expect(await card.evaluate((el) => (el as HTMLElement & { tiltAngles: [number, number] }).tiltAngles)).toEqual([0, 0]);
 });
+
+test('spotlight grid follows the pointer, lights neighbouring borders and sends a wave', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/spotlight-grid.html');
+  const grid = page.locator('#effect');
+  await grid.evaluate((el) => el.setAttribute('idle', 'off'));
+  await grid.scrollIntoViewIfNeeded();
+  const cards = grid.locator('article');
+  await expect(cards).toHaveCount(5);
+  const b = (await cards.nth(1).boundingBox())!;
+  const g = (await grid.boundingBox())!;
+  await page.mouse.move(b.x + b.width / 2, b.y + b.height / 2);
+  const v = (p: string) => grid.evaluate((el, prop) => parseFloat((el as HTMLElement).style.getPropertyValue(prop)), p);
+  await expect.poll(() => v('--i'), { timeout: 3000 }).toBeGreaterThan(0.9);
+  await expect.poll(async () => Math.abs((await v('--x')) - (b.x - g.x + b.width / 2)), { timeout: 3000 }).toBeLessThan(4);
+
+  // Click: a wave runs through the wall and lights rings as it passes.
+  await page.mouse.down();
+  await page.mouse.up();
+  await expect
+    .poll(() => grid.evaluate((el) => Math.max(...[...el.shadowRoot!.querySelectorAll<HTMLElement>('.ring')].map((r) => parseFloat(r.style.getPropertyValue('--pulse') || '0')))), { timeout: 2000 })
+    .toBeGreaterThan(0.2);
+
+  // Keyboard: focusing a card moves the light to it.
+  await page.mouse.move(g.x - 300, g.y - 200);
+  await cards.nth(4).focus();
+  const c = (await cards.nth(4).boundingBox())!;
+  await expect.poll(async () => Math.abs((await v('--x')) - (c.x - g.x + c.width / 2)), { timeout: 3000 }).toBeLessThan(4);
+
+  await page.getByRole('button', { name: 'off', exact: true }).first().click();
+  await expect(page.locator('#code-snippet')).toContainText('dots="off"');
+  expect(errors).toEqual([]);
+});
