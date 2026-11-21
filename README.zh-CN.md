@@ -101,7 +101,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>随指针弹簧倾斜的卡片：程序化全息箔纹只在光照处显出彩虹，叠加虹彩光带、跟随的高光和流光描边。卡片内容可放任意 HTML；空闲时轻微摆动，手机上可选陀螺仪。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/tilt-holo-card.html">在线演示</a> · <a href="docs/zh-CN/effects/tilt-holo-card.md">文档</a> · <a href="src/effects/tilt-holo-card">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html"><img src="site/public/media/spotlight-grid.gif" alt="聚光卡片墙" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">聚光卡片墙</a></b> · <code>&lt;ane-spotlight-grid&gt;</code> · <sub>UI FX</sub>
+      <br><sub>整面卡片墙共享一束光：带惯性跟随指针，越过间隙照亮相邻卡片的边框，点亮背景点阵，点击时发出一圈光波扫过整面墙。支持空闲游走、键盘聚焦和触屏。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">在线演示</a> · <a href="docs/zh-CN/effects/spotlight-grid.md">文档</a> · <a href="src/effects/spotlight-grid">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
@@ -152,7 +157,7 @@ React、Vue 等框架的用法见 [英文 README](README.md#in-your-framework) �
 npm install
 npm run dev        # 启动展示站点
 npm run check      # 类型检查 + 单元测试 + 构建 + 端到端质量门禁
-npm run capture    # 重新录制 GIF / MP4 / 封面（需要 ffmpeg）
+npm run capture -- <id>   # 重新录制 GIF / MP4 / 封面（需要 ffmpeg；--all 重录全部）
 npm run new -- my-effect --title "My Effect"   # 生成新组件脚手架
 npm run sync       # 根据 effects.json 更新 README 组件表格
 ```

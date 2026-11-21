@@ -11,6 +11,11 @@ export interface Scene {
   duration: number;
   /** Timestamp (ms) of the frame used for the poster and thumbnail. */
   poster: number;
+  /**
+   * Optional encoder settings for scripts/capture.mjs (command-line flags still win). Smooth gradients
+   * and grain dither badly in GIF palettes; fewer frames, colours and a coarser dither keep them small.
+   */
+  capture?: { gifFps?: number; gifColors?: number; gifDither?: string; crf?: number };
   /** Builds the DOM and schedules the timeline. Returns a disposer. */
   play(stage: HTMLElement): () => void;
 }

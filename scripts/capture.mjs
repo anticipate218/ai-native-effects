@@ -40,11 +40,14 @@ const valueArgs = new Set(['--fps', '--shots', '--gif-width', '--gif-fps', '--gi
 const fps = Number(option('fps', 25));
 // README GIFs are tuned for size (~1.5 MB): narrower, 20 fps, ordered dithering.
 const gifWidth = Number(option('gif-width', 480));
-const gifFps = Number(option('gif-fps', 20));
-// High-entropy effects (noise, grain) need a smaller palette and a higher CRF to stay small.
-const gifColors = Number(option('gif-colors', 128));
-const crf = String(option('crf', 20));
-const gifDither = option('gif-dither', 'bayer:bayer_scale=3');
+// High-entropy effects (noise, grain, smooth gradients) need a smaller palette and a higher CRF to stay
+// small. Precedence: command line > the scene's own `capture` settings > these defaults.
+const DEFAULTS = { gifFps: 20, gifColors: 128, crf: 20, gifDither: 'bayer:bayer_scale=3' };
+const cli = { gifFps: option('gif-fps', null), gifColors: option('gif-colors', null), crf: option('crf', null), gifDither: option('gif-dither', null) };
+const settings = (scene) => {
+  const pick = (k) => cli[k] ?? scene.capture?.[k] ?? DEFAULTS[k];
+  return { gifFps: Number(pick('gifFps')), gifColors: Number(pick('gifColors')), crf: String(pick('crf')), gifDither: String(pick('gifDither')) };
+};
 const shots = option('shots', '')
   .split(',')
   .filter(Boolean)
@@ -52,6 +55,11 @@ const shots = option('shots', '')
 
 const manifest = JSON.parse(await readFile(join(root, 'effects.json'), 'utf8'));
 const requested = argv.filter((arg, i) => !arg.startsWith('--') && !valueArgs.has(i));
+if (!requested.length && !flag('all')) {
+  // Re-capturing everything overwrites committed media; make it explicit.
+  console.error('Usage: npm run capture -- <id> [<id> ...]   (or --all to re-capture every stable effect)');
+  process.exit(1);
+}
 const ids = requested.length ? requested : manifest.effects.filter((e) => e.status === 'stable').map((e) => e.id);
 const unknown = ids.filter((id) => !manifest.effects.some((e) => e.id === id));
 if (unknown.length) throw new Error(`Unknown effect id(s): ${unknown.join(', ')}`);
@@ -112,6 +120,7 @@ try {
     await page.close();
 
     await mkdir(mediaDir, { recursive: true });
+    const { gifFps, gifColors, crf, gifDither } = settings(scene);
     const input = ['-y', '-loglevel', 'error', '-framerate', String(fps), '-i', join(frameDir, '%04d.png')];
     const mp4 = join(mediaDir, `${id}.mp4`);
     const gif = join(mediaDir, `${id}.gif`);
