@@ -480,3 +480,27 @@ test('spotlight grid follows the pointer, lights neighbouring borders and sends 
   await expect(page.locator('#code-snippet')).toContainText('dots="off"');
   expect(errors).toEqual([]);
 });
+
+test('ascii field renders with WebGL, morphs words and reacts to the pointer', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/ascii-field.html');
+  const field = page.locator('#effect');
+  await field.scrollIntoViewIfNeeded();
+  expect(await field.evaluate((el) => (el as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
+  expect(await field.evaluate((el) => (el as HTMLElement & { renderScale: number }).renderScale)).toBeGreaterThan(0);
+  await expect(field).toHaveAttribute('text', 'HELLO');
+  await expect(field.getByText('Characters with somewhere to be.')).toBeVisible();
+
+  await page.getByLabel('Morph to').fill('Glyph');
+  await page.getByRole('button', { name: 'Morph' }).click();
+  await expect(field).toHaveAttribute('text', 'GLYPH', { timeout: 5000 });
+  expect(await field.evaluate((el) => el.shadowRoot!.querySelector('.sr')!.textContent)).toBe('GLYPH');
+
+  const box = (await field.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 3);
+  await page.mouse.down();
+  await page.mouse.up();
+  await page.getByLabel('Charset').selectOption('blocks');
+  await expect(page.locator('#code-snippet')).toContainText('charset="blocks"');
+  expect(errors).toEqual([]);
+});
