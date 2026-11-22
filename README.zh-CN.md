@@ -108,6 +108,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">在线演示</a> · <a href="docs/zh-CN/effects/spotlight-grid.md">文档</a> · <a href="src/effects/spotlight-grid">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html"><img src="site/public/media/ascii-field.gif" alt="ASCII 字符场" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">ASCII 字符场</a></b> · <code>&lt;ane-ascii-field&gt;</code> · <sub>UI FX</sub>
+      <br><sub>由片元着色器渲染的流动 ASCII 字符场：亮度决定字形，字符可以汇聚成文字或图片，指针下变亮，点击发出冲击波。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">在线演示</a> · <a href="docs/zh-CN/effects/ascii-field.md">文档</a> · <a href="src/effects/ascii-field">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
