@@ -112,6 +112,15 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/spotlight-grid.html">Playground</a> · <a href="docs/effects/spotlight-grid.md">Docs</a> · <a href="src/effects/spotlight-grid">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html"><img src="site/public/media/ascii-field.gif" alt="ASCII Field" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">ASCII Field</a></b> · <code>&lt;ane-ascii-field&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A flowing field of ASCII characters rendered by a fragment shader: brightness picks the glyph, the characters gather into words or images, light up under the pointer and ripple with a shock wave on click.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">Playground</a> · <a href="docs/effects/ascii-field.md">Docs</a> · <a href="src/effects/ascii-field">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 

@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.15.0] - 2026-11-22
+
+### Added
+
+- `<ane-ascii-field>` (ASCII Field, UI FX): a flowing field of ASCII characters rendered by a WebGL2
+  fragment shader. Brightness of a domain-warped noise field picks the glyph; a glyph atlas redrawn at
+  exactly the cell size keeps characters crisp. The characters gather into a word (`text`, `reveal`,
+  `text-y`, `morph()`, `dissolve()`) or an image (`src`), brighten under the pointer and ripple with
+  click shock waves (`shockwave()`). Slotted content layers on top. `charset` presets, `cell`, `color`,
+  `accent`, `contrast`, `scale`, `interactive`, `quality` (adaptive; software rasterisers start at
+  half resolution). Reduced motion freezes the field.
+
 ## [0.14.0] - 2026-11-21
 
 ### Added
