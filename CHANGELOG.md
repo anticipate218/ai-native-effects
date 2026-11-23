@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-11-23
+
+### Added
+
+- `<ane-dither-gradient>` (Dither Gradient, UI FX): a flowing multi-stop gradient, or any image (`src`),
+  rendered by a WebGL2 shader through a limited palette with Bayer 8×8 / 4×4 or noise dithering.
+  Palette presets `sunset`, `paper`, `gameboy`, `mono`, `cga`, `ocean` or any colour list (`auto` = the
+  gradient stops); `pixel`, `dither`, `spread`, `scale`; a lens under the pointer shows the smooth,
+  undithered colours (`lens`, `lens-size`). Slotted content layers on top; CSS gradient fallback without
+  WebGL2; adaptive resolution. Reduced motion stops the flow. Its demo scene adds a light, printed theme.
+
 ## [0.15.0] - 2026-11-22
 
 ### Added
