@@ -119,7 +119,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A flowing field of ASCII characters rendered by a fragment shader: brightness picks the glyph, the characters gather into words or images, light up under the pointer and ripple with a shock wave on click.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">Playground</a> · <a href="docs/effects/ascii-field.md">Docs</a> · <a href="src/effects/ascii-field">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html"><img src="site/public/media/dither-gradient.gif" alt="Dither Gradient" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">Dither Gradient</a></b> · <code>&lt;ane-dither-gradient&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A flowing gradient or any image rendered through a limited palette with Bayer or noise dithering (sunset, paper, Game Boy-style greens, mono, CGA-style…), with a lens that shows the smooth colours under the pointer.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">Playground</a> · <a href="docs/effects/dither-gradient.md">Docs</a> · <a href="src/effects/dither-gradient">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

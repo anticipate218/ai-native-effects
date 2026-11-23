@@ -115,7 +115,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>由片元着色器渲染的流动 ASCII 字符场：亮度决定字形，字符可以汇聚成文字或图片，指针下变亮，点击发出冲击波。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/ascii-field.html">在线演示</a> · <a href="docs/zh-CN/effects/ascii-field.md">文档</a> · <a href="src/effects/ascii-field">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html"><img src="site/public/media/dither-gradient.gif" alt="抖动渐变" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">抖动渐变</a></b> · <code>&lt;ane-dither-gradient&gt;</code> · <sub>UI FX</sub>
+      <br><sub>流动的渐变或任意图片，经过限定调色板与 Bayer / 噪声抖动渲染（日落、纸张、掌机绿、黑白、CGA 风……），指针下的透镜显示未抖动的平滑原色。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">在线演示</a> · <a href="docs/zh-CN/effects/dither-gradient.md">文档</a> · <a href="src/effects/dither-gradient">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
