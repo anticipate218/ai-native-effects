@@ -504,3 +504,28 @@ test('ascii field renders with WebGL, morphs words and reacts to the pointer', a
   await expect(page.locator('#code-snippet')).toContainText('charset="blocks"');
   expect(errors).toEqual([]);
 });
+
+test('dither gradient renders with WebGL, switches palettes, dithers an image and shows a lens', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/dither-gradient.html');
+  const el = page.locator('#effect');
+  await el.scrollIntoViewIfNeeded();
+  expect(await el.evaluate((n) => (n as HTMLElement & { webgl: boolean }).webgl)).toBe(true);
+  await expect(el.getByText('Move the pointer to look through the lens.')).toBeVisible();
+
+  await page.getByLabel('Palette').selectOption('gameboy');
+  await expect(el).toHaveAttribute('palette', 'gameboy');
+  expect(await el.evaluate((n) => (n as HTMLElement & { palette: number[][] }).palette.length)).toBe(4);
+  await page.getByRole('button', { name: 'bayer4', exact: true }).click();
+  await expect(page.locator('#code-snippet')).toContainText('dither="bayer4"');
+
+  await page.getByRole('button', { name: 'Dither a photo' }).click();
+  await expect(el).toHaveAttribute('src', /^data:image\/png/);
+  await page.getByRole('button', { name: 'Back to gradient' }).click();
+  await expect(el).not.toHaveAttribute('src');
+
+  const box = (await el.boundingBox())!;
+  await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  await page.waitForTimeout(300);
+  expect(errors).toEqual([]);
+});

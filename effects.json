@@ -234,6 +234,24 @@
       "since": "0.15.0",
       "status": "stable",
       "preview": "<img src=\"./media/ascii-field-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "dither-gradient",
+      "tag": "ane-dither-gradient",
+      "title": "Dither Gradient",
+      "titleZh": "抖动渐变",
+      "series": "UI FX",
+      "summary": "A flowing gradient or any image rendered through a limited palette with Bayer or noise dithering (sunset, paper, Game Boy-style greens, mono, CGA-style…), with a lens that shows the smooth colours under the pointer.",
+      "summaryZh": "流动的渐变或任意图片，经过限定调色板与 Bayer / 噪声抖动渲染（日落、纸张、掌机绿、黑白、CGA 风……），指针下的透镜显示未抖动的平滑原色。",
+      "tech": [
+        "WebGL2",
+        "Ordered dithering",
+        "Web Component"
+      ],
+      "added": "2026-11-23",
+      "since": "0.16.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/dither-gradient-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
