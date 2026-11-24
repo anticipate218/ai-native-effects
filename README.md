@@ -126,6 +126,15 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">Playground</a> · <a href="docs/effects/dither-gradient.md">Docs</a> · <a href="src/effects/dither-gradient">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html"><img src="site/public/media/glass-tabs.gif" alt="Glass Tabs" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">Glass Tabs</a></b> · <code>&lt;ane-glass-tabs&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A tab bar whose selected tab sits under a liquid-glass lens that really refracts and magnifies the labels beneath it, slides on a spring, stretches with its speed like a drop and can be dragged to scrub between tabs.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">Playground</a> · <a href="docs/effects/glass-tabs.md">Docs</a> · <a href="src/effects/glass-tabs">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
