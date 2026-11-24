@@ -22,3 +22,4 @@ export * from './effects/tilt-holo-card';
 export * from './effects/spotlight-grid';
 export * from './effects/ascii-field';
 export * from './effects/dither-gradient';
+export * from './effects/glass-tabs';
