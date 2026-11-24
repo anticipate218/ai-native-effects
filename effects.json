@@ -252,6 +252,24 @@
       "since": "0.16.0",
       "status": "stable",
       "preview": "<img src=\"./media/dither-gradient-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "glass-tabs",
+      "tag": "ane-glass-tabs",
+      "title": "Glass Tabs",
+      "titleZh": "液态玻璃标签栏",
+      "series": "UI FX",
+      "summary": "A tab bar whose selected tab sits under a liquid-glass lens that really refracts and magnifies the labels beneath it, slides on a spring, stretches with its speed like a drop and can be dragged to scrub between tabs.",
+      "summaryZh": "选中标签位于一块液态玻璃透镜之下的标签栏：透镜真实折射并放大下面的图标和文字，按弹簧滑动、按速度像水滴一样拉伸，还可以拖动在标签之间刷选。",
+      "tech": [
+        "SVG filters",
+        "Spring physics",
+        "Web Component"
+      ],
+      "added": "2026-11-24",
+      "since": "0.17.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/glass-tabs-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }

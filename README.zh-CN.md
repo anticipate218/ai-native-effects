@@ -122,6 +122,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/dither-gradient.html">在线演示</a> · <a href="docs/zh-CN/effects/dither-gradient.md">文档</a> · <a href="src/effects/dither-gradient">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html"><img src="site/public/media/glass-tabs.gif" alt="液态玻璃标签栏" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">液态玻璃标签栏</a></b> · <code>&lt;ane-glass-tabs&gt;</code> · <sub>UI FX</sub>
+      <br><sub>选中标签位于一块液态玻璃透镜之下的标签栏：透镜真实折射并放大下面的图标和文字，按弹簧滑动、按速度像水滴一样拉伸，还可以拖动在标签之间刷选。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">在线演示</a> · <a href="docs/zh-CN/effects/glass-tabs.md">文档</a> · <a href="src/effects/glass-tabs">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 

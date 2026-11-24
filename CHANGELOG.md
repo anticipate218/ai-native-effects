@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-11-24
+
+### Added
+
+- `<ane-glass-tabs>` (Glass Tabs, UI FX): a tab bar whose selected tab sits under a liquid-glass lens.
+  The lens refracts and magnifies the tabs beneath it through an SVG displacement filter (the
+  glass-lens optics, with chromatic dispersion), slides on a spring, stretches with its speed like a
+  drop and can be dragged to scrub between tabs. ARIA tablist with roving tab index, arrow keys,
+  Home/End and `ane-tab-change`. `selected`, `accent`, `tint`, `strength`, `curvature`,
+  `dispersion`, `stretch`. Reduced motion jumps without sliding or stretching.
+
 ## [0.16.0] - 2026-11-23
 
 ### Added

@@ -529,3 +529,51 @@ test('dither gradient renders with WebGL, switches palettes, dithers an image an
   await page.waitForTimeout(300);
   expect(errors).toEqual([]);
 });
+
+test('glass tabs: click, keyboard and drag move the glass lens; the panel follows', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/glass-tabs.html');
+  const tabs = page.locator('#effect');
+  await tabs.scrollIntoViewIfNeeded();
+  await expect(tabs).toHaveAttribute('role', 'tablist');
+  await expect(page.locator('#panel h3')).toHaveText('Week');
+  const lensX = () =>
+    tabs.evaluate((el) => {
+      const lens = el.shadowRoot!.querySelector<HTMLElement>('.lens')!.getBoundingClientRect();
+      return lens.left + lens.width / 2;
+    });
+  const tab = (name: string) => tabs.getByRole('tab', { name, exact: true });
+  const centre = async (name: string) => {
+    const b = (await tab(name).boundingBox())!;
+    return b.x + b.width / 2;
+  };
+
+  await tab('Month').click();
+  await expect(tab('Month')).toHaveAttribute('aria-selected', 'true');
+  await expect(page.locator('#panel h3')).toHaveText('Month');
+  await expect(page.locator('#event-log')).toContainText('Month');
+  await expect.poll(async () => Math.abs((await lensX()) - (await centre('Month'))), { timeout: 3000 }).toBeLessThan(2);
+
+  // Keyboard: selection follows focus.
+  await page.keyboard.press('ArrowRight');
+  await expect(tab('Year')).toBeFocused();
+  await expect(page.locator('#panel h3')).toHaveText('Year');
+
+  // Drag the lens back to "Day".
+  const from = await centre('Year');
+  const to = await centre('Day');
+  const box = (await tabs.boundingBox())!;
+  const y = box.y + box.height / 2;
+  await page.mouse.move(from, y);
+  await page.mouse.down();
+  for (let k = 1; k <= 8; k++) await page.mouse.move(from + ((to - from) * k) / 8, y);
+  await page.mouse.up();
+  await expect(page.locator('#panel h3')).toHaveText('Day');
+  await expect.poll(async () => Math.abs((await lensX()) - (await centre('Day'))), { timeout: 3000 }).toBeLessThan(2);
+
+  // The refraction filter is attached to the tab content.
+  expect(await tabs.evaluate((el) => (el.shadowRoot!.querySelector<HTMLElement>('.content')!.style.filter || '').startsWith('url('))).toBe(true);
+  await page.getByLabel('Liquid stretch').fill('0.3');
+  await expect(page.locator('#code-snippet')).toContainText('stretch="0.3"');
+  expect(errors).toEqual([]);
+});
