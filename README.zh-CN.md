@@ -129,7 +129,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>选中标签位于一块液态玻璃透镜之下的标签栏：透镜真实折射并放大下面的图标和文字，按弹簧滑动、按速度像水滴一样拉伸，还可以拖动在标签之间刷选。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">在线演示</a> · <a href="docs/zh-CN/effects/glass-tabs.md">文档</a> · <a href="src/effects/glass-tabs">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html"><img src="site/public/media/hold-button.gif" alt="长按确认按钮" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">长按确认按钮</a></b> · <code>&lt;ane-hold-button&gt;</code> · <sub>UI FX</sub>
+      <br><sub>用「按住」确认不可撤销的操作：按住时液面带波浪前沿推进、按钮微缩、光晕增强，中途松手液面回流，完成时画出对勾并爆开粒子。支持鼠标、触屏和键盘。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">在线演示</a> · <a href="docs/zh-CN/effects/hold-button.md">文档</a> · <a href="src/effects/hold-button">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

@@ -133,7 +133,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A tab bar whose selected tab sits under a liquid-glass lens that really refracts and magnifies the labels beneath it, slides on a spring, stretches with its speed like a drop and can be dragged to scrub between tabs.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/glass-tabs.html">Playground</a> · <a href="docs/effects/glass-tabs.md">Docs</a> · <a href="src/effects/glass-tabs">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html"><img src="site/public/media/hold-button.gif" alt="Hold to Confirm" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">Hold to Confirm</a></b> · <code>&lt;ane-hold-button&gt;</code> · <sub>UI FX</sub>
+      <br><sub>Press and hold to confirm irreversible actions: a liquid fill with a rippling front, a squish and building glow while held, a drain-back on early release, and a drawn check mark with a burst on completion. Mouse, touch and keyboard.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">Playground</a> · <a href="docs/effects/hold-button.md">Docs</a> · <a href="src/effects/hold-button">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->
