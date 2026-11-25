@@ -577,3 +577,46 @@ test('glass tabs: click, keyboard and drag move the glass lens; the panel follow
   await expect(page.locator('#code-snippet')).toContainText('stretch="0.3"');
   expect(errors).toEqual([]);
 });
+
+test('hold button: early release drains back, a full hold confirms (mouse and keyboard)', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/hold-button.html');
+  const btn = page.locator('#effect');
+  await btn.scrollIntoViewIfNeeded();
+  await expect(btn).toHaveAttribute('role', 'button');
+  await page.getByLabel('Hold time (ms)').fill('800');
+  const progress = () => btn.evaluate((el) => (el as HTMLElement & { progress: number }).progress);
+  const confirmed = () => btn.evaluate((el) => (el as HTMLElement & { confirmed: boolean }).confirmed);
+  // The range control scrolls the page (smoothly on mobile): re-aim at the button before each press.
+  const aim = async () => {
+    await btn.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(400);
+    const box = (await btn.boundingBox())!;
+    await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+  };
+
+  // Short press: progress rises, then drains back to zero.
+  await aim();
+  await page.mouse.down();
+  await expect.poll(progress, { timeout: 2000 }).toBeGreaterThan(0.2);
+  await page.mouse.up();
+  await expect(page.locator('#event-log')).toContainText('ane-hold-cancel');
+  await expect.poll(progress, { timeout: 3000 }).toBe(0);
+  expect(await confirmed()).toBe(false);
+
+  // Full hold: confirmed.
+  await aim();
+  await page.mouse.down();
+  await expect.poll(confirmed, { timeout: 3000 }).toBe(true);
+  await page.mouse.up();
+  await expect(page.locator('#event-log')).toContainText('ane-hold-complete');
+  await btn.evaluate((el) => (el as HTMLElement & { reset(): void }).reset());
+
+  // Keyboard: hold Space on the second button.
+  const pub = page.locator('#publish');
+  await pub.focus();
+  await page.keyboard.down('Space');
+  await expect.poll(() => pub.evaluate((el) => (el as HTMLElement & { confirmed: boolean }).confirmed), { timeout: 3000 }).toBe(true);
+  await page.keyboard.up('Space');
+  expect(errors).toEqual([]);
+});
