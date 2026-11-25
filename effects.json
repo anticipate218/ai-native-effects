@@ -270,6 +270,24 @@
       "since": "0.17.0",
       "status": "stable",
       "preview": "<img src=\"./media/glass-tabs-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "hold-button",
+      "tag": "ane-hold-button",
+      "title": "Hold to Confirm",
+      "titleZh": "长按确认按钮",
+      "series": "UI FX",
+      "summary": "Press and hold to confirm irreversible actions: a liquid fill with a rippling front, a squish and building glow while held, a drain-back on early release, and a drawn check mark with a burst on completion. Mouse, touch and keyboard.",
+      "summaryZh": "用「按住」确认不可撤销的操作：按住时液面带波浪前沿推进、按钮微缩、光晕增强，中途松手液面回流，完成时画出对勾并爆开粒子。支持鼠标、触屏和键盘。",
+      "tech": [
+        "DOM",
+        "Canvas",
+        "Web Component"
+      ],
+      "added": "2026-11-25",
+      "since": "0.18.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/hold-button-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }

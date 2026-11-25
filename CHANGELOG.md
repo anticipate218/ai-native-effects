@@ -6,6 +6,18 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-11-25
+
+### Added
+
+- `<ane-hold-button>` (Hold to Confirm, UI FX): press and hold to confirm irreversible actions. A liquid
+  fill with a rippling front advances while held (squish, progress-tied glow, a shake that builds after
+  60%), drains back on early release and completes with a drawn check mark, a particle burst, an
+  optional haptic tap and an auto reset. Mouse, touch and keyboard (hold Space / Enter); events
+  `ane-hold-start`, `ane-hold-cancel`, `ane-hold-complete`; `progress`, `confirmed`, `reset()`.
+  `duration`, `color`, `accent`, `done-text`, `reset-after`, `haptics`, `disabled`. Reduced motion keeps
+  the fill but drops the shake, pop and burst.
+
 ## [0.17.0] - 2026-11-24
 
 ### Added
