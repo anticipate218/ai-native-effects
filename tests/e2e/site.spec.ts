@@ -620,3 +620,31 @@ test('hold button: early release drains back, a full hold confirms (mouse and ke
   await page.keyboard.up('Space');
   expect(errors).toEqual([]);
 });
+
+test('topography renders with WebGL, follows the pointer, ripples on click and switches themes', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/topography.html');
+  const el = page.locator('#effect');
+  type Topo = HTMLElement & { webgl: boolean; hill: number; rippleCount: number; colors: { background: number[] } };
+  await el.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(400);
+  expect(await el.evaluate((n) => (n as Topo).webgl)).toBe(true);
+  await expect(el.getByText('Move the pointer to raise a hill; click to send a ripple.')).toBeVisible();
+
+  const box = (await el.boundingBox())!;
+  await page.mouse.move(box.x + box.width * 0.6, box.y + box.height * 0.4);
+  await page.mouse.move(box.x + box.width * 0.62, box.y + box.height * 0.42);
+  await expect.poll(() => el.evaluate((n) => (n as Topo).hill), { timeout: 5000 }).toBeGreaterThan(0.5);
+  await page.mouse.down();
+  await page.mouse.up();
+  expect(await el.evaluate((n) => (n as Topo).rippleCount)).toBeGreaterThan(0);
+
+  await page.getByLabel('Theme').selectOption('night');
+  await expect(el).toHaveAttribute('theme', 'night');
+  await expect(el).not.toHaveAttribute('background'); // the colour pickers follow the theme instead of overriding it
+  expect(await el.evaluate((n) => (n as Topo).colors.background[0])).toBeLessThan(0.2);
+  await page.getByLabel('Contour density').fill('24');
+  await expect(page.locator('#code-snippet')).toContainText('levels="24"');
+  await expect(page.locator('#code-snippet')).toContainText('theme="night"');
+  expect(errors).toEqual([]);
+});

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Topography Lines · AI Native Effects</title>
+    <meta name="description" content="A living contour map as a background: crisp contour lines with index contours, elevation tints and hillshade; the pointer raises a hill and clicks send ripples. Web Component, WebGL2." />
+    <meta property="og:title" content="Topography Lines · AI Native Effects" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/topography.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+    <style>
+      .viewport.bleed.tp-stage { padding: 0; overflow: hidden; }
+      #effect { min-height: 440px; }
+      .tp-copy { position: absolute; left: 26px; bottom: 24px; right: 26px; color: #2a231c; pointer-events: none; }
+      .tp-copy::before { content: ""; position: absolute; inset: -34px -50px -30px -50px; z-index: -1; background: radial-gradient(closest-side, color-mix(in srgb, var(--_bg, #f2ece0) 88%, transparent) 45%, transparent); }
+      .tp-copy.dark { color: #eef4f6; }
+      .tp-copy b { display: block; font: 400 clamp(30px, 5vw, 48px) / 1 Georgia, 'Times New Roman', serif; letter-spacing: -0.02em; }
+      .tp-copy b i { font-style: italic; }
+      .tp-copy span { display: inline-block; margin-top: 8px; font-size: 14px; opacity: 0.8; }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/topography.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / UI FX</div>
+        <h1>Topography Lines</h1>
+        <p class="lead">
+          A living contour map for hero sections and dashboards. Crisp contour lines with heavier index contours,
+          stepped elevation tints and a soft hillshade drift slowly. Move the pointer and a hill rises under it;
+          click or tap to send a ripple through the terrain. Light paper or dark themes, and your own content on top.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed tp-stage" id="viewport">
+          <ane-topography id="effect">
+            <div class="tp-copy" id="copy"><b>Read the land <i>before you walk it.</i></b><span>Move the pointer to raise a hill; click to send a ripple.</span></div>
+          </ane-topography>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>theme</code></td><td><code>paper</code> <code>night</code> <code>blueprint</code> <code>moss</code></td><td><code>paper</code></td><td>Colour preset. Switching themes cross-fades.</td></tr>
+              <tr><td><code>background</code>, <code>color</code>, <code>accent</code></td><td>hex colours</td><td>from the theme</td><td>Paper, contour lines, index contours (and the top of the tint).</td></tr>
+              <tr><td><code>levels</code></td><td><code>4</code>–<code>40</code></td><td><code>14</code></td><td>Contour density.</td></tr>
+              <tr><td><code>line-width</code>, <code>index</code></td><td>px, <code>0</code>–<code>10</code></td><td><code>1.2</code>, <code>5</code></td><td>Line width; every Nth contour is a heavier index contour (<code>0</code> = none).</td></tr>
+              <tr><td><code>scale</code></td><td><code>0.3</code>–<code>4</code></td><td><code>1</code></td><td>Terrain feature size (higher = smaller features).</td></tr>
+              <tr><td><code>relief</code>, <code>ripples</code></td><td><code>0</code>–<code>2</code>, <code>on</code> <code>off</code></td><td><code>1</code>, <code>on</code></td><td>Height of the pointer hill; click ripples.</td></tr>
+              <tr><td><code>fill</code>, <code>shade</code>, <code>grain</code></td><td><code>0</code>–<code>1</code></td><td><code>0.5</code>, <code>0.4</code>, <code>0.35</code></td><td>Elevation tint, hillshade, paper grain.</td></tr>
+              <tr><td><code>quality</code>, <code>seed</code>, <code>speed</code>, <code>motion</code></td><td></td><td><code>1</code>, <code>11</code>, <code>1</code>, <code>auto</code></td><td>Render scale (adaptive), terrain seed, time scale, reduced motion freezes the drift.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>JavaScript</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="JavaScript API table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>ripple(x, y, strength?)</code></td><td>Send a ripple from a point in the element's CSS pixels (for example from your own events).</td></tr>
+              <tr><td><code>webgl</code>, <code>colors</code></td><td>Whether WebGL2 is running (otherwise a CSS fallback shows); the resolved colours.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/topography.gif">GIF</a>
+          <a class="btn small" href="../media/topography.mp4">MP4</a>
+          <a class="btn small" href="../media/topography.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/topography.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/topography">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./topography.ts"></script>
+  </body>
+</html>
