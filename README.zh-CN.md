@@ -136,6 +136,15 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">在线演示</a> · <a href="docs/zh-CN/effects/hold-button.md">文档</a> · <a href="src/effects/hold-button">源码</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html"><img src="site/public/media/topography.gif" alt="流动等高线" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">流动等高线</a></b> · <code>&lt;ane-topography&gt;</code> · <sub>UI FX</sub>
+      <br><sub>会动的等高线地图背景：清晰的等高线与计曲线、分层设色和晕渲；指针处隆起山丘，点击投下涟漪，主题在浅色纸面与深色之间平滑切换。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">在线演示</a> · <a href="docs/zh-CN/effects/topography.md">文档</a> · <a href="src/effects/topography">源码</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 

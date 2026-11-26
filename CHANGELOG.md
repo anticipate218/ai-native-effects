@@ -6,6 +6,19 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-11-26
+
+### Added
+
+- `<ane-topography>` (Topography Lines, UI FX): a living contour map as a background. A drifting,
+  domain-warped height field is drawn in WebGL2 as constant-width, anti-aliased contour lines with heavier
+  index contours, stepped elevation tints and a soft hillshade; contours that would crowd into moiré fade
+  out. The pointer slowly raises a hill under it, clicks and taps send ripples (`ripple(x, y)` from JS),
+  and theme changes cross-fade. Themes `paper` (light print), `night`, `blueprint`, `moss`, with
+  `background` / `color` / `accent` overrides; `levels`, `line-width`, `index`, `scale`, `relief`,
+  `ripples`, `fill`, `shade`, `grain`, `quality`. `speed` scales only the drift (`0` = a still map
+  that still responds). Reduced motion freezes the terrain and drops ripples; a CSS fallback shows without WebGL.
+
 ## [0.18.0] - 2026-11-25
 
 ### Added

@@ -288,6 +288,23 @@
       "since": "0.18.0",
       "status": "stable",
       "preview": "<img src=\"./media/hold-button-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "topography",
+      "tag": "ane-topography",
+      "title": "Topography Lines",
+      "titleZh": "流动等高线",
+      "series": "UI FX",
+      "summary": "A living contour map for hero sections: crisp contour lines with index contours, elevation tints and hillshade. The pointer raises a hill, clicks send ripples, and themes cross-fade from light paper to night.",
+      "summaryZh": "会动的等高线地图背景：清晰的等高线与计曲线、分层设色和晕渲；指针处隆起山丘，点击投下涟漪，主题在浅色纸面与深色之间平滑切换。",
+      "tech": [
+        "WebGL2",
+        "Web Component"
+      ],
+      "added": "2026-11-26",
+      "since": "0.19.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/topography-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }

@@ -140,6 +140,15 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/hold-button.html">Playground</a> · <a href="docs/effects/hold-button.md">Docs</a> · <a href="src/effects/hold-button">Source</a></sub>
     </td>
   </tr>
+  <tr>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html"><img src="site/public/media/topography.gif" alt="Topography Lines" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">Topography Lines</a></b> · <code>&lt;ane-topography&gt;</code> · <sub>UI FX</sub>
+      <br><sub>A living contour map for hero sections: crisp contour lines with index contours, elevation tints and hillshade. The pointer raises a hill, clicks send ripples, and themes cross-fade from light paper to night.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">Playground</a> · <a href="docs/effects/topography.md">Docs</a> · <a href="src/effects/topography">Source</a></sub>
+    </td>
+    <td width="50%"></td>
+  </tr>
 </table>
 <!-- effects:end -->
 
