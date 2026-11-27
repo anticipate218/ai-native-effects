@@ -648,3 +648,52 @@ test('topography renders with WebGL, follows the pointer, ripples on click and s
   await expect(page.locator('#code-snippet')).toContainText('theme="night"');
   expect(errors).toEqual([]);
 });
+
+test('orbit gallery: drag snaps to a card, side cards come round, keys and buttons turn the ring', async ({ page }) => {
+  const errors = collectErrors(page);
+  await page.goto('effects/orbit-gallery.html');
+  const ring = page.locator('#effect');
+  type Orbit = HTMLElement & { index: number; moving: boolean; position: number };
+  const state = () => ring.evaluate((n) => ({ index: (n as Orbit).index, moving: (n as Orbit).moving, position: (n as Orbit).position }));
+  const settled = async () => expect.poll(async () => (await state()).moving, { timeout: 5000 }).toBe(false);
+  await ring.scrollIntoViewIfNeeded();
+  await page.waitForTimeout(400);
+  await expect(ring).toHaveAttribute('aria-roledescription', 'carousel');
+  expect((await state()).index).toBe(0);
+
+  // Drag left by about two cards: it settles on a whole card further on.
+  let box = (await ring.boundingBox())!;
+  const y = box.y + box.height * 0.42;
+  await page.mouse.move(box.x + box.width * 0.7, y);
+  await page.mouse.down();
+  for (let k = 1; k <= 8; k++) await page.mouse.move(box.x + box.width * (0.7 - k * 0.04), y);
+  await page.mouse.up();
+  await settled();
+  const afterDrag = await state();
+  expect(afterDrag.index).toBeGreaterThan(0);
+  expect(Number.isInteger(afterDrag.position)).toBe(true);
+  await expect(page.locator('#now')).toContainText(['Night Swim', 'Static Bloom', 'Paper Moons', 'Glasshouse', 'Low Tide', 'Neon Orchard'][afterDrag.index] ?? '');
+
+  // Click the card to the right of the front one: it comes round and its link does not fire.
+  const nextCard = ring.locator('a').nth((afterDrag.index + 1) % 10);
+  await nextCard.scrollIntoViewIfNeeded();
+  box = (await nextCard.boundingBox())!;
+  await page.mouse.click(box.x + box.width * 0.4, box.y + box.height * 0.5);
+  await settled();
+  expect((await state()).index).toBe((afterDrag.index + 1) % 10);
+  await expect(page.locator('#event-log')).not.toContainText('Opened');
+
+  // Keyboard and the prev / next buttons.
+  await ring.focus();
+  await page.keyboard.press('Home');
+  await settled();
+  expect((await state()).index).toBe(0);
+  await page.keyboard.press('ArrowLeft');
+  await settled();
+  expect((await state()).index).toBe(9);
+  await page.getByRole('button', { name: 'Next album' }).click();
+  await settled();
+  expect((await state()).index).toBe(0);
+  await expect(page.locator('#now')).toContainText('Night Swim');
+  expect(errors).toEqual([]);
+});

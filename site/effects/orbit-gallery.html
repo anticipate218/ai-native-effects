@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Orbit Gallery · AI Native Effects</title>
+    <meta name="description" content="Real DOM cards on a tilted 3D ring: drag or fling with inertia and snap, click a side card to bring it round, arrow keys and autoplay. Accessible Web Component, no dependencies." />
+    <meta property="og:title" content="Orbit Gallery · AI Native Effects" />
+    <meta property="og:image" content="https://anticipate218.github.io/ai-native-effects/media/orbit-gallery.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#070914" />
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="../shared/site.css" />
+    <style>
+      .viewport.bleed.og-stage { padding: 0; overflow: hidden; display: block; background: radial-gradient(120% 90% at 50% 0%, #2a2350 0%, #12101f 60%, #0a0912 100%); }
+      #effect { height: 400px; }
+      .og-bar { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 4px 16px 20px; color: #f3f1ff; }
+      .og-bar output { min-width: 13ch; text-align: center; font: 400 22px/1.1 Georgia, 'Times New Roman', serif; }
+      .og-bar output small { display: block; font: 500 12px/1.4 ui-sans-serif, system-ui, sans-serif; opacity: 0.65; }
+      .og-log { margin: 0; padding: 0 16px 16px; text-align: center; font-size: 12.5px; color: var(--muted, #a6a9c8); }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <header class="site-header">
+      <div class="wrap">
+        <a class="logo" href="../">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 7V3.5" stroke="#b9a8ff" stroke-width="2" stroke-linecap="round" /><circle cx="16" cy="3.5" r="2.2" fill="#5ef2ff" /><rect x="3" y="7" width="26" height="22" rx="9" fill="#8f75ff" /><rect x="7" y="11" width="18" height="13" rx="6" fill="#0b0e24" /><rect x="11" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /><rect x="18" y="14" width="3" height="6" rx="1.5" fill="#5ef2ff" /></svg>
+          AI Native Effects
+        </a>
+        <nav class="nav" aria-label="Main">
+          <a href="../#effects">Effects</a>
+          <a class="hide-sm" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/zh-CN/effects/orbit-gallery.md" lang="zh-CN">中文文档</a>
+          <a href="https://github.com/anticipate218/ai-native-effects">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="wrap">
+      <div class="pg-head">
+        <div class="crumbs"><a href="../">Effects</a> / UI FX</div>
+        <h1>Orbit Gallery</h1>
+        <p class="lead">
+          Real DOM cards (images, text, links) on a tilted 3D ring. Drag or fling it: it coasts and springs onto the
+          nearest card. Click a side card to bring it round, use the arrow keys, or let it autoplay. Cards further round
+          shrink, dim and fade, and tabbing into a card turns the ring to it.
+        </p>
+      </div>
+
+      <div class="pg">
+        <div class="panel viewport bleed og-stage" id="viewport">
+          <ane-orbit-gallery id="effect" reflect aria-label="New releases"></ane-orbit-gallery>
+          <div class="og-bar">
+            <button type="button" class="btn small" id="prev" aria-label="Previous album">←</button>
+            <output id="now" aria-live="off"></output>
+            <button type="button" class="btn small" id="next" aria-label="Next album">→</button>
+          </div>
+          <p class="og-log" id="event-log">Drag, fling, click a side card, or focus the ring and use the arrow keys.</p>
+        </div>
+        <aside class="panel controls" aria-label="Controls">
+          <div id="controls" style="display: grid; gap: 18px"></div>
+        </aside>
+        <div class="panel code" id="code"></div>
+      </div>
+
+      <section class="api" aria-labelledby="api-title">
+        <h2 id="api-title">API</h2>
+        <h3>Attributes</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="Attributes table">
+          <table>
+            <thead><tr><th scope="col">Attribute</th><th scope="col">Values</th><th scope="col">Default</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>card-width</code></td><td>px</td><td><code>200</code></td><td>Width of every card (height follows the content).</td></tr>
+              <tr><td><code>radius</code></td><td>px</td><td>auto</td><td>Ring radius; by default from the card count and width.</td></tr>
+              <tr><td><code>tilt</code></td><td><code>-30</code>–<code>30</code></td><td><code>10</code></td><td>Camera tilt in degrees (the back of the ring rises).</td></tr>
+              <tr><td><code>facing</code></td><td><code>0</code>–<code>1</code></td><td><code>0.6</code></td><td>How much cards turn with the ring: <code>0</code> always face you, <code>1</code> radial.</td></tr>
+              <tr><td><code>pop</code>, <code>dim</code></td><td><code>0</code>–<code>0.5</code>, <code>0</code>–<code>1</code></td><td><code>0.12</code>, <code>0.6</code></td><td>Extra scale of the front card; darkening towards the back.</td></tr>
+              <tr><td><code>perspective</code></td><td>px</td><td><code>1400</code></td><td>CSS perspective (lower = stronger depth).</td></tr>
+              <tr><td><code>autoplay</code></td><td>ms</td><td><code>0</code> (off)</td><td>Advance one card every N ms; pauses on hover, focus and drag.</td></tr>
+              <tr><td><code>wheel</code></td><td><code>horizontal</code> <code>on</code> <code>off</code></td><td><code>horizontal</code></td><td>Trackpad sideways scrolling turns the ring (<code>on</code>: any wheel).</td></tr>
+              <tr><td><code>reflect</code>, <code>accent</code></td><td>boolean, colour</td><td>off, <code>#8b7bff</code></td><td>Floor reflection (Chromium / Safari); floor glow and focus ring colour.</td></tr>
+              <tr><td><code>size</code>, <code>speed</code>, <code>motion</code></td><td></td><td><code>420px</code>, <code>1</code>, <code>auto</code></td><td>Height; autoplay time scale; reduced motion jumps instead of spinning.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>JavaScript</h3>
+        <div class="table-wrap" tabindex="0" role="region" aria-label="JavaScript API table">
+          <table>
+            <thead><tr><th scope="col">Member</th><th scope="col">Description</th></tr></thead>
+            <tbody>
+              <tr><td><code>ane-orbit-change</code></td><td>Fired when the front card changes (<code>detail.index</code>), also while dragging.</td></tr>
+              <tr><td><code>index</code>, <code>goTo(i)</code>, <code>next()</code>, <code>prev()</code></td><td>Front card; turn the short way round to a card.</td></tr>
+              <tr><td><code>[data-current]</code>, <code>--ane-depth</code></td><td>Set on each card: the front card, and 0 (front) to 1 (back) for your own styling.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h3>Preview media</h3>
+        <div class="downloads">
+          <a class="btn small" href="../media/orbit-gallery.gif">GIF</a>
+          <a class="btn small" href="../media/orbit-gallery.mp4">MP4</a>
+          <a class="btn small" href="../media/orbit-gallery.png">Poster PNG</a>
+          <a class="btn small" href="https://github.com/anticipate218/ai-native-effects/blob/main/docs/effects/orbit-gallery.md">Full docs</a>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <span>MIT License · © 2026 anticipate218</span>
+        <span><a href="https://github.com/anticipate218/ai-native-effects/tree/main/src/effects/orbit-gallery">View source</a></span>
+      </div>
+    </footer>
+    <script type="module" src="./orbit-gallery.ts"></script>
+  </body>
+</html>
