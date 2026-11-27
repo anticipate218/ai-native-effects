@@ -143,7 +143,12 @@ AI Native Effects 专门为这些时刻提供小而可用于生产的组件。�
       <br><sub>会动的等高线地图背景：清晰的等高线与计曲线、分层设色和晕渲；指针处隆起山丘，点击投下涟漪，主题在浅色纸面与深色之间平滑切换。</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">在线演示</a> · <a href="docs/zh-CN/effects/topography.md">文档</a> · <a href="src/effects/topography">源码</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html"><img src="site/public/media/orbit-gallery.gif" alt="环绕画廊" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html">环绕画廊</a></b> · <code>&lt;ane-orbit-gallery&gt;</code> · <sub>UI FX</sub>
+      <br><sub>真实 DOM 卡片排成带俯角的 3D 圆环：拖拽或甩动，惯性滑行后吸附；点击侧边卡片让它转到正面，支持方向键、自动播放和地面倒影。可访问的轮播，卡片里可以放任何 HTML。</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html">在线演示</a> · <a href="docs/zh-CN/effects/orbit-gallery.md">文档</a> · <a href="src/effects/orbit-gallery">源码</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

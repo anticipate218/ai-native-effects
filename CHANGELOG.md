@@ -6,6 +6,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.20.0] - 2026-11-27
+
+### Added
+
+- `<ane-orbit-gallery>` (Orbit Gallery, UI FX): real DOM cards (images, text, links) on a tilted 3D ring
+  in CSS 3D. Drag or fling it: it coasts with friction and springs onto the nearest card; a press on a
+  side card brings it round (and keeps its link from firing), while the front card's link works. Arrow
+  keys / Home / End, focus-follow (tabbing into a card turns the ring), optional autoplay that pauses on
+  hover, focus and drag, sideways trackpad scrolling, a front-card pop, depth dimming, edge-on fading and
+  an optional floor reflection. Carousel semantics with a live announcement; `ane-orbit-change`,
+  `index`, `goTo()`, `next()`, `prev()`; `[data-current]` and `--ane-depth` on each card.
+  `card-width`, `radius`, `tilt`, `facing`, `pop`, `dim`, `perspective`, `autoplay`, `wheel`,
+  `reflect`, `accent`. Reduced motion jumps instead of spinning and disables autoplay.
+
 ## [0.19.0] - 2026-11-26
 
 ### Added
