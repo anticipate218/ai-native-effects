@@ -25,3 +25,4 @@ export * from './effects/dither-gradient';
 export * from './effects/glass-tabs';
 export * from './effects/hold-button';
 export * from './effects/topography';
+export * from './effects/orbit-gallery';
