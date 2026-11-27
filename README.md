@@ -147,7 +147,12 @@ AI Native Effects is a library of small, production-ready components built for e
       <br><sub>A living contour map for hero sections: crisp contour lines with index contours, elevation tints and hillshade. The pointer raises a hill, clicks send ripples, and themes cross-fade from light paper to night.</sub>
       <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/topography.html">Playground</a> · <a href="docs/effects/topography.md">Docs</a> · <a href="src/effects/topography">Source</a></sub>
     </td>
-    <td width="50%"></td>
+    <td width="50%" valign="top">
+      <a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html"><img src="site/public/media/orbit-gallery.gif" alt="Orbit Gallery" width="100%"></a>
+      <br><b><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html">Orbit Gallery</a></b> · <code>&lt;ane-orbit-gallery&gt;</code> · <sub>UI FX</sub>
+      <br><sub>Real DOM cards on a tilted 3D ring: drag or fling with inertia and snap, click a side card to bring it round, arrow keys, autoplay and a floor reflection. Accessible carousel; any HTML inside.</sub>
+      <br><sub><a href="https://anticipate218.github.io/ai-native-effects/effects/orbit-gallery.html">Playground</a> · <a href="docs/effects/orbit-gallery.md">Docs</a> · <a href="src/effects/orbit-gallery">Source</a></sub>
+    </td>
   </tr>
 </table>
 <!-- effects:end -->

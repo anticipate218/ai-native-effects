@@ -305,6 +305,23 @@
       "since": "0.19.0",
       "status": "stable",
       "preview": "<img src=\"./media/topography-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
+    },
+    {
+      "id": "orbit-gallery",
+      "tag": "ane-orbit-gallery",
+      "title": "Orbit Gallery",
+      "titleZh": "环绕画廊",
+      "series": "UI FX",
+      "summary": "Real DOM cards on a tilted 3D ring: drag or fling with inertia and snap, click a side card to bring it round, arrow keys, autoplay and a floor reflection. Accessible carousel; any HTML inside.",
+      "summaryZh": "真实 DOM 卡片排成带俯角的 3D 圆环：拖拽或甩动，惯性滑行后吸附；点击侧边卡片让它转到正面，支持方向键、自动播放和地面倒影。可访问的轮播，卡片里可以放任何 HTML。",
+      "tech": [
+        "CSS 3D",
+        "Web Component"
+      ],
+      "added": "2026-11-27",
+      "since": "0.20.0",
+      "status": "stable",
+      "preview": "<img src=\"./media/orbit-gallery-thumb.png\" alt=\"\" loading=\"lazy\" style=\"width:100%;height:100%;object-fit:cover\">"
     }
   ]
 }
